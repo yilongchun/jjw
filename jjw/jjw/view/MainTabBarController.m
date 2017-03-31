@@ -32,20 +32,24 @@
     ViewController2 *vc2 = [ViewController2 new];
     UITabBarItem *item2 = [[UITabBarItem alloc] initWithTitle:@"课程" image:[[UIImage imageNamed:@"b_ico_02"] imageWithRenderingMode:UIImageRenderingModeAutomatic]tag:2];
     vc2.tabBarItem = item2;
+    UINavigationController *nc2 = [[UINavigationController alloc] initWithRootViewController:vc2];
     
     ViewController3 *vc3 = [ViewController3 new];
     UITabBarItem *item3 = [[UITabBarItem alloc] initWithTitle:@"点播" image:[[UIImage imageNamed:@"b_ico_03"] imageWithRenderingMode:UIImageRenderingModeAutomatic]tag:3];
     vc3.tabBarItem = item3;
+    UINavigationController *nc3 = [[UINavigationController alloc] initWithRootViewController:vc3];
     
     ViewController4 *vc4 = [ViewController4 new];
     UITabBarItem *item4 = [[UITabBarItem alloc] initWithTitle:@"搜题" image:[[UIImage imageNamed:@"b_ico_04"] imageWithRenderingMode:UIImageRenderingModeAutomatic]tag:4];
     vc4.tabBarItem = item4;
+    UINavigationController *nc4 = [[UINavigationController alloc] initWithRootViewController:vc4];
     
     ViewController5 *vc5 = [ViewController5 new];
     UITabBarItem *item5 = [[UITabBarItem alloc] initWithTitle:@"我的" image:[[UIImage imageNamed:@"b_ico_05"] imageWithRenderingMode:UIImageRenderingModeAutomatic]tag:5];
     vc5.tabBarItem = item5;
+    UINavigationController *nc5 = [[UINavigationController alloc] initWithRootViewController:vc5];
     
-    self.viewControllers = @[nc1,vc2,vc3,vc4,vc5];
+    self.viewControllers = @[nc1,nc2,nc3,nc4,nc5];
 //    self.tabBar.backgroundColor = [UIColor redColor];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setTab:) name:@"setTab" object:nil];

@@ -1064,8 +1064,8 @@
 				TargetAttributes = {
 					44F3DDC71E8CABF40089208B = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = Q9E5LZCG29;
-						ProvisioningStyle = Manual;
+						DevelopmentTeam = VV96JSE58Z;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -1344,16 +1344,16 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Q9E5LZCG29;
-				GCC_PREFIX_HEADER = /Users/Chin/Project/jjw/jjw/jjw/jjw.h;
+				DEVELOPMENT_TEAM = VV96JSE58Z;
+				GCC_PREFIX_HEADER = /Users/nicylc/github/jjw/jjw/jjw/jjw.h;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = jjw/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = yc.jjw;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yc.jjw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "ef65f44a-a5ce-462d-9347-eee4a519c959";
-				PROVISIONING_PROFILE_SPECIFIER = YPP_DEV;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Debug;
 		};
@@ -1361,14 +1361,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = "";
-				GCC_PREFIX_HEADER = /Users/Chin/Project/jjw/jjw/jjw/jjw.h;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = VV96JSE58Z;
+				GCC_PREFIX_HEADER = /Users/nicylc/github/jjw/jjw/jjw/jjw.h;
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = jjw/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = yc.jjw;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yc.jjw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 			};
 			name = Release;
 		};

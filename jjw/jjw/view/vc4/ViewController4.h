@@ -10,4 +10,8 @@
 
 @interface ViewController4 : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIView *topView;
+@property (weak, nonatomic) IBOutlet UIView *contentView;
+@property (weak, nonatomic) IBOutlet UIButton *submitBtn;
+@property (weak, nonatomic) IBOutlet UITextField *keyWordTextField;
 @end
