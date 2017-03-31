@@ -35,6 +35,12 @@
 
 -(void)initUI{
     
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(10, 10, Main_Screen_Width - 20, self.navigationController.navigationBar.frame.size.height - 20)];
+    [self.navigationController.navigationBar addSubview:searchBar];
+    
+    
+    
+    
     CGFloat maxY;
     
     myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
