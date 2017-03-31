@@ -1391,6 +1391,7 @@
 				44F3DDE11E8CABF40089208B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

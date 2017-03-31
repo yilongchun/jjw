@@ -35,11 +35,27 @@
 
 -(void)initUI{
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(10, 10, Main_Screen_Width - 20, self.navigationController.navigationBar.frame.size.height - 20)];
+    CGFloat barContentHeight = self.navigationController.navigationBar.frame.size.height - 20;
+    
+    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(10, 8, 60, barContentHeight + 4)];
+    [btn1 setTitle:@"高中" forState:UIControlStateNormal];
+    [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn1.titleLabel.font = SYSTEMFONT(13);
+    [btn1 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+    ViewBorderRadius(btn1, 5, 0, [UIColor whiteColor]);
+    [self.navigationController.navigationBar addSubview:btn1];
+    
+    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 8, 60, barContentHeight + 4)];
+    [btn2 setTitle:@"课程" forState:UIControlStateNormal];
+    [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn2.titleLabel.font = SYSTEMFONT(13);
+    [btn2 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+    ViewBorderRadius(btn2, 5, 0, [UIColor whiteColor]);
+    [self.navigationController.navigationBar addSubview:btn2];
+    
+    
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 10, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 20, barContentHeight)];
     [self.navigationController.navigationBar addSubview:searchBar];
-    
-    
-    
     
     CGFloat maxY;
     
@@ -267,7 +283,7 @@
     
     //名师推荐
     cellWidth = (Main_Screen_Width - 15)/2;
-    cellHeight = cellWidth * 3 / 2;
+    cellHeight = cellWidth * 3 / 2 + 10;
     viewHeight = 35 + cellHeight * 2 + 20 + 38;
     
     UIView *mstjView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, viewHeight)];

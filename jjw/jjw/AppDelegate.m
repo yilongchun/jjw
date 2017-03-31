@@ -20,8 +20,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     
-    [[IQKeyboardManager sharedManager] setEnable:YES];
-//    [[IQKeyboardManager sharedManager] setEnableAutoToolbar:YES];
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.shouldResignOnTouchOutside = YES;
+    manager.shouldToolbarUsesTextFieldTintColor = YES;
+    manager.enableAutoToolbar = NO;
+    
     
     MainTabBarController *vc = [[MainTabBarController alloc] init];
     
