@@ -10,7 +10,7 @@
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
 
-#define BORDER_COLOR RGB(227, 227, 227)
+
 
 @interface ViewController1 (){
     UIScrollView *myScrollView;//主界面滚动视图

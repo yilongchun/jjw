@@ -12,6 +12,8 @@
 
 #endif /* jjw_h */
 
+#define BORDER_COLOR RGB(227, 227, 227)
+
 #ifdef __OBJC__
     #import "ACMacros.h"
 

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12118" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewCell2" id="gTV-IL-0wX" customClass="CollectionViewCell2">
+            <rect key="frame" x="0.0" y="0.0" width="190" height="233"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="190" height="233"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="1484533489_1588.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="de7-l3-efM">
+                        <rect key="frame" x="5" y="5" width="180" height="120"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="de7-l3-efM" secondAttribute="height" multiplier="3:2" id="0dZ-ha-7MM"/>
+                        </constraints>
+                    </imageView>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="de7-l3-efM" secondAttribute="trailing" constant="5" id="NWS-i1-Xkh"/>
+                <constraint firstItem="de7-l3-efM" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="5" id="XqG-YO-JfR"/>
+                <constraint firstItem="de7-l3-efM" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="vvc-FI-Qj7"/>
+            </constraints>
+            <size key="customSize" width="190" height="233"/>
+            <point key="canvasLocation" x="3" y="143.5"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="1484533489_1588.jpg" width="639" height="322"/>
+    </resources>
+</document>

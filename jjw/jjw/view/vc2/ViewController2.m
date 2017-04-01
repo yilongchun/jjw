@@ -9,6 +9,7 @@
 #import "ViewController2.h"
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
+#import "CollectionViewCell2.h"
 
 @interface ViewController2 ()
 
@@ -22,6 +23,12 @@
     
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     //    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [_myCollectionView registerClass:[CollectionViewCell2 class] forCellWithReuseIdentifier:@"collectionViewCell2"];
+    [_myCollectionView registerNib:[UINib nibWithNibName:@"CollectionViewCell2" bundle:nil] forCellWithReuseIdentifier:@"collectionViewCell2"];
+    
+    _myCollectionView.backgroundColor = RGB(245, 245, 245);
+    
     
     [self initUI];
 }
@@ -64,5 +71,54 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+#pragma mark <UICollectionViewDataSource>
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    return 1;
+}
+
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return 10;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CollectionViewCell2 *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"collectionViewCell2" forIndexPath:indexPath];
+    ViewBorderRadius(cell, 0, 1, BORDER_COLOR);
+ 
+    return cell;
+}
+
+#pragma mark --UICollectionViewDelegateFlowLayout
+//定义每个UICollectionView 的大小
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGFloat width = ([UIScreen mainScreen].bounds.size.width - 15) / 2;
+    CGFloat imgWidth = width - 10;
+    CGFloat imgHeight = imgWidth * 2 / 3;
+    return CGSizeMake(width, 5 + imgHeight + 85);
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    return UIEdgeInsetsMake(5, 5, 5, 5);
+}
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 5.f;
+}
+
+
+- (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section
+{
+    return 5.f;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    
+}
 
 @end

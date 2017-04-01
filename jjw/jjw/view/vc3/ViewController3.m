@@ -60,7 +60,60 @@
     [contentView addSubview:l];
     [l sizeToFit];
     
-    maxY = CGRectGetMaxY(l.frame);
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(l.frame) + 15, 0, 0)];
+    label1.text = @"选择学段:";
+    label1.font = SYSTEMFONT(15);
+    [label1 sizeToFit];
+    [contentView addSubview:label1];
+    
+    UIButton *btn_1 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label1.frame) + 15, CGRectGetMinY(label1.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label1.frame) - 15 - 30, CGRectGetHeight(label1.frame) + 16)];
+    [btn_1 setTitle:@"高中" forState:UIControlStateNormal];
+    [btn_1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn_1.titleLabel.font = SYSTEMFONT(15);
+    ViewBorderRadius(btn_1, 5, 1, BORDER_COLOR);
+    [contentView addSubview:btn_1];
+    
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(label1.frame) + 25, 0, 0)];
+    label2.text = @"选择学科:";
+    label2.font = SYSTEMFONT(15);
+    [label2 sizeToFit];
+    [contentView addSubview:label2];
+    
+    UIButton *btn_2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label2.frame) + 15, CGRectGetMinY(label2.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label2.frame) - 15 - 30, CGRectGetHeight(label2.frame) + 16)];
+    [btn_2 setTitle:@"数学" forState:UIControlStateNormal];
+    [btn_2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn_2.titleLabel.font = SYSTEMFONT(15);
+    ViewBorderRadius(btn_2, 5, 1, BORDER_COLOR);
+    [contentView addSubview:btn_2];
+    
+    UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(label2.frame) + 25, 0, 0)];
+    label3.text = @"册数章节:";
+    label3.font = SYSTEMFONT(15);
+    [label3 sizeToFit];
+    [contentView addSubview:label3];
+    
+    UIButton *btn_3 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label3.frame) + 15, CGRectGetMinY(label3.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label3.frame) - 15 - 30, CGRectGetHeight(label3.frame) + 16)];
+    [btn_3 setTitle:@"全部" forState:UIControlStateNormal];
+    [btn_3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    btn_3.titleLabel.font = SYSTEMFONT(15);
+    ViewBorderRadius(btn_3, 5, 1, BORDER_COLOR);
+    [contentView addSubview:btn_3];
+    
+    UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(label3.frame) + 25, 0, 0)];
+    label4.text = @"点播内容:";
+    label4.font = SYSTEMFONT(15);
+    [label4 sizeToFit];
+    [contentView addSubview:label4];
+    
+    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label4.frame) + 15, CGRectGetMinY(label4.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label4.frame) - 15 - 30, 100)];
+    ViewBorderRadius(textView, 5, 1, BORDER_COLOR);
+    [contentView addSubview:textView];
+    
+    
+    
+    
+    
+    maxY = CGRectGetMaxY(textView.frame);
     CGRect frame = contentView.frame;
     frame.size.height = maxY + 10;
     contentView.frame = frame;

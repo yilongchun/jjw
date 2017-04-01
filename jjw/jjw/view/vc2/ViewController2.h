@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController2 : UIViewController
+@property (weak, nonatomic) IBOutlet UICollectionView *myCollectionView;
 
 @end
