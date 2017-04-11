@@ -86,6 +86,7 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     CollectionViewCell2 *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"collectionViewCell2" forIndexPath:indexPath];
     ViewBorderRadius(cell, 0, 1, BORDER_COLOR);
+    ViewBorderRadius(cell.topImageView, 5, 0, BORDER_COLOR);
  
     return cell;
 }

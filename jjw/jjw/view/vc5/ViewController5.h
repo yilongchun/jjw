@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface ViewController5 : UIViewController
+@property (strong, nonatomic) IBOutlet UIView *userCenterView;
 
 @end
