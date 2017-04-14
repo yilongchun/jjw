@@ -135,8 +135,6 @@
             y += 24 + 10;
         }
         
-        DLog(@"%d %f %f",i,x,y);
-        
         UIButton *tbtn1 = [[UIButton alloc] initWithFrame:CGRectMake(x, y, width, height)];
         [tbtn1 setBackgroundImage:[UIImage imageWithColor:RGB(225, 225, 225) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
         [tbtn1 setTitle:@"余信欢" forState:UIControlStateNormal];
@@ -145,7 +143,6 @@
         [contentView addSubview:tbtn1];
         
         maxY = CGRectGetMaxY(tbtn1.frame);
-        DLog(@"%f",maxY);
     }
     
     UIButton *dianboBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, maxY + 20, CGRectGetWidth(contentView.frame) - 60, 35)];
@@ -163,9 +160,6 @@
     frame.size.height = maxY + 30;
     contentView.frame = frame;
 
-    
-    
-    
     [_myScrollView addSubview:contentView];
     [_myScrollView setContentSize:CGSizeMake(Main_Screen_Width, CGRectGetMaxY(contentView.frame) + 30)];
     

@@ -28,26 +28,28 @@
 
 -(void)initUI{
     
-    CGFloat barContentHeight = self.navigationController.navigationBar.frame.size.height - 20;
+    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
     
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(10, 8, 60, barContentHeight + 4)];
+    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(2, 6, 60, 28)];
     [btn1 setTitle:@"高中" forState:UIControlStateNormal];
     [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn1.titleLabel.font = SYSTEMFONT(13);
     [btn1 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     ViewBorderRadius(btn1, 5, 0, [UIColor whiteColor]);
-    [self.navigationController.navigationBar addSubview:btn1];
+    [navView addSubview:btn1];
     
-    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 8, 60, barContentHeight + 4)];
+    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 6, 60, 28)];
     [btn2 setTitle:@"课程" forState:UIControlStateNormal];
     [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn2.titleLabel.font = SYSTEMFONT(13);
     [btn2 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     ViewBorderRadius(btn2, 5, 0, [UIColor whiteColor]);
-    [self.navigationController.navigationBar addSubview:btn2];
+    [navView addSubview:btn2];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 10, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 20, barContentHeight)];
-    [self.navigationController.navigationBar addSubview:searchBar];
+    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 28, 28)];
+    ViewRadius(searchBar, 5);
+    [navView addSubview:searchBar];
+    self.navigationItem.titleView = navView;
     
     UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 42)];
     topLabel.backgroundColor = [UIColor whiteColor];
