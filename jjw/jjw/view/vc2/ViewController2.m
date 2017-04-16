@@ -31,6 +31,7 @@
     _myCollectionView.backgroundColor = RGB(245, 245, 245);
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     [self initUI];
 }

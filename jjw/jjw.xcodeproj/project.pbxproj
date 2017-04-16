@@ -141,6 +141,9 @@
 		BC9141581EA10EA700F7A654 /* 1481518277839.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9141571EA10EA700F7A654 /* 1481518277839.png */; };
 		BC93740F1E90C69F00AD4946 /* ico_play.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BC93740D1E90C69F00AD4946 /* ico_play.jpg */; };
 		BC9374101E90C69F00AD4946 /* ico_time.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BC93740E1E90C69F00AD4946 /* ico_time.jpg */; };
+		BC9817951EA39FA800F45E31 /* 1475988005412.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */; };
+		BC9817991EA3A2BF00F45E31 /* TeacherHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */; };
+		BC98179A1EA3A2BF00F45E31 /* TeacherHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9817981EA3A2BF00F45E31 /* TeacherHomeViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -401,6 +404,10 @@
 		BC9141571EA10EA700F7A654 /* 1481518277839.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1481518277839.png; sourceTree = "<group>"; };
 		BC93740D1E90C69F00AD4946 /* ico_play.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ico_play.jpg; sourceTree = "<group>"; };
 		BC93740E1E90C69F00AD4946 /* ico_time.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ico_time.jpg; sourceTree = "<group>"; };
+		BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1475988005412.jpeg; sourceTree = "<group>"; };
+		BC9817961EA3A2BF00F45E31 /* TeacherHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeacherHomeViewController.h; sourceTree = "<group>"; };
+		BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeacherHomeViewController.m; sourceTree = "<group>"; };
+		BC9817981EA3A2BF00F45E31 /* TeacherHomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeacherHomeViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -526,6 +533,9 @@
 				BC821C0F1E9D15B00093A51F /* ClassDetailViewController.h */,
 				BC821C101E9D15B00093A51F /* ClassDetailViewController.m */,
 				BC821C111E9D15B00093A51F /* ClassDetailViewController.xib */,
+				BC9817961EA3A2BF00F45E31 /* TeacherHomeViewController.h */,
+				BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */,
+				BC9817981EA3A2BF00F45E31 /* TeacherHomeViewController.xib */,
 				BC9141541EA101A800F7A654 /* LGSegment.h */,
 				BC9141551EA101A800F7A654 /* LGSegment.m */,
 			);
@@ -1058,6 +1068,7 @@
 		44F3DF701E8CB4450089208B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */,
 				BC9141571EA10EA700F7A654 /* 1481518277839.png */,
 				BC0693DF1E926D310055D8E3 /* qq.jpeg */,
 				BC0693E01E926D310055D8E3 /* wx.jpeg */,
@@ -1138,7 +1149,9 @@
 				44F3DF531E8CB1E00089208B /* IQKeyboardManager.bundle in Resources */,
 				44F3DDFB1E8CAD5F0089208B /* ViewController3.xib in Resources */,
 				44F3DDF61E8CAD530089208B /* ViewController2.xib in Resources */,
+				BC98179A1EA3A2BF00F45E31 /* TeacherHomeViewController.xib in Resources */,
 				44F3DF421E8CB1E00089208B /* btnCheck@2x.png in Resources */,
+				BC9817951EA39FA800F45E31 /* 1475988005412.jpeg in Resources */,
 				44F3DDED1E8CAD280089208B /* ViewController1.xib in Resources */,
 				44F3DF691E8CB1E00089208B /* MJRefresh.bundle in Resources */,
 				44F3DDDB1E8CABF40089208B /* LaunchScreen.storyboard in Resources */,
@@ -1184,6 +1197,7 @@
 				44F3DF6B1E8CB1E00089208B /* UIScrollView+MJExtension.m in Sources */,
 				44F3DF5B1E8CB1E00089208B /* MJRefreshAutoFooter.m in Sources */,
 				44F3DF651E8CB1E00089208B /* MJRefreshBackStateFooter.m in Sources */,
+				BC9817991EA3A2BF00F45E31 /* TeacherHomeViewController.m in Sources */,
 				44F3DF4B1E8CB1E00089208B /* IQKeyboardManager.m in Sources */,
 				44F3DF4D1E8CB1E00089208B /* IQTextView.m in Sources */,
 				44F3DF381E8CB1E00089208B /* AFHTTPRequestOperation.m in Sources */,

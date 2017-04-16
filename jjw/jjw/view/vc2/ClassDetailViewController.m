@@ -10,6 +10,7 @@
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
 #import "LGSegment.h"
+#import "TeacherHomeViewController.h"
 
 @interface ClassDetailViewController ()<SegmentDelegate>
 
@@ -31,6 +32,7 @@
     
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     self.jz_navigationBarBackgroundHidden = NO;
+    self.title = @"课程详情";
     
     [self initUI];
 }
@@ -156,15 +158,15 @@
     v1.backgroundColor = [UIColor whiteColor];
     [_myScrollView addSubview:v1];
     
-    [self setV1];
+    CGFloat v1Height = [self setV1];
     
-    v2 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, 500)];
+    v2 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, v1Height)];
     v2.backgroundColor = [UIColor whiteColor];
     [_myScrollView addSubview:v2];
     
      [self setV2];
     
-    v3 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, 500)];
+    v3 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, v1Height)];
     v3.backgroundColor = [UIColor whiteColor];
     [_myScrollView addSubview:v3];
     
@@ -175,7 +177,7 @@
     [_myScrollView setContentSize:CGSizeMake(Main_Screen_Width, CGRectGetMaxY(v1.frame))];
 }
 
--(void)setV1{
+-(CGFloat)setV1{
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
     label.font = SYSTEMFONT(15);
     label.text = @"课程详情";
@@ -224,6 +226,7 @@
     [homeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     homeBtn.titleLabel.font = BOLDSYSTEMFONT(15);
     [homeBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+    [homeBtn addTarget:self action:@selector(toTeacherHome) forControlEvents:UIControlEventTouchUpInside];
     ViewRadius(homeBtn, 5);
     [v1 addSubview:homeBtn];
     
@@ -236,6 +239,38 @@
     label3.text = @"猜你喜欢";
     [label3 sizeToFit];
     [v1 addSubview:label3];
+    
+    CGFloat imgWidth2 = (Main_Screen_Width - 40)*0.35;
+    CGFloat imageHeight2 = imgWidth2*2/3;
+    CGFloat maxY = CGRectGetMaxY(label3.frame);
+    
+    for (int i = 0; i< 3; i++) {
+        UIImageView *imageview1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, maxY + 10, imgWidth2, imageHeight2)];
+        imageview1.image = [UIImage imageNamed:@"1475988005412.jpeg"];
+        ViewRadius(imageview1, 5);
+        [v1 addSubview:imageview1];
+        
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview1.frame) + 10, CGRectGetMinY(imageview1.frame)+5, 0, 0)];
+        titleLabel.text = @"集合的表示方法";
+        titleLabel.font = SYSTEMFONT(14);
+        titleLabel.textColor = RGB(51, 51, 51);
+        [titleLabel sizeToFit];
+        [v1 addSubview:titleLabel];
+        
+        UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview1.frame) + 10, CGRectGetMaxY(titleLabel.frame) + 5, 0, 0)];
+        detailLabel.text = @"讲师：吴清华  浏览：27人";
+        detailLabel.font = SYSTEMFONT(12);
+        detailLabel.textColor = RGB(102, 102, 102);
+        [detailLabel sizeToFit];
+        [v1 addSubview:detailLabel];
+        maxY = CGRectGetMaxY(imageview1.frame);
+    }
+    
+    CGRect v1Rect = v1.frame;
+    v1Rect.size.height = maxY + 20;
+    [v1 setFrame:v1Rect];
+    
+    return v1Rect.size.height;
 }
 
 -(void)setV2{
@@ -255,6 +290,11 @@
     [tijiaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     ViewRadius(tijiaoBtn, 5);
     [v3 addSubview:tijiaoBtn];
+}
+
+-(void)toTeacherHome{
+    TeacherHomeViewController *vc = [[TeacherHomeViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {
