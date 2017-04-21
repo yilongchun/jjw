@@ -70,7 +70,7 @@
     [myScrollView addSubview:imageview];
     
     //必修
-    bixiuScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(imageview.frame), Main_Screen_Width, 114)];
+    bixiuScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(imageview.frame), Main_Screen_Width, 118)];
     bixiuScrollView.showsHorizontalScrollIndicator = NO;
     [myScrollView addSubview:bixiuScrollView];
     UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(bixiuScrollView.frame), Main_Screen_Width, 0.5)];

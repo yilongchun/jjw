@@ -144,4 +144,113 @@
 }
 */
 
+#pragma mark - UITableViewDelegate
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 30;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.1;
+}
+
+- (nullable UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 30)];
+    view.backgroundColor = RGB(163,222,255);
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15, 0, 100, 30)];
+    if (section == 0) {
+        label.text = @"我的学习";
+    }
+    if (section == 1) {
+        label.text = @"我的资料";
+    }
+    
+    label.textColor = RGB(51, 51, 51);
+    label.font = SYSTEMFONT(14);
+    [view addSubview:label];
+    return view;
+}
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 44;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 2;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    if (section == 0) {
+        return 9;
+    }
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *CellIdentifier = @"tableViewCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell= [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+        cell.textLabel.textColor = RGB(102, 102, 102);
+        cell.textLabel.font = SYSTEMFONT(14);
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    if (indexPath.section == 0) {
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"充值记录";
+                break;
+            case 1:
+                cell.textLabel.text = @"我的购物车";
+                break;
+            case 2:
+                cell.textLabel.text = @"我的课程";
+                break;
+            case 3:
+                cell.textLabel.text = @"打包课程";
+                break;
+            case 4:
+                cell.textLabel.text = @"学习记录";
+                break;
+            case 5:
+                cell.textLabel.text = @"我的订单";
+                break;
+            case 6:
+                cell.textLabel.text = @"选课中心";
+                break;
+            case 7:
+                cell.textLabel.text = @"我的收藏";
+                break;
+            case 8:
+                cell.textLabel.text = @"点播问答";
+                break;
+            default:
+                break;
+        }
+    }
+    if (indexPath.section == 1) {
+        switch (indexPath.row) {
+            case 0:
+                cell.textLabel.text = @"基本资料";
+                break;
+            case 1:
+                cell.textLabel.text = @"个人头像";
+                break;
+            case 2:
+                cell.textLabel.text = @"密码设置";
+                break;
+            default:
+                break;
+        }
+    }
+    
+    return cell;
+}
+
 @end
