@@ -144,6 +144,8 @@
 		BC9817951EA39FA800F45E31 /* 1475988005412.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */; };
 		BC9817991EA3A2BF00F45E31 /* TeacherHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */; };
 		BC98179A1EA3A2BF00F45E31 /* TeacherHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9817981EA3A2BF00F45E31 /* TeacherHomeViewController.xib */; };
+		BC98179E1EA3A5C100F45E31 /* TeacherHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC98179C1EA3A5C100F45E31 /* TeacherHomeTableViewCell.m */; };
+		BC98179F1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC98179D1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -408,6 +410,9 @@
 		BC9817961EA3A2BF00F45E31 /* TeacherHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeacherHomeViewController.h; sourceTree = "<group>"; };
 		BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeacherHomeViewController.m; sourceTree = "<group>"; };
 		BC9817981EA3A2BF00F45E31 /* TeacherHomeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeacherHomeViewController.xib; sourceTree = "<group>"; };
+		BC98179B1EA3A5C100F45E31 /* TeacherHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeacherHomeTableViewCell.h; sourceTree = "<group>"; };
+		BC98179C1EA3A5C100F45E31 /* TeacherHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeacherHomeTableViewCell.m; sourceTree = "<group>"; };
+		BC98179D1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeacherHomeTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -536,6 +541,9 @@
 				BC9817961EA3A2BF00F45E31 /* TeacherHomeViewController.h */,
 				BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */,
 				BC9817981EA3A2BF00F45E31 /* TeacherHomeViewController.xib */,
+				BC98179B1EA3A5C100F45E31 /* TeacherHomeTableViewCell.h */,
+				BC98179C1EA3A5C100F45E31 /* TeacherHomeTableViewCell.m */,
+				BC98179D1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib */,
 				BC9141541EA101A800F7A654 /* LGSegment.h */,
 				BC9141551EA101A800F7A654 /* LGSegment.m */,
 			);
@@ -1158,6 +1166,7 @@
 				44F3DE001E8CAD690089208B /* ViewController4.xib in Resources */,
 				44F3DE8C1E8CB1840089208B /* NSDateTimeAgo.bundle in Resources */,
 				44F3DDD81E8CABF40089208B /* Assets.xcassets in Resources */,
+				BC98179F1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib in Resources */,
 				44F3DDD61E8CABF40089208B /* Main.storyboard in Resources */,
 				BC0693E11E926D310055D8E3 /* qq.jpeg in Resources */,
 				BC9374101E90C69F00AD4946 /* ico_time.jpg in Resources */,
@@ -1246,6 +1255,7 @@
 				44F3DF451E8CB1E00089208B /* IQNSArray+Sort.m in Sources */,
 				44F3DF571E8CB1E00089208B /* UINavigationBar+JZExtension.m in Sources */,
 				44F3DF611E8CB1E00089208B /* MJRefreshAutoNormalFooter.m in Sources */,
+				BC98179E1EA3A5C100F45E31 /* TeacherHomeTableViewCell.m in Sources */,
 				44F3DF621E8CB1E00089208B /* MJRefreshAutoStateFooter.m in Sources */,
 				44F3DF491E8CB1E00089208B /* IQUIViewController+Additions.m in Sources */,
 				44F3DEA11E8CB1840089208B /* NSString+HXAddtions.m in Sources */,
