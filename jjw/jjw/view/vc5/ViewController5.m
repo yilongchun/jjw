@@ -10,7 +10,11 @@
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
 
-@interface ViewController5 ()
+@interface ViewController5 (){
+    UIImageView *headImageView;
+    UILabel *nameLabel;
+    UILabel *yue;
+}
 
 @end
 
@@ -126,7 +130,85 @@
 }
 
 -(void)login{
+    
+    
+    [self setTableHeaderView];
     self.view = _userCenterView;
+    self.navigationItem.titleView = nil;
+    self.jz_navigationBarBackgroundAlpha = 0;
+//    self.jz_navigationBarBackgroundHidden = YES;
+//    self.title = @"个人中心";
+//    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+}
+
+-(void)setTableHeaderView{
+    CGFloat headImageWidth = Main_Screen_Width * 0.25;
+    UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 20 +headImageWidth + 20 + 45 + 40)];
+    tableHeaderView.backgroundColor = RGB(60, 170, 226);
+    _myTableView.tableHeaderView = tableHeaderView;
+    
+    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 20 + headImageWidth +20)];
+    
+    headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(Main_Screen_Width*0.25, 20+10, headImageWidth, headImageWidth)];
+    headImageView.image = [UIImage imageNamed:@"default_avatar.jpeg"];
+    ViewRadius(headImageView, headImageWidth/2);
+    [view1 addSubview:headImageView];
+    
+    nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImageView.frame) + 10, 20+20, 0, 0)];
+    nameLabel.text = @"未设置";
+    nameLabel.textColor = [UIColor whiteColor];
+    [nameLabel sizeToFit];
+    [view1 addSubview:nameLabel];
+    
+    UILabel *logoutLabel = [[UILabel alloc] initWithFrame:CGRectMake(nameLabel.frame.origin.x, CGRectGetMaxY(nameLabel.frame) + 10, 0, 0)];
+    logoutLabel.textColor = [UIColor whiteColor];
+    logoutLabel.text = @"退出登录";
+    [logoutLabel sizeToFit];
+    [view1 addSubview:logoutLabel];
+    
+    [tableHeaderView addSubview:view1];
+    
+    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(view1.frame), Main_Screen_Width, 45)];
+    view2.backgroundColor = RGB(245, 245, 245);
+    UILabel *yueLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, 0, 0)];
+    yueLabel.text = @"账户余额:";
+    yueLabel.textColor = RGB(51, 51, 51);
+    yueLabel.font = SYSTEMFONT(14);
+    [yueLabel sizeToFit];
+    [view2 addSubview:yueLabel];
+    
+    yue = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueLabel.frame) + 3, CGRectGetMinY(yueLabel.frame), 0, 0)];
+    yue.textColor = RGB(255, 153, 0);
+    yue.font = BOLDSYSTEMFONT(14);
+    yue.text = [NSString stringWithFormat:@"￥%.2f",0.00];
+    [yue sizeToFit];
+    [view2 addSubview:yue];
+    
+    CGFloat btnWidth = Main_Screen_Width*0.5*0.45;
+    UIButton *chongzhiBtn = [[UIButton alloc] initWithFrame:CGRectMake(Main_Screen_Width - 10 - btnWidth, 7, btnWidth, 32)];
+    [chongzhiBtn setTitle:@"立即充值" forState:UIControlStateNormal];
+    [chongzhiBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    chongzhiBtn.titleLabel.font = BOLDSYSTEMFONT(15);
+    [chongzhiBtn setBackgroundImage:[UIImage imageWithColor:RGB(255, 153, 0) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+    ViewRadius(chongzhiBtn, 5);
+    [view2 addSubview:chongzhiBtn];
+    
+    [tableHeaderView addSubview:view2];
+    
+    UIView *view3 = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(view2.frame), Main_Screen_Width, 40)];
+    view3.backgroundColor = [UIColor whiteColor];
+    UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 1)];
+    line.backgroundColor = RGB(223, 223, 223);
+    [view3 addSubview:line];
+    
+    line = [[UILabel alloc] initWithFrame:CGRectMake(0, 39, Main_Screen_Width, 1)];
+    line.backgroundColor = RGB(223, 223, 223);
+    [view3 addSubview:line];
+    
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 1, Main_Screen_Width, 38)];
+    label.text = @"个人中心";
+    [view3 addSubview:label];
+    [tableHeaderView addSubview:view3];
 }
 
 - (void)didReceiveMemoryWarning {

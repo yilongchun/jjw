@@ -137,6 +137,7 @@
 		BC5AD3D81E8FE6EF004D2D3F /* CollectionViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5AD3D61E8FE6EF004D2D3F /* CollectionViewCell2.xib */; };
 		BC821C121E9D15B00093A51F /* ClassDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC821C101E9D15B00093A51F /* ClassDetailViewController.m */; };
 		BC821C131E9D15B00093A51F /* ClassDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC821C111E9D15B00093A51F /* ClassDetailViewController.xib */; };
+		BC8D01961EAE168200EC5CDE /* default_avatar.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */; };
 		BC9141561EA101A800F7A654 /* LGSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9141551EA101A800F7A654 /* LGSegment.m */; };
 		BC9141581EA10EA700F7A654 /* 1481518277839.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9141571EA10EA700F7A654 /* 1481518277839.png */; };
 		BC93740F1E90C69F00AD4946 /* ico_play.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BC93740D1E90C69F00AD4946 /* ico_play.jpg */; };
@@ -401,6 +402,7 @@
 		BC821C0F1E9D15B00093A51F /* ClassDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassDetailViewController.h; sourceTree = "<group>"; };
 		BC821C101E9D15B00093A51F /* ClassDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassDetailViewController.m; sourceTree = "<group>"; };
 		BC821C111E9D15B00093A51F /* ClassDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClassDetailViewController.xib; sourceTree = "<group>"; };
+		BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_avatar.jpeg; sourceTree = "<group>"; };
 		BC9141541EA101A800F7A654 /* LGSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGSegment.h; sourceTree = "<group>"; };
 		BC9141551EA101A800F7A654 /* LGSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGSegment.m; sourceTree = "<group>"; };
 		BC9141571EA10EA700F7A654 /* 1481518277839.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1481518277839.png; sourceTree = "<group>"; };
@@ -1076,6 +1078,7 @@
 		44F3DF701E8CB4450089208B /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */,
 				BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */,
 				BC9141571EA10EA700F7A654 /* 1481518277839.png */,
 				BC0693DF1E926D310055D8E3 /* qq.jpeg */,
@@ -1159,6 +1162,7 @@
 				44F3DDF61E8CAD530089208B /* ViewController2.xib in Resources */,
 				BC98179A1EA3A2BF00F45E31 /* TeacherHomeViewController.xib in Resources */,
 				44F3DF421E8CB1E00089208B /* btnCheck@2x.png in Resources */,
+				BC8D01961EAE168200EC5CDE /* default_avatar.jpeg in Resources */,
 				BC9817951EA39FA800F45E31 /* 1475988005412.jpeg in Resources */,
 				44F3DDED1E8CAD280089208B /* ViewController1.xib in Resources */,
 				44F3DF691E8CB1E00089208B /* MJRefresh.bundle in Resources */,
