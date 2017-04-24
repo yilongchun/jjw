@@ -138,6 +138,28 @@
 		BC821C121E9D15B00093A51F /* ClassDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC821C101E9D15B00093A51F /* ClassDetailViewController.m */; };
 		BC821C131E9D15B00093A51F /* ClassDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC821C111E9D15B00093A51F /* ClassDetailViewController.xib */; };
 		BC8D01961EAE168200EC5CDE /* default_avatar.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */; };
+		BC8D019A1EAE220200EC5CDE /* PaidRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */; };
+		BC8D019B1EAE220200EC5CDE /* PaidRecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01991EAE220200EC5CDE /* PaidRecordViewController.xib */; };
+		BC8D019F1EAE238200EC5CDE /* ShoppingCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D019D1EAE238200EC5CDE /* ShoppingCartViewController.m */; };
+		BC8D01A01EAE238200EC5CDE /* ShoppingCartViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D019E1EAE238200EC5CDE /* ShoppingCartViewController.xib */; };
+		BC8D01A41EAE240300EC5CDE /* MyClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01A21EAE240300EC5CDE /* MyClassViewController.m */; };
+		BC8D01A51EAE240300EC5CDE /* MyClassViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01A31EAE240300EC5CDE /* MyClassViewController.xib */; };
+		BC8D01A91EAE246800EC5CDE /* PackageClassViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01A71EAE246800EC5CDE /* PackageClassViewController.m */; };
+		BC8D01AA1EAE246800EC5CDE /* PackageClassViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01A81EAE246800EC5CDE /* PackageClassViewController.xib */; };
+		BC8D01AE1EAE24B800EC5CDE /* StudyRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01AC1EAE24B800EC5CDE /* StudyRecordViewController.m */; };
+		BC8D01AF1EAE24B800EC5CDE /* StudyRecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01AD1EAE24B800EC5CDE /* StudyRecordViewController.xib */; };
+		BC8D01B31EAE250D00EC5CDE /* MyOrdersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01B11EAE250D00EC5CDE /* MyOrdersViewController.m */; };
+		BC8D01B41EAE250D00EC5CDE /* MyOrdersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01B21EAE250D00EC5CDE /* MyOrdersViewController.xib */; };
+		BC8D01B81EAE25D000EC5CDE /* MyCollectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01B61EAE25D000EC5CDE /* MyCollectViewController.m */; };
+		BC8D01B91EAE25D000EC5CDE /* MyCollectViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01B71EAE25D000EC5CDE /* MyCollectViewController.xib */; };
+		BC8D01BD1EAE263700EC5CDE /* MyQueAnsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01BB1EAE263700EC5CDE /* MyQueAnsViewController.m */; };
+		BC8D01BE1EAE263700EC5CDE /* MyQueAnsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01BC1EAE263700EC5CDE /* MyQueAnsViewController.xib */; };
+		BC8D01C21EAE269A00EC5CDE /* BasicInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01C01EAE269A00EC5CDE /* BasicInfoViewController.m */; };
+		BC8D01C31EAE269A00EC5CDE /* BasicInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01C11EAE269A00EC5CDE /* BasicInfoViewController.xib */; };
+		BC8D01C71EAE270300EC5CDE /* MyHeaderImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01C51EAE270300EC5CDE /* MyHeaderImageViewController.m */; };
+		BC8D01C81EAE270300EC5CDE /* MyHeaderImageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01C61EAE270300EC5CDE /* MyHeaderImageViewController.xib */; };
+		BC8D01CC1EAE274A00EC5CDE /* PasswordSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01CA1EAE274A00EC5CDE /* PasswordSettingViewController.m */; };
+		BC8D01CD1EAE274A00EC5CDE /* PasswordSettingViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01CB1EAE274A00EC5CDE /* PasswordSettingViewController.xib */; };
 		BC9141561EA101A800F7A654 /* LGSegment.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9141551EA101A800F7A654 /* LGSegment.m */; };
 		BC9141581EA10EA700F7A654 /* 1481518277839.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9141571EA10EA700F7A654 /* 1481518277839.png */; };
 		BC93740F1E90C69F00AD4946 /* ico_play.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BC93740D1E90C69F00AD4946 /* ico_play.jpg */; };
@@ -403,6 +425,39 @@
 		BC821C101E9D15B00093A51F /* ClassDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassDetailViewController.m; sourceTree = "<group>"; };
 		BC821C111E9D15B00093A51F /* ClassDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClassDetailViewController.xib; sourceTree = "<group>"; };
 		BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_avatar.jpeg; sourceTree = "<group>"; };
+		BC8D01971EAE220200EC5CDE /* PaidRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaidRecordViewController.h; sourceTree = "<group>"; };
+		BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaidRecordViewController.m; sourceTree = "<group>"; };
+		BC8D01991EAE220200EC5CDE /* PaidRecordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaidRecordViewController.xib; sourceTree = "<group>"; };
+		BC8D019C1EAE238200EC5CDE /* ShoppingCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppingCartViewController.h; sourceTree = "<group>"; };
+		BC8D019D1EAE238200EC5CDE /* ShoppingCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppingCartViewController.m; sourceTree = "<group>"; };
+		BC8D019E1EAE238200EC5CDE /* ShoppingCartViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShoppingCartViewController.xib; sourceTree = "<group>"; };
+		BC8D01A11EAE240300EC5CDE /* MyClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyClassViewController.h; sourceTree = "<group>"; };
+		BC8D01A21EAE240300EC5CDE /* MyClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyClassViewController.m; sourceTree = "<group>"; };
+		BC8D01A31EAE240300EC5CDE /* MyClassViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyClassViewController.xib; sourceTree = "<group>"; };
+		BC8D01A61EAE246800EC5CDE /* PackageClassViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackageClassViewController.h; sourceTree = "<group>"; };
+		BC8D01A71EAE246800EC5CDE /* PackageClassViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PackageClassViewController.m; sourceTree = "<group>"; };
+		BC8D01A81EAE246800EC5CDE /* PackageClassViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PackageClassViewController.xib; sourceTree = "<group>"; };
+		BC8D01AB1EAE24B800EC5CDE /* StudyRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StudyRecordViewController.h; sourceTree = "<group>"; };
+		BC8D01AC1EAE24B800EC5CDE /* StudyRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StudyRecordViewController.m; sourceTree = "<group>"; };
+		BC8D01AD1EAE24B800EC5CDE /* StudyRecordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StudyRecordViewController.xib; sourceTree = "<group>"; };
+		BC8D01B01EAE250D00EC5CDE /* MyOrdersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrdersViewController.h; sourceTree = "<group>"; };
+		BC8D01B11EAE250D00EC5CDE /* MyOrdersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrdersViewController.m; sourceTree = "<group>"; };
+		BC8D01B21EAE250D00EC5CDE /* MyOrdersViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrdersViewController.xib; sourceTree = "<group>"; };
+		BC8D01B51EAE25D000EC5CDE /* MyCollectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectViewController.h; sourceTree = "<group>"; };
+		BC8D01B61EAE25D000EC5CDE /* MyCollectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectViewController.m; sourceTree = "<group>"; };
+		BC8D01B71EAE25D000EC5CDE /* MyCollectViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCollectViewController.xib; sourceTree = "<group>"; };
+		BC8D01BA1EAE263700EC5CDE /* MyQueAnsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQueAnsViewController.h; sourceTree = "<group>"; };
+		BC8D01BB1EAE263700EC5CDE /* MyQueAnsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyQueAnsViewController.m; sourceTree = "<group>"; };
+		BC8D01BC1EAE263700EC5CDE /* MyQueAnsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyQueAnsViewController.xib; sourceTree = "<group>"; };
+		BC8D01BF1EAE269A00EC5CDE /* BasicInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BasicInfoViewController.h; sourceTree = "<group>"; };
+		BC8D01C01EAE269A00EC5CDE /* BasicInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BasicInfoViewController.m; sourceTree = "<group>"; };
+		BC8D01C11EAE269A00EC5CDE /* BasicInfoViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BasicInfoViewController.xib; sourceTree = "<group>"; };
+		BC8D01C41EAE270300EC5CDE /* MyHeaderImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyHeaderImageViewController.h; sourceTree = "<group>"; };
+		BC8D01C51EAE270300EC5CDE /* MyHeaderImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyHeaderImageViewController.m; sourceTree = "<group>"; };
+		BC8D01C61EAE270300EC5CDE /* MyHeaderImageViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyHeaderImageViewController.xib; sourceTree = "<group>"; };
+		BC8D01C91EAE274A00EC5CDE /* PasswordSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordSettingViewController.h; sourceTree = "<group>"; };
+		BC8D01CA1EAE274A00EC5CDE /* PasswordSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordSettingViewController.m; sourceTree = "<group>"; };
+		BC8D01CB1EAE274A00EC5CDE /* PasswordSettingViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PasswordSettingViewController.xib; sourceTree = "<group>"; };
 		BC9141541EA101A800F7A654 /* LGSegment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LGSegment.h; sourceTree = "<group>"; };
 		BC9141551EA101A800F7A654 /* LGSegment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LGSegment.m; sourceTree = "<group>"; };
 		BC9141571EA10EA700F7A654 /* 1481518277839.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1481518277839.png; sourceTree = "<group>"; };
@@ -504,6 +559,39 @@
 				44F3DE011E8CAD720089208B /* ViewController5.h */,
 				44F3DE021E8CAD720089208B /* ViewController5.m */,
 				44F3DE031E8CAD720089208B /* ViewController5.xib */,
+				BC8D01971EAE220200EC5CDE /* PaidRecordViewController.h */,
+				BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */,
+				BC8D01991EAE220200EC5CDE /* PaidRecordViewController.xib */,
+				BC8D019C1EAE238200EC5CDE /* ShoppingCartViewController.h */,
+				BC8D019D1EAE238200EC5CDE /* ShoppingCartViewController.m */,
+				BC8D019E1EAE238200EC5CDE /* ShoppingCartViewController.xib */,
+				BC8D01A11EAE240300EC5CDE /* MyClassViewController.h */,
+				BC8D01A21EAE240300EC5CDE /* MyClassViewController.m */,
+				BC8D01A31EAE240300EC5CDE /* MyClassViewController.xib */,
+				BC8D01A61EAE246800EC5CDE /* PackageClassViewController.h */,
+				BC8D01A71EAE246800EC5CDE /* PackageClassViewController.m */,
+				BC8D01A81EAE246800EC5CDE /* PackageClassViewController.xib */,
+				BC8D01AB1EAE24B800EC5CDE /* StudyRecordViewController.h */,
+				BC8D01AC1EAE24B800EC5CDE /* StudyRecordViewController.m */,
+				BC8D01AD1EAE24B800EC5CDE /* StudyRecordViewController.xib */,
+				BC8D01B01EAE250D00EC5CDE /* MyOrdersViewController.h */,
+				BC8D01B11EAE250D00EC5CDE /* MyOrdersViewController.m */,
+				BC8D01B21EAE250D00EC5CDE /* MyOrdersViewController.xib */,
+				BC8D01B51EAE25D000EC5CDE /* MyCollectViewController.h */,
+				BC8D01B61EAE25D000EC5CDE /* MyCollectViewController.m */,
+				BC8D01B71EAE25D000EC5CDE /* MyCollectViewController.xib */,
+				BC8D01BA1EAE263700EC5CDE /* MyQueAnsViewController.h */,
+				BC8D01BB1EAE263700EC5CDE /* MyQueAnsViewController.m */,
+				BC8D01BC1EAE263700EC5CDE /* MyQueAnsViewController.xib */,
+				BC8D01BF1EAE269A00EC5CDE /* BasicInfoViewController.h */,
+				BC8D01C01EAE269A00EC5CDE /* BasicInfoViewController.m */,
+				BC8D01C11EAE269A00EC5CDE /* BasicInfoViewController.xib */,
+				BC8D01C41EAE270300EC5CDE /* MyHeaderImageViewController.h */,
+				BC8D01C51EAE270300EC5CDE /* MyHeaderImageViewController.m */,
+				BC8D01C61EAE270300EC5CDE /* MyHeaderImageViewController.xib */,
+				BC8D01C91EAE274A00EC5CDE /* PasswordSettingViewController.h */,
+				BC8D01CA1EAE274A00EC5CDE /* PasswordSettingViewController.m */,
+				BC8D01CB1EAE274A00EC5CDE /* PasswordSettingViewController.xib */,
 			);
 			path = vc5;
 			sourceTree = "<group>";
@@ -1150,8 +1238,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC8D01B91EAE25D000EC5CDE /* MyCollectViewController.xib in Resources */,
 				44F3DF741E8CB4630089208B /* 1484533496_919.jpg in Resources */,
 				BC5AD3D81E8FE6EF004D2D3F /* CollectionViewCell2.xib in Resources */,
+				BC8D01BE1EAE263700EC5CDE /* MyQueAnsViewController.xib in Resources */,
 				BC9141581EA10EA700F7A654 /* 1481518277839.png in Resources */,
 				BC0693E21E926D310055D8E3 /* wx.jpeg in Resources */,
 				44F3DE051E8CAD720089208B /* ViewController5.xib in Resources */,
@@ -1161,13 +1251,20 @@
 				44F3DDFB1E8CAD5F0089208B /* ViewController3.xib in Resources */,
 				44F3DDF61E8CAD530089208B /* ViewController2.xib in Resources */,
 				BC98179A1EA3A2BF00F45E31 /* TeacherHomeViewController.xib in Resources */,
+				BC8D01C81EAE270300EC5CDE /* MyHeaderImageViewController.xib in Resources */,
 				44F3DF421E8CB1E00089208B /* btnCheck@2x.png in Resources */,
 				BC8D01961EAE168200EC5CDE /* default_avatar.jpeg in Resources */,
 				BC9817951EA39FA800F45E31 /* 1475988005412.jpeg in Resources */,
 				44F3DDED1E8CAD280089208B /* ViewController1.xib in Resources */,
+				BC8D01CD1EAE274A00EC5CDE /* PasswordSettingViewController.xib in Resources */,
 				44F3DF691E8CB1E00089208B /* MJRefresh.bundle in Resources */,
+				BC8D01A01EAE238200EC5CDE /* ShoppingCartViewController.xib in Resources */,
 				44F3DDDB1E8CABF40089208B /* LaunchScreen.storyboard in Resources */,
 				44F3DE001E8CAD690089208B /* ViewController4.xib in Resources */,
+				BC8D01AF1EAE24B800EC5CDE /* StudyRecordViewController.xib in Resources */,
+				BC8D019B1EAE220200EC5CDE /* PaidRecordViewController.xib in Resources */,
+				BC8D01C31EAE269A00EC5CDE /* BasicInfoViewController.xib in Resources */,
+				BC8D01A51EAE240300EC5CDE /* MyClassViewController.xib in Resources */,
 				44F3DE8C1E8CB1840089208B /* NSDateTimeAgo.bundle in Resources */,
 				44F3DDD81E8CABF40089208B /* Assets.xcassets in Resources */,
 				BC98179F1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib in Resources */,
@@ -1175,7 +1272,9 @@
 				BC0693E11E926D310055D8E3 /* qq.jpeg in Resources */,
 				BC9374101E90C69F00AD4946 /* ico_time.jpg in Resources */,
 				BC821C131E9D15B00093A51F /* ClassDetailViewController.xib in Resources */,
+				BC8D01AA1EAE246800EC5CDE /* PackageClassViewController.xib in Resources */,
 				BC93740F1E90C69F00AD4946 /* ico_play.jpg in Resources */,
+				BC8D01B41EAE250D00EC5CDE /* MyOrdersViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1186,9 +1285,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC8D019F1EAE238200EC5CDE /* ShoppingCartViewController.m in Sources */,
 				44F3DF561E8CB1E00089208B /* NSNumber+JZExtension.m in Sources */,
 				44F3DEAC1E8CB1840089208B /* UIAlertView+AFNetworking.m in Sources */,
 				44F3DF461E8CB1E00089208B /* IQUIScrollView+Additions.m in Sources */,
+				BC8D01A41EAE240300EC5CDE /* MyClassViewController.m in Sources */,
 				44F3DF631E8CB1E00089208B /* MJRefreshBackGifFooter.m in Sources */,
 				44F3DE921E8CB1840089208B /* NSException+Trace.m in Sources */,
 				44F3DE041E8CAD720089208B /* ViewController5.m in Sources */,
@@ -1199,6 +1300,7 @@
 				44F3DEB21E8CB1840089208B /* UILabel+SetLabelSpace.m in Sources */,
 				44F3DF4C1E8CB1E00089208B /* IQKeyboardReturnKeyHandler.m in Sources */,
 				44F3DF661E8CB1E00089208B /* MJRefreshGifHeader.m in Sources */,
+				BC8D01B31EAE250D00EC5CDE /* MyOrdersViewController.m in Sources */,
 				44F3DEA41E8CB1840089208B /* NSString+UUID.m in Sources */,
 				44F3DE081E8CAD9C0089208B /* MainTabBarController.m in Sources */,
 				44F3DEA71E8CB1840089208B /* NSTimer+Blocks.m in Sources */,
@@ -1210,8 +1312,10 @@
 				44F3DF6B1E8CB1E00089208B /* UIScrollView+MJExtension.m in Sources */,
 				44F3DF5B1E8CB1E00089208B /* MJRefreshAutoFooter.m in Sources */,
 				44F3DF651E8CB1E00089208B /* MJRefreshBackStateFooter.m in Sources */,
+				BC8D01BD1EAE263700EC5CDE /* MyQueAnsViewController.m in Sources */,
 				BC9817991EA3A2BF00F45E31 /* TeacherHomeViewController.m in Sources */,
 				44F3DF4B1E8CB1E00089208B /* IQKeyboardManager.m in Sources */,
+				BC8D01A91EAE246800EC5CDE /* PackageClassViewController.m in Sources */,
 				44F3DF4D1E8CB1E00089208B /* IQTextView.m in Sources */,
 				44F3DF381E8CB1E00089208B /* AFHTTPRequestOperation.m in Sources */,
 				44F3DEAE1E8CB1840089208B /* UIImageView+AFNetworking.m in Sources */,
@@ -1239,6 +1343,7 @@
 				44F3DE971E8CB1840089208B /* NSManagedObjectContext+ObjectClear.m in Sources */,
 				BC821C121E9D15B00093A51F /* ClassDetailViewController.m in Sources */,
 				44F3DF431E8CB1E00089208B /* HUD.m in Sources */,
+				BC8D01CC1EAE274A00EC5CDE /* PasswordSettingViewController.m in Sources */,
 				44F3DF641E8CB1E00089208B /* MJRefreshBackNormalFooter.m in Sources */,
 				44F3DEB51E8CB1840089208B /* UIViewController+HUD.m in Sources */,
 				44F3DE961E8CB1840089208B /* NSManagedObjectContext+FetchRequestsConstructors.m in Sources */,
@@ -1270,6 +1375,8 @@
 				44F3DE9C1E8CB1840089208B /* NSObject+Runtime.m in Sources */,
 				44F3DEAB1E8CB1840089208B /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				44F3DE861E8CB1840089208B /* NSArray+SafeAccess.m in Sources */,
+				BC8D01C71EAE270300EC5CDE /* MyHeaderImageViewController.m in Sources */,
+				BC8D019A1EAE220200EC5CDE /* PaidRecordViewController.m in Sources */,
 				44F3DF551E8CB1E00089208B /* _JZValue.m in Sources */,
 				44F3DE941E8CB1840089208B /* NSIndexPath+Offset.m in Sources */,
 				44F3DE9A1E8CB1840089208B /* NSObject+Blocks.m in Sources */,
@@ -1281,6 +1388,7 @@
 				44F3DE8F1E8CB1840089208B /* NSDictionary+JSONString.m in Sources */,
 				44F3DF4A1E8CB1E00089208B /* IQUIWindow+Hierarchy.m in Sources */,
 				44F3DF3E1E8CB1E00089208B /* AFURLRequestSerialization.m in Sources */,
+				BC8D01B81EAE25D000EC5CDE /* MyCollectViewController.m in Sources */,
 				44F3DDFF1E8CAD690089208B /* ViewController4.m in Sources */,
 				44F3DE9E1E8CB1840089208B /* NSString+DictionaryValue.m in Sources */,
 				44F3DE9F1E8CB1840089208B /* NSString+Emoji.m in Sources */,
@@ -1288,12 +1396,14 @@
 				44F3DEB01E8CB1840089208B /* UIRefreshControl+AFNetworking.m in Sources */,
 				44F3DEAD1E8CB1840089208B /* UIButton+AFNetworking.m in Sources */,
 				44F3DF471E8CB1E00089208B /* IQUITextFieldView+Additions.m in Sources */,
+				BC8D01C21EAE269A00EC5CDE /* BasicInfoViewController.m in Sources */,
 				44F3DEB41E8CB1840089208B /* UIViewController+DismissKeyboard.m in Sources */,
 				44F3DE931E8CB1840089208B /* NSFileManager+Paths.m in Sources */,
 				44F3DEB31E8CB1840089208B /* UITextView+PlaceHolder.m in Sources */,
 				44F3DF5E1E8CB1E00089208B /* MJRefreshFooter.m in Sources */,
 				44F3DEA91E8CB1840089208B /* UIImage+Color.m in Sources */,
 				44F3DF5F1E8CB1E00089208B /* MJRefreshHeader.m in Sources */,
+				BC8D01AE1EAE24B800EC5CDE /* StudyRecordViewController.m in Sources */,
 				44F3DF681E8CB1E00089208B /* MJRefreshStateHeader.m in Sources */,
 				44F3DF3C1E8CB1E00089208B /* AFSecurityPolicy.m in Sources */,
 				44F3DDCD1E8CABF40089208B /* main.m in Sources */,

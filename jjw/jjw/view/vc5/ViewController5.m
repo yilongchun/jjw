@@ -9,6 +9,17 @@
 #import "ViewController5.h"
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
+#import "PaidRecordViewController.h"
+#import "ShoppingCartViewController.h"
+#import "MyClassViewController.h"
+#import "PackageClassViewController.h"
+#import "StudyRecordViewController.h"
+#import "MyOrdersViewController.h"
+#import "MyCollectViewController.h"
+#import "MyQueAnsViewController.h"
+#import "BasicInfoViewController.h"
+#import "MyHeaderImageViewController.h"
+#import "PasswordSettingViewController.h"
 
 @interface ViewController5 (){
     UIImageView *headImageView;
@@ -23,6 +34,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
+    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
     
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     //    self.automaticallyAdjustsScrollViewInsets = NO;
@@ -259,6 +273,69 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    if (indexPath.section == 0) {
+        if (indexPath.row == 0) {
+            PaidRecordViewController *vc = [[PaidRecordViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        if (indexPath.row == 1) {
+            ShoppingCartViewController *vc = [[ShoppingCartViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        if (indexPath.row == 2) {
+            MyClassViewController *vc = [[MyClassViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        if (indexPath.row == 3) {
+            PackageClassViewController *vc = [[PackageClassViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        if (indexPath.row == 4) {
+            StudyRecordViewController *vc = [[StudyRecordViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        if (indexPath.row == 5) {
+            MyOrdersViewController *vc = [[MyOrdersViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        if (indexPath.row == 6) {
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"1"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        }
+        if (indexPath.row == 7) {
+            MyCollectViewController *vc = [[MyCollectViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        if (indexPath.row == 8) {
+            MyQueAnsViewController *vc = [[MyQueAnsViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
+    if (indexPath.section == 1) {
+        if (indexPath.row == 0) {
+            BasicInfoViewController *vc = [[BasicInfoViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        if (indexPath.row == 1) {
+            MyHeaderImageViewController *vc = [[MyHeaderImageViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+        if (indexPath.row == 2) {
+            PasswordSettingViewController *vc = [[PasswordSettingViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
+    }
 }
 
 #pragma mark - UITableViewDataSource
