@@ -14,7 +14,11 @@
 
 #define BORDER_COLOR RGB(227, 227, 227)
 
+#define HOST @"http://api.jjw-school.com"
+
+
+
 #ifdef __OBJC__
     #import "ACMacros.h"
-
+    #import "AFNetworking.h"
 #endif

@@ -9,13 +9,21 @@
 #import "ViewController1.h"
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
-
-
+#import "UIImageView+AFNetworking.h"
+#import "MJRefresh.h"
 
 @interface ViewController1 (){
     UIScrollView *myScrollView;//主界面滚动视图
     
     UIScrollView *bixiuScrollView;//必修滚动界面
+    
+    int requestNum;
+    NSArray *adImagesArray;
+    NSArray *newsArray;
+    NSArray *recCoursecArray;
+    NSArray *freeCoursesArray;
+    NSArray *centerAdImagesArray;
+    NSArray *recommendTeacherArray;
 }
 
 @end
@@ -29,11 +37,6 @@
 //    self.jz_navigationBarBackgroundHidden = YES;
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
 //    self.automaticallyAdjustsScrollViewInsets = NO;
-    
-    [self initUI];
-}
-
--(void)initUI{
     
     UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
     
@@ -58,15 +61,60 @@
     [navView addSubview:searchBar];
     self.navigationItem.titleView = navView;
     
-    CGFloat maxY;
     
-    myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
+    
+    myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height- - 49)];
     [self.view addSubview:myScrollView];
+    myScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self loadData];
+        [myScrollView.mj_header endRefreshing];
+    }];
+    
+    [myScrollView.mj_header beginRefreshing];
+    
+    
+}
+
+-(void)loadData{
+    
+    requestNum = 0;
+    [self loadData1];
+    [self loadData2];
+    [self loadData3];
+    [self loadData4];
+    [self loadData5];
+    [self loadData6];
+}
+
+-(void)loadSuccess{
+    DLog(@"%d",requestNum);
+    if (requestNum == 6) {
+        [self initUI];
+    }
+}
+
+-(void)initUI{
+    
+    [myScrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (![obj isKindOfClass:[MJRefreshHeader class]]) {
+            [obj removeFromSuperview];
+        }
+        
+    }];
+    
+    CGFloat maxY;
     
     //广告图片
     CGFloat imageViewHeight = Main_Screen_Width * 296 / 640;
     UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, imageViewHeight)];
-    imageview.image = [UIImage imageNamed:@"1484533496_919.jpg"];
+    
+    if (adImagesArray.count > 0) {
+        NSDictionary *dic = adImagesArray[0];
+        NSString *imageUrl = [dic objectForKey:@"IMAGE_URL"];
+        [imageview setImageWithURL:[NSURL URLWithString:imageUrl]];
+    }
+    
+//    imageview.image = [UIImage imageNamed:@"1484533496_919.jpg"];
     [myScrollView addSubview:imageview];
     
     //必修
@@ -100,28 +148,37 @@
     
     CGFloat cellX = 0;
     CGFloat cellY = 0;
-    for (int i = 0; i < 4; i++) {
-        UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(cellX + 5, cellY +5, cellWidth, cellHeight + 50)];
-        cellView.backgroundColor = [UIColor whiteColor];
-        ViewBorderRadius(cellView, 0, 0.5, BORDER_COLOR);
-        UIImageView *cellImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, CGRectGetWidth(cellView.frame) - 10, CGRectGetHeight(cellView.frame) - 50)];
-        cellImage.image = [UIImage imageNamed:@"1484533496_919.jpg"];
-        [cellView addSubview:cellImage];
-        ViewBorderRadius(cellImage, 5, 0, BORDER_COLOR);
-        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellImage.frame), CGRectGetWidth(cellView.frame) - 10, 46)];
-        cellLabel.font = SYSTEMFONT(13);
-        cellLabel.numberOfLines = 2;
-        cellLabel.text = @"5建议、6妙招，助你笑傲2017高考数学!";
-        [cellView addSubview:cellLabel];
-        [dongtaiContent addSubview:cellView];
-        
-        if ((i+1) % 2 == 0) {
-            cellX = 0;
-            cellY += CGRectGetHeight(cellView.frame) + 5;
-        }else{
-            cellX += CGRectGetWidth(cellView.frame) + 5;
+    if (newsArray.count > 0) {
+        for (int i = 0; i < newsArray.count; i++) {
+            NSDictionary *dic = newsArray[i];
+            NSString *imageUrl = [dic objectForKey:@"IMAGE_URL"];
+            NSString *title = [dic objectForKey:@"TITLE"];
+            
+            UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(cellX + 5, cellY +5, cellWidth, cellHeight + 50)];
+            cellView.backgroundColor = [UIColor whiteColor];
+            ViewBorderRadius(cellView, 0, 0.5, BORDER_COLOR);
+            UIImageView *cellImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, CGRectGetWidth(cellView.frame) - 10, CGRectGetHeight(cellView.frame) - 50)];
+//            cellImage.image = [UIImage imageNamed:@"1484533496_919.jpg"];
+            [cellImage setImageWithURL:[NSURL URLWithString:imageUrl]];
+            [cellView addSubview:cellImage];
+            ViewBorderRadius(cellImage, 5, 0, BORDER_COLOR);
+            UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellImage.frame), CGRectGetWidth(cellView.frame) - 10, 46)];
+            cellLabel.font = SYSTEMFONT(13);
+            cellLabel.numberOfLines = 2;
+//            cellLabel.text = @"5建议、6妙招，助你笑傲2017高考数学!";
+            cellLabel.text = title;
+            [cellView addSubview:cellLabel];
+            [dongtaiContent addSubview:cellView];
+            
+            if ((i+1) % 2 == 0) {
+                cellX = 0;
+                cellY += CGRectGetHeight(cellView.frame) + 5;
+            }else{
+                cellX += CGRectGetWidth(cellView.frame) + 5;
+            }
         }
     }
+    
 
     UIButton *moreBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [moreBtn setFrame:CGRectMake(5, CGRectGetHeight(zxdtView.frame) - 5 - 38, Main_Screen_Width - 10, 38)];
@@ -157,35 +214,46 @@
     
     cellX = 0;
     cellY = 0;
-    for (int i = 0; i < 4; i++) {
-        UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(cellX + 5, cellY +5, cellWidth, cellHeight + 50 + 20)];
-        cellView.backgroundColor = [UIColor whiteColor];
-        ViewBorderRadius(cellView, 0, 0.5, BORDER_COLOR);
-        UIImageView *cellImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, CGRectGetWidth(cellView.frame) - 10, CGRectGetHeight(cellView.frame) - 50 - 20)];
-        cellImage.image = [UIImage imageNamed:@"1484533496_919.jpg"];
-        [cellView addSubview:cellImage];
-        
-        ViewBorderRadius(cellImage, 5, 0, BORDER_COLOR);
-        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellImage.frame), CGRectGetWidth(cellView.frame) - 10, 46)];
-        cellLabel.font = SYSTEMFONT(13);
-        cellLabel.numberOfLines = 2;
-        cellLabel.text = @"5建议、6妙招，助你笑傲2017高考数学!";
-        [cellView addSubview:cellLabel];
-        
-        UILabel *clickLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellLabel.frame), CGRectGetWidth(cellView.frame) - 10, 20)];
-        clickLabel.font = SYSTEMFONT(11);
-        clickLabel.textColor = [UIColor lightGrayColor];
-        clickLabel.text = @"江艳  点击44次";
-        [cellView addSubview:clickLabel];
-        
-        [content addSubview:cellView];
-        if ((i+1) % 2 == 0) {
-            cellX = 0;
-            cellY += CGRectGetHeight(cellView.frame) + 5;
-        }else{
-            cellX += CGRectGetWidth(cellView.frame) + 5;
+    if (recCoursecArray.count > 0) {
+        for (int i = 0; i < recCoursecArray.count; i++) {
+            NSDictionary *dic = recCoursecArray[i];
+            NSString *logo = [dic objectForKey:@"LOGO"];
+            NSString *courseName = [dic objectForKey:@"COURSE_NAME"];
+            NSString *pageViewcount = [dic objectForKey:@"PAGE_VIEWCOUNT"];
+            NSString *teacherName = [dic objectForKey:@"TEACHER_NAME"];
+            
+            UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(cellX + 5, cellY +5, cellWidth, cellHeight + 50 + 20)];
+            cellView.backgroundColor = [UIColor whiteColor];
+            ViewBorderRadius(cellView, 0, 0.5, BORDER_COLOR);
+            UIImageView *cellImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, CGRectGetWidth(cellView.frame) - 10, CGRectGetHeight(cellView.frame) - 50 - 20)];
+//            cellImage.image = [UIImage imageNamed:@"1484533496_919.jpg"];
+            [cellImage setImageWithURL:[NSURL URLWithString:logo]];
+            [cellView addSubview:cellImage];
+            
+            ViewBorderRadius(cellImage, 5, 0, BORDER_COLOR);
+            UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellImage.frame), CGRectGetWidth(cellView.frame) - 10, 46)];
+            cellLabel.font = SYSTEMFONT(13);
+            cellLabel.numberOfLines = 2;
+//            cellLabel.text = @"5建议、6妙招，助你笑傲2017高考数学!";
+            cellLabel.text = courseName;
+            [cellView addSubview:cellLabel];
+            
+            UILabel *clickLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellLabel.frame), CGRectGetWidth(cellView.frame) - 10, 20)];
+            clickLabel.font = SYSTEMFONT(11);
+            clickLabel.textColor = [UIColor lightGrayColor];
+            clickLabel.text = [NSString stringWithFormat:@"%@  点击%@次",teacherName,pageViewcount];
+            [cellView addSubview:clickLabel];
+            
+            [content addSubview:cellView];
+            if ((i+1) % 2 == 0) {
+                cellX = 0;
+                cellY += CGRectGetHeight(cellView.frame) + 5;
+            }else{
+                cellX += CGRectGetWidth(cellView.frame) + 5;
+            }
         }
     }
+    
     
     moreBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [moreBtn setFrame:CGRectMake(5, CGRectGetHeight(jptjView.frame) - 5 - 38, Main_Screen_Width - 10, 38)];
@@ -220,35 +288,48 @@
     
     cellX = 0;
     cellY = 0;
-    for (int i = 0; i < 4; i++) {
-        UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(cellX + 5, cellY +5, cellWidth, cellHeight + 50 + 20)];
-        cellView.backgroundColor = [UIColor whiteColor];
-        ViewBorderRadius(cellView, 0, 0.5, BORDER_COLOR);
-        UIImageView *cellImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, CGRectGetWidth(cellView.frame) - 10, CGRectGetHeight(cellView.frame) - 50 - 20)];
-        cellImage.image = [UIImage imageNamed:@"1484533496_919.jpg"];
-        [cellView addSubview:cellImage];
-        
-        ViewBorderRadius(cellImage, 5, 0, BORDER_COLOR);
-        UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellImage.frame), CGRectGetWidth(cellView.frame) - 10, 46)];
-        cellLabel.font = SYSTEMFONT(13);
-        cellLabel.numberOfLines = 2;
-        cellLabel.text = @"5建议、6妙招，助你笑傲2017高考数学!";
-        [cellView addSubview:cellLabel];
-        
-        UILabel *clickLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellLabel.frame), CGRectGetWidth(cellView.frame) - 10, 20)];
-        clickLabel.font = SYSTEMFONT(11);
-        clickLabel.textColor = [UIColor lightGrayColor];
-        clickLabel.text = @"江艳  点击44次";
-        [cellView addSubview:clickLabel];
-        
-        [content addSubview:cellView];
-        if ((i+1) % 2 == 0) {
-            cellX = 0;
-            cellY += CGRectGetHeight(cellView.frame) + 5;
-        }else{
-            cellX += CGRectGetWidth(cellView.frame) + 5;
+    if (freeCoursesArray.count > 0) {
+        for (int i = 0; i < freeCoursesArray.count; i++) {
+            NSDictionary *dic = freeCoursesArray[i];
+            NSString *logo = [dic objectForKey:@"LOGO"];
+            NSString *courseName = [dic objectForKey:@"COURSE_NAME"];
+            NSString *pageViewcount = [dic objectForKey:@"PAGE_VIEWCOUNT"];
+            NSString *teacherName = [dic objectForKey:@"TEACHER_NAME"];
+            
+            UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(cellX + 5, cellY +5, cellWidth, cellHeight + 50 + 20)];
+            cellView.backgroundColor = [UIColor whiteColor];
+            ViewBorderRadius(cellView, 0, 0.5, BORDER_COLOR);
+            UIImageView *cellImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 5, CGRectGetWidth(cellView.frame) - 10, CGRectGetHeight(cellView.frame) - 50 - 20)];
+//            cellImage.image = [UIImage imageNamed:@"1484533496_919.jpg"];
+            [cellImage setImageWithURL:[NSURL URLWithString:logo]];
+            [cellView addSubview:cellImage];
+            
+            ViewBorderRadius(cellImage, 5, 0, BORDER_COLOR);
+            UILabel *cellLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellImage.frame), CGRectGetWidth(cellView.frame) - 10, 46)];
+            cellLabel.font = SYSTEMFONT(13);
+            cellLabel.numberOfLines = 2;
+//            cellLabel.text = @"5建议、6妙招，助你笑傲2017高考数学!";
+            cellLabel.text = courseName;
+            [cellView addSubview:cellLabel];
+            
+            UILabel *clickLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellLabel.frame), CGRectGetWidth(cellView.frame) - 10, 20)];
+            clickLabel.font = SYSTEMFONT(11);
+            clickLabel.textColor = [UIColor lightGrayColor];
+//            clickLabel.text = @"江艳  点击44次";
+            clickLabel.text = [NSString stringWithFormat:@"%@  点击%@次",teacherName,pageViewcount];
+            [cellView addSubview:clickLabel];
+            
+            [content addSubview:cellView];
+            if ((i+1) % 2 == 0) {
+                cellX = 0;
+                cellY += CGRectGetHeight(cellView.frame) + 5;
+            }else{
+                cellX += CGRectGetWidth(cellView.frame) + 5;
+            }
         }
     }
+    
+    
     
     moreBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [moreBtn setFrame:CGRectMake(5, CGRectGetHeight(jptjView.frame) - 5 - 38, Main_Screen_Width - 10, 38)];
@@ -265,9 +346,17 @@
     [myScrollView addSubview:line];
     
     //图片
-    UIImage *image = [UIImage imageNamed:@"1484533489_1588.jpg"];
-    UIImageView *imageview2 = [[UIImageView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, image.size.height/image.size.width*Main_Screen_Width)];
-    imageview2.image = image;
+    
+//    CGFloat imageViewHeight = Main_Screen_Width * 296 / 640;
+//    UIImage *image = [UIImage imageNamed:@"1484533489_1588.jpg"];
+    UIImageView *imageview2 = [[UIImageView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, imageViewHeight)];
+//    imageview2.image = image;
+    if (centerAdImagesArray.count > 0) {
+        NSDictionary *dic = centerAdImagesArray[0];
+        NSString *imageUrl = [dic objectForKey:@"IMAGE_URL"];
+        [imageview2 setImageWithURL:[NSURL URLWithString:imageUrl]];
+    }
+    
     [myScrollView addSubview:imageview2];
     
     line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(imageview2.frame), Main_Screen_Width, 0.5)];
@@ -302,67 +391,80 @@
     
     cellX = 0;
     cellY = 0;
-    for (int i = 0; i < 4; i++) {
-        UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(cellX + 5, cellY +5, cellWidth, cellHeight)];
-        cellView.backgroundColor = [UIColor whiteColor];
-        ViewBorderRadius(cellView, 0, 0.5, BORDER_COLOR);
-        
-        UILabel *kLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 60, 26)];
-        
-        kLabel.font = SYSTEMFONT(12);
-        kLabel.textColor = [UIColor whiteColor];
-        if (i == 1 || i ==2) {
-            kLabel.backgroundColor = RGB(39, 68, 179);
-            kLabel.text = @"高中物理";
-        }
-        if (i == 0) {
-            kLabel.backgroundColor = RGB(242, 120, 120);
-            kLabel.text = @"高中";
-        }
-        if (i == 3) {
-            kLabel.backgroundColor = RGB(164, 114, 41);
-            kLabel.text = @"高中生物";
-        }
-        kLabel.textAlignment = NSTextAlignmentCenter;
-        [cellView addSubview:kLabel];
-        UIRectCorner corners = UIRectCornerTopRight | UIRectCornerBottomRight;
-        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:kLabel.bounds
-                                                       byRoundingCorners:corners
-                                                             cornerRadii:CGSizeMake(5, 5)];
-        CAShapeLayer *maskLayer = [CAShapeLayer layer];
-        maskLayer.frame = kLabel.bounds;
-        maskLayer.path = maskPath.CGPath;
-        kLabel.layer.mask = maskLayer;
-        //头像
-        CGFloat cellImageWidth = CGRectGetWidth(cellView.frame) - 10;
-        UIImageView *cellImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(kLabel.frame) + 5,cellImageWidth , cellImageWidth)];
-        ViewBorderRadius(cellImage, cellImageWidth/2, 0, [UIColor whiteColor]);
-        cellImage.image = [UIImage imageNamed:@"1484533489_1588.jpg"];
-        [cellView addSubview:cellImage];
-        //姓名
-        UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellImage.frame) + 5, cellImageWidth, 20)];
-        nameLabel.text = @"陈治勇";
-        nameLabel.textAlignment = NSTextAlignmentCenter;
-        [cellView addSubview:nameLabel];
-        
-        line = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(nameLabel.frame) + 5, cellImageWidth, 0.5)];
-        line.backgroundColor = BORDER_COLOR;
-        [cellView addSubview:line];
-        
-        UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(line.frame) + 5, cellImageWidth, CGRectGetHeight(cellView.frame) - CGRectGetMaxY(line.frame) - 5)];
-        bottomLabel.text = @"7节微课 | 338人学习";
-        bottomLabel.font = SYSTEMFONT(11);
-        bottomLabel.textColor = [UIColor lightGrayColor];
-        [cellView addSubview:bottomLabel];
-        
-        [content addSubview:cellView];
-        if ((i+1) % 2 == 0) {
-            cellX = 0;
-            cellY += CGRectGetHeight(cellView.frame) + 5;
-        }else{
-            cellX += CGRectGetWidth(cellView.frame) + 5;
+    if (recommendTeacherArray.count > 0) {
+        for (int i = 0; i < recommendTeacherArray.count; i++) {
+            NSDictionary *dic = recommendTeacherArray[i];
+            NSString *type = [dic objectForKey:@"TYPE"];
+//            NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+            NSString *teacherName = [dic objectForKey:@"TEACHER_NAME"];
+            NSString *img = [dic objectForKey:@"IMG"];
+            NSString *studyNum = [dic objectForKey:@"STUDY_NUM"];
+            NSString *courseNum = [dic objectForKey:@"COURSE_NUM"];
+            
+            UIView *cellView = [[UIView alloc] initWithFrame:CGRectMake(cellX + 5, cellY +5, cellWidth, cellHeight)];
+            cellView.backgroundColor = [UIColor whiteColor];
+            ViewBorderRadius(cellView, 0, 0.5, BORDER_COLOR);
+            
+            UILabel *kLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, 60, 26)];
+            
+            kLabel.font = SYSTEMFONT(12);
+            kLabel.textColor = [UIColor whiteColor];
+            kLabel.text = type;
+            if (i == 1 || i ==2) {
+                kLabel.backgroundColor = RGB(39, 68, 179);
+                
+            }
+            if (i == 0) {
+                kLabel.backgroundColor = RGB(242, 120, 120);
+                
+            }
+            if (i == 3) {
+                kLabel.backgroundColor = RGB(164, 114, 41);
+                
+            }
+            kLabel.textAlignment = NSTextAlignmentCenter;
+            [cellView addSubview:kLabel];
+            UIRectCorner corners = UIRectCornerTopRight | UIRectCornerBottomRight;
+            UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:kLabel.bounds
+                                                           byRoundingCorners:corners
+                                                                 cornerRadii:CGSizeMake(5, 5)];
+            CAShapeLayer *maskLayer = [CAShapeLayer layer];
+            maskLayer.frame = kLabel.bounds;
+            maskLayer.path = maskPath.CGPath;
+            kLabel.layer.mask = maskLayer;
+            //头像
+            CGFloat cellImageWidth = CGRectGetWidth(cellView.frame) - 10;
+            UIImageView *cellImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(kLabel.frame) + 5,cellImageWidth , cellImageWidth)];
+            ViewBorderRadius(cellImage, cellImageWidth/2, 0, [UIColor whiteColor]);
+//            cellImage.image = [UIImage imageNamed:@"1484533489_1588.jpg"];
+            [cellImage setImageWithURL:[NSURL URLWithString:img]];
+            [cellView addSubview:cellImage];
+            //姓名
+            UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(cellImage.frame) + 5, cellImageWidth, 20)];
+            nameLabel.text = teacherName;
+            nameLabel.textAlignment = NSTextAlignmentCenter;
+            [cellView addSubview:nameLabel];
+            
+            line = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(nameLabel.frame) + 5, cellImageWidth, 0.5)];
+            line.backgroundColor = BORDER_COLOR;
+            [cellView addSubview:line];
+            
+            UILabel *bottomLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(line.frame) + 5, cellImageWidth, CGRectGetHeight(cellView.frame) - CGRectGetMaxY(line.frame) - 5)];
+            bottomLabel.text = [NSString stringWithFormat:@"%@节微课 | %@人学习",courseNum,studyNum];
+            bottomLabel.font = SYSTEMFONT(11);
+            bottomLabel.textColor = [UIColor lightGrayColor];
+            [cellView addSubview:bottomLabel];
+            
+            [content addSubview:cellView];
+            if ((i+1) % 2 == 0) {
+                cellX = 0;
+                cellY += CGRectGetHeight(cellView.frame) + 5;
+            }else{
+                cellX += CGRectGetWidth(cellView.frame) + 5;
+            }
         }
     }
+    
     
     moreBtn = [UIButton buttonWithType:UIButtonTypeSystem];
     [moreBtn setFrame:CGRectMake(5, CGRectGetHeight(mstjView.frame) - 5 - 38, Main_Screen_Width - 10, 38)];
@@ -424,6 +526,151 @@
 -(void)bixiuClick:(UIButton *)btn{
     NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"1"}];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
+
+//加载首页顶部幻灯片
+-(void)loadData1{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_top_ad_img"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            requestNum++;
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSArray *array = [result objectForKey:@"data_list"];
+            adImagesArray = [NSArray arrayWithArray:array];
+            [self loadSuccess];
+//            DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+//加载首页最新动态
+-(void)loadData2{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_news"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            requestNum++;
+            NSDictionary *result = [dic objectForKey:@"result"];
+            newsArray = [result objectForKey:@"data_list"];
+            [self loadSuccess];
+//            DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+//加载首页精品推荐
+-(void)loadData3{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_rec_courses"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            requestNum++;
+            NSDictionary *result = [dic objectForKey:@"result"];
+            recCoursecArray = [result objectForKey:@"data_list"];
+            [self loadSuccess];
+            DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+//加载首页免费体验
+-(void)loadData4{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_free_courses"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            requestNum++;
+            NSDictionary *result = [dic objectForKey:@"result"];
+            freeCoursesArray = [result objectForKey:@"data_list"];
+            [self loadSuccess];
+//            DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+//加载首页中间广告图
+-(void)loadData5{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_center_ad_img"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            requestNum++;
+            NSDictionary *result = [dic objectForKey:@"result"];
+            centerAdImagesArray = [result objectForKey:@"data_list"];
+            [self loadSuccess];
+//            DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+//加载首页名师推荐
+-(void)loadData6{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_recommend_teacher"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            requestNum++;
+            NSDictionary *result = [dic objectForKey:@"result"];
+            recommendTeacherArray = [result objectForKey:@"data_list"];
+            [self loadSuccess];
+            DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
