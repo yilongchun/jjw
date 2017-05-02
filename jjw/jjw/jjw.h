@@ -21,4 +21,5 @@
 #ifdef __OBJC__
     #import "ACMacros.h"
     #import "AFNetworking.h"
+    #import "UIViewController+HUD.h"
 #endif

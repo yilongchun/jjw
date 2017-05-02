@@ -10,11 +10,39 @@
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
 
-@interface ViewController3 ()
+@interface ViewController3 ()<UIPickerViewDelegate,UIPickerViewDataSource>
 
 @end
 
-@implementation ViewController3
+@implementation ViewController3{
+    UIView *maskView;
+    UIView *popView;
+    UIPickerView *picker1;
+    UIPickerView *picker2;
+    UIPickerView *picker3;
+    int requestNum;
+    
+    UIButton *btn_1;
+    UIButton *btn_2;
+    UIButton *btn_3;
+    
+    NSArray *gradeArray;
+    NSArray *subjectArray;
+    NSArray *chapterArray;
+    NSArray *teacherArray;
+    
+    UITextView *textView;
+    
+    NSMutableArray *selectedArray;
+    
+    NSInteger gradeSelect;
+    NSInteger subjectSelect;
+    NSInteger chapterSelect;
+    UIView *selectedTeacherView;
+    UIView *teacherView;
+    UIButton *dianboBtn;
+    UIView *contentView;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -22,7 +50,12 @@
     
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     self.view.backgroundColor = RGB(245, 245, 245);
-    [self initUI];
+    
+    [self showHudInView:self.view];
+    
+    [self loadData1];
+    [self loadData2];
+    
 }
 
 -(void)initUI{
@@ -49,7 +82,7 @@
     [_myScrollView addSubview:topLabel];
     
     CGFloat maxY = 0;
-    UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(topLabel.frame) + 10, Main_Screen_Width - 20, 0)];
+    contentView = [[UIView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(topLabel.frame) + 10, Main_Screen_Width - 20, 0)];
     contentView.backgroundColor = [UIColor whiteColor];
     ViewBorderRadius(contentView, 0, 1, RGB(223, 223, 223));
     
@@ -66,10 +99,14 @@
     [label1 sizeToFit];
     [contentView addSubview:label1];
     
-    UIButton *btn_1 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label1.frame) + 15, CGRectGetMinY(label1.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label1.frame) - 15 - 30, CGRectGetHeight(label1.frame) + 16)];
-    [btn_1 setTitle:@"高中" forState:UIControlStateNormal];
+    btn_1 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label1.frame) + 15, CGRectGetMinY(label1.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label1.frame) - 15 - 30, CGRectGetHeight(label1.frame) + 16)];
+    NSDictionary *dic = gradeArray[0];
+    NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+    [btn_1 setTitle:subjectName forState:UIControlStateNormal];
     [btn_1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn_1.titleLabel.font = SYSTEMFONT(15);
+    btn_1.tag = 1;
+    [btn_1 addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     ViewBorderRadius(btn_1, 5, 1, BORDER_COLOR);
     [contentView addSubview:btn_1];
     
@@ -79,10 +116,14 @@
     [label2 sizeToFit];
     [contentView addSubview:label2];
     
-    UIButton *btn_2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label2.frame) + 15, CGRectGetMinY(label2.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label2.frame) - 15 - 30, CGRectGetHeight(label2.frame) + 16)];
-    [btn_2 setTitle:@"数学" forState:UIControlStateNormal];
+    btn_2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label2.frame) + 15, CGRectGetMinY(label2.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label2.frame) - 15 - 30, CGRectGetHeight(label2.frame) + 16)];
+    NSDictionary *dic2 = subjectArray[0];
+    NSString *subjectName2 = [dic2 objectForKey:@"SUBJECT_NAME"];
+    [btn_2 setTitle:subjectName2 forState:UIControlStateNormal];
     [btn_2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn_2.titleLabel.font = SYSTEMFONT(15);
+    btn_2.tag = 2;
+    [btn_2 addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     ViewBorderRadius(btn_2, 5, 1, BORDER_COLOR);
     [contentView addSubview:btn_2];
     
@@ -92,10 +133,12 @@
     [label3 sizeToFit];
     [contentView addSubview:label3];
     
-    UIButton *btn_3 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label3.frame) + 15, CGRectGetMinY(label3.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label3.frame) - 15 - 30, CGRectGetHeight(label3.frame) + 16)];
+    btn_3 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label3.frame) + 15, CGRectGetMinY(label3.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label3.frame) - 15 - 30, CGRectGetHeight(label3.frame) + 16)];
     [btn_3 setTitle:@"全部" forState:UIControlStateNormal];
     [btn_3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn_3.titleLabel.font = SYSTEMFONT(15);
+    btn_3.tag = 3;
+    [btn_3 addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     ViewBorderRadius(btn_3, 5, 1, BORDER_COLOR);
     [contentView addSubview:btn_3];
     
@@ -105,7 +148,7 @@
     [label4 sizeToFit];
     [contentView addSubview:label4];
     
-    UITextView *textView = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label4.frame) + 15, CGRectGetMinY(label4.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label4.frame) - 15 - 30, 100)];
+    textView = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label4.frame) + 15, CGRectGetMinY(label4.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label4.frame) - 15 - 30, 100)];
     ViewBorderRadius(textView, 5, 1, BORDER_COLOR);
     [contentView addSubview:textView];
     
@@ -115,37 +158,40 @@
     [label5 sizeToFit];
     [contentView addSubview:label5];
     
-    UILabel *teacherLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label5.frame) + 15, CGRectGetMinY(label5.frame), 0, 0)];
-    teacherLabel.text = @"请选择标签，最多选3个标签哦~";
-    teacherLabel.font = SYSTEMFONT(15);
-    teacherLabel.textColor = RGB(170, 170, 170);
-    [teacherLabel sizeToFit];
-    [contentView addSubview:teacherLabel];
+    selectedTeacherView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label5.frame) + 10, CGRectGetMinY(label5.frame), Main_Screen_Width - CGRectGetMaxX(label5.frame) - 20, CGRectGetHeight(label5.frame))];
+//    selectedTeacherView.backgroundColor = [UIColor grayColor];
+    [contentView addSubview:selectedTeacherView];
     
-    CGFloat width = 80;
-    CGFloat height = 24;
+    [self reloadSelectedTeacherView];
     
-    CGFloat x = 0,y = CGRectGetMaxY(label5.frame) + 15;
-    for (int i = 0; i < 11; i++) {
-        
-        x = 30 + (width + 15) * (i%3);
-        
-        if (i!= 0 && i%3 == 0) {
-            x = 30;
-            y += 24 + 10;
-        }
-        
-        UIButton *tbtn1 = [[UIButton alloc] initWithFrame:CGRectMake(x, y, width, height)];
-        [tbtn1 setBackgroundImage:[UIImage imageWithColor:RGB(225, 225, 225) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
-        [tbtn1 setTitle:@"余信欢" forState:UIControlStateNormal];
-        [tbtn1 setTitleColor:RGB(102, 102, 102) forState:UIControlStateNormal];
-        tbtn1.titleLabel.font = SYSTEMFONT(14);
-        [contentView addSubview:tbtn1];
-        
-        maxY = CGRectGetMaxY(tbtn1.frame);
-    }
+//    CGFloat width = 80;
+//    CGFloat height = 24;
     
-    UIButton *dianboBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, maxY + 20, CGRectGetWidth(contentView.frame) - 60, 35)];
+    teacherView = [[UIView alloc] init];
+//    CGFloat x = 0,y = 0;
+//    for (int i = 0; i < 11; i++) {
+//        
+//        x = 30 + (width + 15) * (i%3);
+//        
+//        if (i!= 0 && i%3 == 0) {
+//            x = 30;
+//            y += 24 + 10;
+//        }
+//        
+//        UIButton *tbtn1 = [[UIButton alloc] initWithFrame:CGRectMake(x, y, width, height)];
+//        [tbtn1 setBackgroundImage:[UIImage imageWithColor:RGB(225, 225, 225) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+//        [tbtn1 setTitle:@"余信欢" forState:UIControlStateNormal];
+//        [tbtn1 setTitleColor:RGB(102, 102, 102) forState:UIControlStateNormal];
+//        tbtn1.titleLabel.font = SYSTEMFONT(14);
+//        [teacherView addSubview:tbtn1];
+//        
+//        maxY = CGRectGetMaxY(tbtn1.frame);
+//    }
+    
+    [teacherView setFrame:CGRectMake(0, CGRectGetMaxY(label5.frame) + 20, Main_Screen_Width, 0)];
+    [contentView addSubview:teacherView];
+    
+    dianboBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(teacherView.frame) + 20, CGRectGetWidth(contentView.frame) - 60, 35)];
     [dianboBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [dianboBtn setTitle:@"我要点播" forState:UIControlStateNormal];
     dianboBtn.titleLabel.font = BOLDSYSTEMFONT(15);
@@ -165,8 +211,328 @@
     
 }
 
+-(void)cancel{
+    [self hidePopView];
+}
+
+-(void)ok{
+    
+    [self hidePopView];
+}
+
+-(void)hidePopView{
+    
+    [UIView animateWithDuration:0.15 animations:^{
+        if (maskView) {
+            maskView.alpha = 0;
+        }
+        if (popView) {
+            [popView setFrame:CGRectMake(15, Main_Screen_Height, Main_Screen_Width-30, 300)];
+        }
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [maskView removeFromSuperview];
+            [popView removeFromSuperview];
+//            maskView = nil;
+//            popView = nil;
+        }
+    }];
+}
+
+-(void)btnClick:(UIButton *)sender{
+    
+    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
+    maskView.backgroundColor = RGBA(0, 0, 0, 0.3);
+    maskView.alpha = 0;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidePopView)];
+    [maskView addGestureRecognizer:tap];
+    [self.view.window addSubview:maskView];
+    
+    popView = [[UIView alloc] initWithFrame:CGRectMake(15, Main_Screen_Height, Main_Screen_Width-30, 300)];
+    popView.backgroundColor = [UIColor whiteColor];
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [cancelBtn setFrame:CGRectMake(0, 0, 60, 50)];
+    cancelBtn.tag = 10;
+    [cancelBtn addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [popView addSubview:cancelBtn];
+    UIButton *okBtn =  [UIButton buttonWithType:UIButtonTypeSystem];
+    [okBtn setFrame:CGRectMake(Main_Screen_Width - 30 - 60, 0, 60, 50)];
+    okBtn.tag = 20;
+    [okBtn addTarget:self action:@selector(ok) forControlEvents:UIControlEventTouchUpInside];
+    [okBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [popView addSubview:okBtn];
+    ViewRadius(popView, 10);
+    [self.view.window addSubview:popView];
+    
+    switch (sender.tag) {
+        case 1:{
+            if (picker1 == nil) {
+                picker1 = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, Main_Screen_Width-30, 250)];
+                picker1.dataSource = self;
+                picker1.delegate = self;
+                picker1.tag = 1;
+            }
+            [popView addSubview:picker1];
+            [picker1 selectRow:gradeSelect inComponent:0 animated:NO];
+            [UIView animateWithDuration:0.15 animations:^{
+                maskView.alpha = 1;
+                [popView setFrame:CGRectMake(15, Main_Screen_Height - 300 -15, Main_Screen_Width-30, 300)];
+            }];
+        }
+            break;
+        case 2:{
+            if (picker2 == nil) {
+                picker2 = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, Main_Screen_Width-30, 250)];
+                picker2.dataSource = self;
+                picker2.delegate = self;
+                picker2.tag = 2;
+            }
+            [popView addSubview:picker2];
+            [picker2 selectRow:subjectSelect inComponent:0 animated:NO];
+            [UIView animateWithDuration:0.15 animations:^{
+                maskView.alpha = 1;
+                [popView setFrame:CGRectMake(15, Main_Screen_Height - 300 -15, Main_Screen_Width-30, 300)];
+            }];
+        }
+            break;
+            
+        case 3:{
+            if (picker3 == nil) {
+                picker3 = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, Main_Screen_Width-30, 250)];
+                picker3.dataSource = self;
+                picker3.delegate = self;
+                picker3.tag = 3;
+            }
+            
+            [popView addSubview:picker3];
+            [picker3 selectRow:chapterSelect inComponent:0 animated:NO];
+            [UIView animateWithDuration:0.15 animations:^{
+                maskView.alpha = 1;
+                [popView setFrame:CGRectMake(15, Main_Screen_Height - 300 -15, Main_Screen_Width-30, 300)];
+            }];
+            
+        }
+            break;
+        default:
+            break;
+    }
+    
+}
+
+-(void)reloadSelectedTeacherView{
+    [[selectedTeacherView subviews] enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
+    
+    if (selectedArray && selectedArray.count > 0) {
+        CGFloat x = 0;
+        for (int i = 0; i < selectedArray.count; i++) {
+            UILabel *teacherLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, 0, 0, 0)];
+            teacherLabel.text = [selectedArray[i] objectForKey:@"NAME"];
+            teacherLabel.font = SYSTEMFONT(15);
+            teacherLabel.textColor = RGB(51, 51, 51);
+            teacherLabel.userInteractionEnabled = YES;
+            teacherLabel.tag = i;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(delSelectedTeacher:)];
+            [teacherLabel addGestureRecognizer:tap];
+            [teacherLabel sizeToFit];
+            [selectedTeacherView addSubview:teacherLabel];
+            x = CGRectGetMaxX(teacherLabel.frame) + 10;
+        }
+    }else{
+        UILabel *teacherLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        teacherLabel.text = @"请选择标签，最多选3个标签哦~";
+        teacherLabel.font = SYSTEMFONT(15);
+        teacherLabel.textColor = RGB(170, 170, 170);
+        [teacherLabel sizeToFit];
+        [selectedTeacherView addSubview:teacherLabel];
+    }
+   
+    
+}
+
+-(void)selectedTeacher:(UIButton *)btn{
+    if (selectedArray == nil) {
+        selectedArray = [NSMutableArray array];
+    }
+    NSInteger tag = btn.tag;
+    NSDictionary *teacherInfo = [teacherArray objectAtIndex:tag];
+    if (![selectedArray containsObject:teacherInfo] && selectedArray.count < 3) {
+        [selectedArray addObject:teacherInfo];
+    }
+    [self reloadSelectedTeacherView];
+}
+
+-(void)delSelectedTeacher:(UIGestureRecognizer *)recog{
+    [selectedArray removeObjectAtIndex:recog.view.tag];
+    [self reloadSelectedTeacherView];
+}
+
 -(void)dianbo{
     
+    DLog(@"%@",gradeArray[gradeSelect]);
+    DLog(@"%@",subjectArray[subjectSelect]);
+    DLog(@"%@",chapterArray[chapterSelect]);
+    DLog(@"%@",textView.text);
+    DLog(@"%@",selectedArray);
+    
+    
+}
+
+//加载学段
+-(void)loadData1{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/question/get_grade"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            gradeArray = [result objectForKey:@"data_list"];
+            requestNum++;
+            [self requestSuccess];
+//                        DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+//加载学科
+-(void)loadData2{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/question/get_subject"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            subjectArray = [result objectForKey:@"data_list"];
+            requestNum++;
+            [self requestSuccess];
+//            DLog(@"%@",responseObject);
+            [self loadData3:0];
+            [self loadData4:0];
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+//加载学科下的章节
+-(void)loadData3:(NSInteger)i{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/question/get_chapter"];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    NSDictionary *dic = [subjectArray objectAtIndex:i];
+    NSString *subjectId = [dic objectForKey:@"SUBJECT_ID"];
+    [param setObject:subjectId forKey:@"subject_id"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            
+            NSMutableDictionary *firstDic = [NSMutableDictionary dictionary];
+            [firstDic setObject:@"0" forKey:@"SUBJECT_ID"];
+            [firstDic setObject:@"全部" forKey:@"SUBJECT_NAME"];
+            
+            NSMutableArray *arr = [NSMutableArray arrayWithObject:firstDic];
+            [arr addObjectsFromArray:[result objectForKey:@"data_list"]];
+            
+            chapterArray = arr;
+            if (picker3) {
+                [picker3 reloadAllComponents];
+            }
+            DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+//加载学科下面的老师
+-(void)loadData4:(NSInteger)i{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/question/get_teacher"];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    NSDictionary *dic = [subjectArray objectAtIndex:i];
+    NSString *subjectId = [dic objectForKey:@"SUBJECT_ID"];
+    [param setObject:subjectId forKey:@"subject_id"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            teacherArray= [result objectForKey:@"data_list"];
+            [selectedArray removeAllObjects];
+            [self reloadSelectedTeacherView];
+            [teacherView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [obj removeFromSuperview];
+            }];
+            CGFloat width = 80;
+            CGFloat height = 24;
+            CGFloat x = 0,y = 0;
+            for (int i = 0; i < teacherArray.count; i++) {
+                
+                x = 30 + (width + 15) * (i%3);
+                
+                if (i!= 0 && i%3 == 0) {
+                    x = 30;
+                    y += 24 + 10;
+                }
+                
+                UIButton *tbtn1 = [[UIButton alloc] initWithFrame:CGRectMake(x, y, width, height)];
+                [tbtn1 setBackgroundImage:[UIImage imageWithColor:RGB(225, 225, 225) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+                tbtn1.tag = i;
+                [tbtn1 addTarget:self action:@selector(selectedTeacher:) forControlEvents:UIControlEventTouchUpInside];
+                [tbtn1 setTitle:[teacherArray[i] objectForKey:@"NAME"] forState:UIControlStateNormal];
+                [tbtn1 setTitleColor:RGB(102, 102, 102) forState:UIControlStateNormal];
+                tbtn1.titleLabel.font = SYSTEMFONT(14);
+                [teacherView addSubview:tbtn1];
+            }
+            [teacherView setFrame:CGRectMake(0, teacherView.frame.origin.y, Main_Screen_Width, y+24 + 20)];
+            CGRect frame = dianboBtn.frame;
+            frame.origin.y = CGRectGetMaxY(teacherView.frame) + 10;
+            [dianboBtn setFrame:frame];
+            
+            CGRect frame2 = contentView.frame;
+            frame2.size.height = CGRectGetMaxY(dianboBtn.frame) + 30;
+            contentView.frame = frame2;
+            [_myScrollView setContentSize:CGSizeMake(Main_Screen_Width, CGRectGetMaxY(contentView.frame) + 30)];
+            DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+-(void)requestSuccess{
+    if (requestNum == 2) {
+        [self hideHud];
+        [self initUI];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -183,5 +549,68 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - UIPickerViewDelegate
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    if (pickerView.tag == 1) {
+        gradeSelect = row;
+        NSDictionary *dic = gradeArray[gradeSelect];
+        NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+        [btn_1 setTitle:subjectName forState:UIControlStateNormal];
+    }else if (pickerView.tag == 2){
+        subjectSelect = row;
+        NSDictionary *dic = subjectArray[subjectSelect];
+        NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+        [btn_2 setTitle:subjectName forState:UIControlStateNormal];
+        
+        chapterSelect = 0;
+        [btn_3 setTitle:@"全部" forState:UIControlStateNormal];
+        [self loadData3:subjectSelect];
+        
+        [self loadData4:subjectSelect];
+    }else if (pickerView.tag == 3){
+        chapterSelect = row;
+        NSDictionary *dic = chapterArray[chapterSelect];
+        NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+        [btn_3 setTitle:subjectName forState:UIControlStateNormal];
+        
+    }
+}
+
+- (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    if (pickerView.tag == 1) {
+        NSDictionary *dic = gradeArray[row];
+        NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+        return subjectName;
+    }else if (pickerView.tag == 2){
+        NSDictionary *dic = subjectArray[row];
+        NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+        return subjectName;
+    }else if (pickerView.tag == 3){
+        NSDictionary *dic = chapterArray[row];
+        NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+        return subjectName;
+    }
+    return @"";
+}
+
+#pragma mark - UIPickerViewDataSource
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1;
+}
+
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    if (pickerView.tag == 1) {
+        return gradeArray.count;
+    }else if (pickerView.tag == 2){
+        return subjectArray.count;
+    }else if (pickerView.tag == 3){
+        return chapterArray.count;
+    }
+    return 0;
+}
 
 @end
