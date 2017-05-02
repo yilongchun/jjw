@@ -25,6 +25,10 @@
     UIImageView *headImageView;
     UILabel *nameLabel;
     UILabel *yue;
+    
+    
+    UITextField *accountTextField;
+    UITextField *passwordField;
 }
 
 @end
@@ -42,6 +46,8 @@
     //    self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = RGB(245, 245, 245);
     [self initUI];
+    
+//    [self loadUserInfo];
 }
 
 -(void)initUI{
@@ -88,9 +94,13 @@
     [accountLabel sizeToFit];
     [loginContentView addSubview:accountLabel];
     
-    UITextField *accountTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(accountLabel.frame) + 20, CGRectGetMinY(accountLabel.frame) - 8, CGRectGetWidth(loginContentView.frame) - CGRectGetMaxX(accountLabel.frame) - 50, CGRectGetHeight(accountLabel.frame) + 18)];
+    accountTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(accountLabel.frame) + 20, CGRectGetMinY(accountLabel.frame) - 8, CGRectGetWidth(loginContentView.frame) - CGRectGetMaxX(accountLabel.frame) - 50, CGRectGetHeight(accountLabel.frame) + 18)];
     ViewBorderRadius(accountTextField, 5, 1, BORDER_COLOR);
+    accountTextField.font = SYSTEMFONT(15);
     accountTextField.backgroundColor = RGB(251, 251, 251);
+    UIView *leftAView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
+    accountTextField.leftView = leftAView;
+    accountTextField.leftViewMode = UITextFieldViewModeAlways;
     [loginContentView addSubview:accountTextField];
     
     UILabel *passwordLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(accountLabel.frame) + 30, 0, 0)];
@@ -99,9 +109,14 @@
     [passwordLabel sizeToFit];
     [loginContentView addSubview:passwordLabel];
     
-    UITextField *passwordField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(passwordLabel.frame) + 20, CGRectGetMinY(passwordLabel.frame) - 8, CGRectGetWidth(loginContentView.frame) - CGRectGetMaxX(passwordLabel.frame) - 50, CGRectGetHeight(passwordLabel.frame) + 18)];
+    passwordField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(passwordLabel.frame) + 20, CGRectGetMinY(passwordLabel.frame) - 8, CGRectGetWidth(loginContentView.frame) - CGRectGetMaxX(passwordLabel.frame) - 50, CGRectGetHeight(passwordLabel.frame) + 18)];
     ViewBorderRadius(passwordField, 5, 1, BORDER_COLOR);
+    passwordField.font = SYSTEMFONT(15);
+    passwordField.secureTextEntry = YES;
     passwordField.backgroundColor = RGB(251, 251, 251);
+    UIView *leftBView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
+    passwordField.leftView = leftBView;
+    passwordField.leftViewMode = UITextFieldViewModeAlways;
     [loginContentView addSubview:passwordField];
     
     UIButton *regBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordField.frame), CGRectGetMaxY(passwordLabel.frame) + 20, 50, 20)];
@@ -143,16 +158,92 @@
     [loginContentView addSubview:wxBtn];
 }
 
+//登录
 -(void)login{
+    
+//    if ([accountTextField.text isEqualToString:@""]) {
+//        [self showHintInView:self.view hint:@"请输入账号"];
+//        return;
+//    }
+//    if ([passwordField.text isEqualToString:@""]) {
+//        [self showHintInView:self.view hint:@"请输入密码"];
+//        return;
+//    }
+//    
+//    [self showHudInView:self.view];
+//    
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    NSSet *set = [NSSet setWithObject:@"text/html"];
+//    [manager.responseSerializer setAcceptableContentTypes:set];
+//    
+//    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+//    [param setObject:accountTextField.text forKey:@"email"];
+//    [param setObject:passwordField.text forKey:@"pwd"];
+//    
+//    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_login/login_do"];
+//    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+//        
+//        [self hideHud];
+//        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+//        
+//        NSString *code = [dic objectForKey:@"code"];
+//        if ([code isEqualToString:@"200"]) {
+//            NSDictionary *result = [dic objectForKey:@"result"];
+//            DLog(@"%@",result);
+//            
+//        }else{
+//            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+//        }
+//        
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        [self hideHud];
+//        DLog(@"%@",error.description);
+//    }];
+    
+    
     
     
     [self setTableHeaderView];
     self.view = _userCenterView;
     self.navigationItem.titleView = nil;
     self.jz_navigationBarBackgroundAlpha = 0;
+    
+    
 //    self.jz_navigationBarBackgroundHidden = YES;
 //    self.title = @"个人中心";
 //    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+}
+
+//加载用户信息
+-(void)loadUserInfo{
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@"1" forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/index"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        DLog(@"%@",responseObject);
+//        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+//        
+//        NSString *code = [dic objectForKey:@"code"];
+//        if ([code isEqualToString:@"200"]) {
+//            NSDictionary *result = [dic objectForKey:@"result"];
+//            DLog(@"%@",result);
+//            
+//        }else{
+//            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+//        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        DLog(@"%@",error.description);
+    }];
+    
 }
 
 -(void)setTableHeaderView{

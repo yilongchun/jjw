@@ -63,7 +63,7 @@
     
     
     
-    myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height- - 49)];
+    myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height- - 49 - 50)];
     [self.view addSubview:myScrollView];
     myScrollView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self loadData];
