@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		442E9FDE1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 442E9FDC1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.m */; };
+		442E9FDF1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 442E9FDD1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.xib */; };
 		44F3DDCD1E8CABF40089208B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F3DDCC1E8CABF40089208B /* main.m */; };
 		44F3DDD01E8CABF40089208B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F3DDCF1E8CABF40089208B /* AppDelegate.m */; };
 		44F3DDD31E8CABF40089208B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F3DDD21E8CABF40089208B /* ViewController.m */; };
@@ -172,6 +174,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		442E9FDB1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyQusAnsTableViewCell.h; sourceTree = "<group>"; };
+		442E9FDC1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyQusAnsTableViewCell.m; sourceTree = "<group>"; };
+		442E9FDD1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyQusAnsTableViewCell.xib; sourceTree = "<group>"; };
 		44F3DDC81E8CABF40089208B /* jjw.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = jjw.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		44F3DDCC1E8CABF40089208B /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		44F3DDCE1E8CABF40089208B /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -583,6 +588,9 @@
 				BC8D01BA1EAE263700EC5CDE /* MyQueAnsViewController.h */,
 				BC8D01BB1EAE263700EC5CDE /* MyQueAnsViewController.m */,
 				BC8D01BC1EAE263700EC5CDE /* MyQueAnsViewController.xib */,
+				442E9FDB1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.h */,
+				442E9FDC1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.m */,
+				442E9FDD1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.xib */,
 				BC8D01BF1EAE269A00EC5CDE /* BasicInfoViewController.h */,
 				BC8D01C01EAE269A00EC5CDE /* BasicInfoViewController.m */,
 				BC8D01C11EAE269A00EC5CDE /* BasicInfoViewController.xib */,
@@ -1266,6 +1274,7 @@
 				BC8D01C31EAE269A00EC5CDE /* BasicInfoViewController.xib in Resources */,
 				BC8D01A51EAE240300EC5CDE /* MyClassViewController.xib in Resources */,
 				44F3DE8C1E8CB1840089208B /* NSDateTimeAgo.bundle in Resources */,
+				442E9FDF1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.xib in Resources */,
 				44F3DDD81E8CABF40089208B /* Assets.xcassets in Resources */,
 				BC98179F1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib in Resources */,
 				44F3DDD61E8CABF40089208B /* Main.storyboard in Resources */,
@@ -1309,6 +1318,7 @@
 				44F3DEA61E8CB1840089208B /* NSTimer+Addition.m in Sources */,
 				44F3DE951E8CB1840089208B /* NSManagedObjectContext+Fetching.m in Sources */,
 				44F3DE981E8CB1840089208B /* NSObject+AddProperty.m in Sources */,
+				442E9FDE1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.m in Sources */,
 				44F3DF6B1E8CB1E00089208B /* UIScrollView+MJExtension.m in Sources */,
 				44F3DF5B1E8CB1E00089208B /* MJRefreshAutoFooter.m in Sources */,
 				44F3DF651E8CB1E00089208B /* MJRefreshBackStateFooter.m in Sources */,
