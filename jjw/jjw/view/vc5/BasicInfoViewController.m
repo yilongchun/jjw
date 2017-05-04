@@ -9,12 +9,26 @@
 #import "BasicInfoViewController.h"
 #import "JZNavigationExtension.h"
 #import "NSDictionary+Category.h"
+#import "UIImage+Color.h"
 
-@interface BasicInfoViewController (){
+#define SELECTED_IMAGE @"RadioButton-Selected"
+#define UNSELECTED_IMAGE @"RadioButton-Unselected"
+
+@interface BasicInfoViewController ()<UIPickerViewDelegate,UIPickerViewDataSource>{
     NSDictionary *data_list;
     UITextField *emailTF;
     UITextField *nameTF;
     UITextField *nicknameTF;
+    UIButton *manBtn;
+    UIButton *womanBtn;
+    UIButton *otherBtn;
+    
+    UIButton *ageBtn;
+    NSMutableArray *ageArray;
+    NSInteger ageSelected;
+    UIView *maskView;
+    UIView *popView;
+    UIPickerView *picker1;
 }
 
 @end
@@ -28,6 +42,14 @@
     self.title = @"基本资料";
     
     self.view.backgroundColor = RGB(245, 245, 245);
+    
+    if (ageArray == nil) {
+        ageArray = [NSMutableArray array];
+        for (int i = 0; i < 100; i++) {
+            [ageArray addObject:[NSNumber numberWithInt:i]];
+        }
+    }
+    
     [self initUI];
     
 }
@@ -59,6 +81,20 @@
             emailTF.text = email == nil ? @"" :email;
             nameTF.text = userName == nil ? @"" : userName;
             nicknameTF.text = showName == nil ? @"" : showName;
+            
+            NSNumber *sex = [data_list objectForKey:@"SEX"];
+            if ([sex intValue] == 0) {
+                [self selectSexBtn:1];
+            }else if ([sex intValue] == 1){
+                [self selectSexBtn:2];
+            }else if ([sex intValue] == 2){
+                [self selectSexBtn:3];
+            }
+            
+            NSNumber *age = [data_list objectForKey:@"AGE"];
+            ageSelected = [age integerValue];
+            [ageBtn setTitle:[NSString stringWithFormat:@"%d岁",[age intValue]] forState:UIControlStateNormal];
+            
             DLog(@"%@",result);
 
         }else{
@@ -127,15 +163,166 @@
     nicknameTF.leftViewMode = UITextFieldViewModeAlways;
     [contentView addSubview:nicknameTF];
 
+    //性别
+    UILabel *sexLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(nicknameTF.frame) + 18, 0, 0)];
+    sexLabel.text = @"性别:";
+    sexLabel.font = SYSTEMFONT(15);
+    [sexLabel sizeToFit];
+    [contentView addSubview:sexLabel];
     
+    manBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(sexLabel.frame) + 20, CGRectGetMinY(sexLabel.frame), 50, 21)];
+    [manBtn setImage:[UIImage imageNamed:UNSELECTED_IMAGE] forState:UIControlStateNormal];
+    [manBtn setTitle:@" 男" forState:UIControlStateNormal];
+    [manBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    manBtn.titleLabel.font = SYSTEMFONT(14);
+    manBtn.tag = 1;
+    [manBtn addTarget:self action:@selector(setSexValue:) forControlEvents:UIControlEventTouchUpInside];
+    [manBtn sizeToFit];
+    [contentView addSubview:manBtn];
     
+    womanBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(manBtn.frame) + 10, CGRectGetMinY(sexLabel.frame), 50, 21)];
+    [womanBtn setImage:[UIImage imageNamed:UNSELECTED_IMAGE] forState:UIControlStateNormal];
+    [womanBtn setTitle:@" 女" forState:UIControlStateNormal];
+    [womanBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    womanBtn.titleLabel.font = SYSTEMFONT(14);
+    womanBtn.tag = 2;
+    [womanBtn addTarget:self action:@selector(setSexValue:) forControlEvents:UIControlEventTouchUpInside];
+    [womanBtn sizeToFit];
+    [contentView addSubview:womanBtn];
     
+    otherBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(womanBtn.frame) + 10, CGRectGetMinY(sexLabel.frame), 50, 21)];
+    [otherBtn setImage:[UIImage imageNamed:UNSELECTED_IMAGE] forState:UIControlStateNormal];
+    [otherBtn setTitle:@" 保密" forState:UIControlStateNormal];
+    [otherBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    otherBtn.titleLabel.font = SYSTEMFONT(14);
+    otherBtn.tag = 3;
+    [otherBtn addTarget:self action:@selector(setSexValue:) forControlEvents:UIControlEventTouchUpInside];
+    [otherBtn sizeToFit];
+    [contentView addSubview:otherBtn];
+
+    //年龄
+    UILabel *ageLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(sexLabel.frame) + 25, 0, 0)];
+    ageLabel.text = @"年龄:";
+    ageLabel.font = SYSTEMFONT(15);
+    [ageLabel sizeToFit];
+    [contentView addSubview:ageLabel];
+    
+    ageBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [ageBtn setFrame:CGRectMake(CGRectGetMaxX(ageLabel.frame) + 20, CGRectGetMinY(ageLabel.frame) - 8, 100, 33)];
+    [ageBtn setTitle:@"0岁" forState:UIControlStateNormal];
+    [ageBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    ageBtn.titleLabel.font = SYSTEMFONT(14);
+    [ageBtn addTarget:self action:@selector(btnClick) forControlEvents:UIControlEventTouchUpInside];
+//    [ageBtn sizeToFit];
+//    ageBtn.backgroundColor = [UIColor lightGrayColor];
+    ViewBorderRadius(ageBtn, 5, 1, RGB(240, 240, 240));
+    [contentView addSubview:ageBtn];
+    
+    UIButton *submitBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(ageBtn.frame) + 20, CGRectGetWidth(contentView.frame) - 60, 35)];
+    [submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [submitBtn setTitle:@"提交" forState:UIControlStateNormal];
+    submitBtn.titleLabel.font = BOLDSYSTEMFONT(15);
+    [submitBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+    ViewBorderRadius(submitBtn, 5, 0, [UIColor whiteColor]);
+    [submitBtn addTarget:self action:@selector(submit) forControlEvents:UIControlEventTouchUpInside];
+    [contentView addSubview:submitBtn];
     
     CGRect frame = contentView.frame;
-    frame.size.height = CGRectGetMaxY(nicknameTF.frame) + 20;
+    frame.size.height = CGRectGetMaxY(submitBtn.frame) + 20;
     [contentView setFrame:frame];
     
     [self loadData];
+}
+
+-(void)submit{
+    
+}
+
+-(void)setSexValue:(UIButton *)btn{
+    [self selectSexBtn:(int)btn.tag];
+}
+
+-(void)selectSexBtn:(int)sex{
+    [manBtn setImage:[UIImage imageNamed:UNSELECTED_IMAGE] forState:UIControlStateNormal];
+    [womanBtn setImage:[UIImage imageNamed:UNSELECTED_IMAGE] forState:UIControlStateNormal];
+    [otherBtn setImage:[UIImage imageNamed:UNSELECTED_IMAGE] forState:UIControlStateNormal];
+    if (sex == 1) {
+        [manBtn setImage:[UIImage imageNamed:SELECTED_IMAGE] forState:UIControlStateNormal];
+    }else if (sex == 2){
+        [womanBtn setImage:[UIImage imageNamed:SELECTED_IMAGE] forState:UIControlStateNormal];
+    }else if (sex == 3){
+        [otherBtn setImage:[UIImage imageNamed:SELECTED_IMAGE] forState:UIControlStateNormal];
+    }
+}
+
+-(void)cancel{
+    [self hidePopView];
+}
+
+-(void)ok{
+    
+    [self hidePopView];
+}
+
+-(void)hidePopView{
+    
+    [UIView animateWithDuration:0.15 animations:^{
+        if (maskView) {
+            maskView.alpha = 0;
+        }
+        if (popView) {
+            [popView setFrame:CGRectMake(15, Main_Screen_Height, Main_Screen_Width-30, 300)];
+        }
+    } completion:^(BOOL finished) {
+        if (finished) {
+            [maskView removeFromSuperview];
+            [popView removeFromSuperview];
+        }
+    }];
+}
+
+-(void)btnClick{
+    
+    maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
+    maskView.backgroundColor = RGBA(0, 0, 0, 0.3);
+    maskView.alpha = 0;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidePopView)];
+    [maskView addGestureRecognizer:tap];
+    [self.view.window addSubview:maskView];
+    
+    popView = [[UIView alloc] initWithFrame:CGRectMake(15, Main_Screen_Height, Main_Screen_Width-30, 300)];
+    popView.backgroundColor = [UIColor whiteColor];
+    UIButton *cancelBtn = [UIButton buttonWithType:UIButtonTypeSystem];
+    [cancelBtn setFrame:CGRectMake(0, 0, 60, 50)];
+    cancelBtn.tag = 10;
+    [cancelBtn addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+    [cancelBtn setTitle:@"取消" forState:UIControlStateNormal];
+    [popView addSubview:cancelBtn];
+    UIButton *okBtn =  [UIButton buttonWithType:UIButtonTypeSystem];
+    [okBtn setFrame:CGRectMake(Main_Screen_Width - 30 - 60, 0, 60, 50)];
+    okBtn.tag = 20;
+    [okBtn addTarget:self action:@selector(ok) forControlEvents:UIControlEventTouchUpInside];
+    [okBtn setTitle:@"确定" forState:UIControlStateNormal];
+    [popView addSubview:okBtn];
+    ViewRadius(popView, 10);
+    [self.view.window addSubview:popView];
+    
+    
+    
+    if (picker1 == nil) {
+        picker1 = [[UIPickerView alloc] initWithFrame:CGRectMake(0, 50, Main_Screen_Width-30, 250)];
+        picker1.dataSource = self;
+        picker1.delegate = self;
+        picker1.tag = 1;
+    }
+    [popView addSubview:picker1];
+    [picker1 selectRow:ageSelected inComponent:0 animated:NO];
+    [UIView animateWithDuration:0.15 animations:^{
+        maskView.alpha = 1;
+        [popView setFrame:CGRectMake(15, Main_Screen_Height - 300 -15, Main_Screen_Width-30, 300)];
+    }];
+    
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -143,14 +330,30 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+#pragma mark - UIPickerViewDelegate
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+        ageSelected = row;
+        NSNumber *ageNum = ageArray[ageSelected];
+        [ageBtn setTitle:[NSString stringWithFormat:@"%d岁",[ageNum intValue]] forState:UIControlStateNormal];
+    
 }
-*/
+
+- (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+    ageSelected = row;
+    NSNumber *ageNum = ageArray[ageSelected];
+    return [NSString stringWithFormat:@"%d岁",[ageNum intValue]];
+}
+
+#pragma mark - UIPickerViewDataSource
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView{
+    return 1;
+}
+
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component{
+    return ageArray.count;
+}
 
 @end

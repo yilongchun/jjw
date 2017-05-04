@@ -1529,7 +1529,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = VV96JSE58Z;
-				GCC_PREFIX_HEADER = /Users/nicylc/github/jjw/jjw/jjw/jjw.h;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/jjw/jjw.h";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = jjw/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
@@ -1547,7 +1547,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = VV96JSE58Z;
-				GCC_PREFIX_HEADER = /Users/nicylc/github/jjw/jjw/jjw/jjw.h;
+				GCC_PREFIX_HEADER = "$(SRCROOT)/jjw/jjw.h";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = jjw/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
