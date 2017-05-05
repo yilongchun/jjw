@@ -16,7 +16,7 @@
 
 #define HOST @"http://api.jjw-school.com"
 
-
+#define LOGINED_USER @"loginedUser"
 
 #ifdef __OBJC__
     #import "ACMacros.h"

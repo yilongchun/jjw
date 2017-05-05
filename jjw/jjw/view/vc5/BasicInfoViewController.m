@@ -62,8 +62,11 @@
     NSSet *set = [NSSet setWithObject:@"text/html"];
     [manager.responseSerializer setAcceptableContentTypes:set];
     
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    [param setObject:@"1" forKey:@"uid"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/get_user_info"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -83,13 +86,8 @@
             nicknameTF.text = showName == nil ? @"" : showName;
             
             NSNumber *sex = [data_list objectForKey:@"SEX"];
-            if ([sex intValue] == 0) {
-                [self selectSexBtn:1];
-            }else if ([sex intValue] == 1){
-                [self selectSexBtn:2];
-            }else if ([sex intValue] == 2){
-                [self selectSexBtn:3];
-            }
+            
+            [self selectSexBtn:[sex intValue]];
             
             NSNumber *age = [data_list objectForKey:@"AGE"];
             ageSelected = [age integerValue];
@@ -195,7 +193,7 @@
     [otherBtn setTitle:@" 保密" forState:UIControlStateNormal];
     [otherBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     otherBtn.titleLabel.font = SYSTEMFONT(14);
-    otherBtn.tag = 3;
+    otherBtn.tag = 0;
     [otherBtn addTarget:self action:@selector(setSexValue:) forControlEvents:UIControlEventTouchUpInside];
     [otherBtn sizeToFit];
     [contentView addSubview:otherBtn];
@@ -250,7 +248,7 @@
         [manBtn setImage:[UIImage imageNamed:SELECTED_IMAGE] forState:UIControlStateNormal];
     }else if (sex == 2){
         [womanBtn setImage:[UIImage imageNamed:SELECTED_IMAGE] forState:UIControlStateNormal];
-    }else if (sex == 3){
+    }else if (sex == 0){
         [otherBtn setImage:[UIImage imageNamed:SELECTED_IMAGE] forState:UIControlStateNormal];
     }
 }

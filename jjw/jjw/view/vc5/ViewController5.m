@@ -20,6 +20,7 @@
 #import "BasicInfoViewController.h"
 #import "MyHeaderImageViewController.h"
 #import "PasswordSettingViewController.h"
+#import "NSDictionary+Category.h"
 
 @interface ViewController5 (){
     UIImageView *headImageView;
@@ -45,9 +46,19 @@
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     //    self.automaticallyAdjustsScrollViewInsets = NO;
     self.view.backgroundColor = RGB(245, 245, 245);
-    [self initUI];
     
-//    [self loadUserInfo];
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    if (userInfo) {
+        [self loadUserInfo];
+    }else{
+        [self initUI];
+    }
+    
+    
+    
+    
 }
 
 -(void)initUI{
@@ -156,58 +167,62 @@
     [wxBtn setImage:wxImage forState:UIControlStateNormal];
     ViewBorderRadius(wxBtn, wxImage.size.height/2, 0, [UIColor whiteColor]);
     [loginContentView addSubview:wxBtn];
+    
+    accountTextField.text = @"zz@zaodama.cn";
+    passwordField.text = @"123456";
 }
 
 //登录
 -(void)login{
     
-//    if ([accountTextField.text isEqualToString:@""]) {
-//        [self showHintInView:self.view hint:@"请输入账号"];
-//        return;
-//    }
-//    if ([passwordField.text isEqualToString:@""]) {
-//        [self showHintInView:self.view hint:@"请输入密码"];
-//        return;
-//    }
-//    
-//    [self showHudInView:self.view];
-//    
-//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-//    NSSet *set = [NSSet setWithObject:@"text/html"];
-//    [manager.responseSerializer setAcceptableContentTypes:set];
-//    
-//    NSMutableDictionary *param = [NSMutableDictionary dictionary];
-//    [param setObject:accountTextField.text forKey:@"email"];
-//    [param setObject:passwordField.text forKey:@"pwd"];
-//    
-//    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_login/login_do"];
-//    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
-//        
-//        [self hideHud];
-//        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
-//        
-//        NSString *code = [dic objectForKey:@"code"];
-//        if ([code isEqualToString:@"200"]) {
-//            NSDictionary *result = [dic objectForKey:@"result"];
-//            DLog(@"%@",result);
-//            
-//        }else{
-//            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
-//        }
-//        
-//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-//        [self hideHud];
-//        DLog(@"%@",error.description);
-//    }];
+    if ([accountTextField.text isEqualToString:@""]) {
+        [self showHintInView:self.view hint:@"请输入账号"];
+        return;
+    }
+    if ([passwordField.text isEqualToString:@""]) {
+        [self showHintInView:self.view hint:@"请输入密码"];
+        return;
+    }
     
+    [self showHudInView:self.view];
     
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
     
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:accountTextField.text forKey:@"email"];
+    [param setObject:passwordField.text forKey:@"pwd"];
     
-    [self setTableHeaderView];
-    self.view = _userCenterView;
-    self.navigationItem.titleView = nil;
-    self.jz_navigationBarBackgroundAlpha = 0;
-    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_login/login_do"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        [self hideHud];
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            
+            NSDictionary *userInfo = [[result objectForKey:@"data_list"] cleanNull];
+            
+            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+            [ud setObject:userInfo forKey:LOGINED_USER];
+            
+            
+            DLog(@"%@",result);
+            [self setTableHeaderView];
+            self.view = _userCenterView;
+            self.navigationItem.titleView = nil;
+            self.jz_navigationBarBackgroundAlpha = 0;
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
     
 //    self.jz_navigationBarBackgroundHidden = YES;
 //    self.title = @"个人中心";
@@ -216,28 +231,43 @@
 
 //加载用户信息
 -(void)loadUserInfo{
-    
+    [self showHudInView:self.view];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
     [manager.responseSerializer setAcceptableContentTypes:set];
     
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+   
+    
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    [param setObject:@"1" forKey:@"uid"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/index"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
-        
+        [self hideHud];
         DLog(@"%@",responseObject);
-//        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
-//        
-//        NSString *code = [dic objectForKey:@"code"];
-//        if ([code isEqualToString:@"200"]) {
-//            NSDictionary *result = [dic objectForKey:@"result"];
-//            DLog(@"%@",result);
-//            
-//        }else{
-//            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
-//        }
+        
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSDictionary *userInfo = [[result objectForKey:@"data_list"] cleanNull];
+            
+            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+            [ud setObject:userInfo forKey:LOGINED_USER];
+            
+            [self setTableHeaderView];
+            self.view = _userCenterView;
+            self.navigationItem.titleView = nil;
+            self.jz_navigationBarBackgroundAlpha = 0;
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+        
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         

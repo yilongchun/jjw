@@ -52,14 +52,16 @@
     
     [dataSource removeAllObjects];
     
-    
-    
-    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
     [manager.responseSerializer setAcceptableContentTypes:set];
     
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
+//    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
     [param setObject:@"1" forKey:@"uid"];
     [param setObject:@"1" forKey:@"page"];
     
@@ -71,7 +73,7 @@
         if ([code isEqualToString:@"200"]) {
             NSDictionary *result = [dic objectForKey:@"result"];
             
-            
+            dataSource = [result objectForKey:@"data_list"];
             
             
             
