@@ -14,6 +14,8 @@
 
 @interface MyQueAnsViewController (){
     NSMutableArray *dataSource;
+    int page;
+    int pageCount;
 }
 
 @end
@@ -38,7 +40,7 @@
     
     _myTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
         [self loadMore];
-        [_myTableView.mj_footer endRefreshing];
+        
     }];
     
     
@@ -49,8 +51,9 @@
     if (dataSource == nil) {
         dataSource = [NSMutableArray array];
     }
+    [_myTableView.mj_footer resetNoMoreData];
     
-    [dataSource removeAllObjects];
+    page = 1;
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
@@ -61,9 +64,9 @@
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-//    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
-    [param setObject:@"1" forKey:@"uid"];
-    [param setObject:@"1" forKey:@"page"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+//    [param setObject:@"1" forKey:@"uid"];
+    [param setObject:[NSString stringWithFormat:@"%d",page] forKey:@"page"];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/get_do_demand"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -72,11 +75,12 @@
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
             NSDictionary *result = [dic objectForKey:@"result"];
+            NSArray *dataList = [result objectForKey:@"data_list"];
+            [dataSource removeAllObjects];
+            [dataSource addObjectsFromArray:dataList];
+            NSNumber *pageCountNum = [result objectForKey:@"page_count"];
             
-            dataSource = [result objectForKey:@"data_list"];
-            
-            
-            
+            pageCount = [pageCountNum intValue];
             
         }else{
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
@@ -91,10 +95,51 @@
 }
 
 -(void)loadMore{
-    for (int i = 0 ; i < 10; i++) {
-        [dataSource addObject:@"1"];
+    
+    if (page < pageCount) {
+        page++;
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSSet *set = [NSSet setWithObject:@"text/html"];
+        [manager.responseSerializer setAcceptableContentTypes:set];
+        
+        
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+        
+        NSMutableDictionary *param = [NSMutableDictionary dictionary];
+        [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+        //    [param setObject:@"1" forKey:@"uid"];
+        [param setObject:[NSString stringWithFormat:@"%d",page] forKey:@"page"];
+        
+        NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/get_do_demand"];
+        [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+            DLog(@"%@",responseObject);
+            NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+            NSString *code = [dic objectForKey:@"code"];
+            if ([code isEqualToString:@"200"]) {
+                NSDictionary *result = [dic objectForKey:@"result"];
+                NSArray *dataList = [result objectForKey:@"data_list"];
+                [dataSource addObjectsFromArray:dataList];
+                NSNumber *pageCountNum = [result objectForKey:@"page_count"];
+                pageCount = [pageCountNum intValue];
+                
+                if (page == pageCount) {
+                    [_myTableView.mj_footer endRefreshingWithNoMoreData];
+                }else{
+                    [_myTableView.mj_footer endRefreshing];
+                }
+                
+            }else{
+                [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            }
+            [_myTableView reloadData];
+            
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            [_myTableView.mj_footer endRefreshing];
+            DLog(@"%@",error.description);
+        }];
     }
-    [_myTableView reloadData];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -130,6 +175,13 @@
     if (cell == nil){
         cell= (MyQusAnsTableViewCell *)[[[NSBundle  mainBundle]  loadNibNamed:@"MyQusAnsTableViewCell" owner:self options:nil]  lastObject];
     }
+    
+    NSDictionary *data = [dataSource objectAtIndex:indexPath.row];
+    NSString *createTime = [data objectForKey:@"CREATE_TIME"];
+    NSString *content = [data objectForKey:@"CONTENT"];
+    cell.createTime.text = [NSString stringWithFormat:@"提问: %@",createTime];
+    cell.content.text = content;
+    
     return cell;
 }
 

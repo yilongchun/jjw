@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface MyQusAnsTableViewCell : UITableViewCell
+@property (weak, nonatomic) IBOutlet UILabel *content;
+@property (weak, nonatomic) IBOutlet UILabel *createTime;
 
 @end
