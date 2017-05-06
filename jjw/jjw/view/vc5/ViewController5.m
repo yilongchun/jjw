@@ -43,9 +43,11 @@
 //    [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
     
-    self.jz_navigationBarTintColor = RGB(69, 179, 230);
+    
     //    self.automaticallyAdjustsScrollViewInsets = NO;
-    self.view.backgroundColor = RGB(245, 245, 245);
+    
+    
+    
     
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
@@ -62,6 +64,11 @@
 }
 
 -(void)initUI{
+    self.jz_navigationBarBackgroundAlpha = 1;
+    self.jz_navigationBarTintColor = RGB(69, 179, 230);
+    
+    _loginView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
+    _loginView.backgroundColor = RGB(245, 245, 245);
     
     UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
     
@@ -92,12 +99,12 @@
     topLabel.textColor = [UIColor blackColor];
     topLabel.text = @"  用户登录";
     ViewBorderRadius(topLabel, 0, 1, RGB(223, 223, 223));
-    [self.view addSubview:topLabel];
+    [_loginView addSubview:topLabel];
     
     UIView *loginContentView = [[UIView alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(topLabel.frame) + 5, Main_Screen_Width - 10, 350)];
     loginContentView.backgroundColor = [UIColor whiteColor];
     ViewBorderRadius(loginContentView, 0, 1, BORDER_COLOR);
-    [self.view addSubview:loginContentView];
+    [_loginView addSubview:loginContentView];
     
     UILabel *accountLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 20, 0, 0)];
     accountLabel.text = @"账号:";
@@ -168,6 +175,7 @@
     ViewBorderRadius(wxBtn, wxImage.size.height/2, 0, [UIColor whiteColor]);
     [loginContentView addSubview:wxBtn];
     
+    self.view = _loginView;
     accountTextField.text = @"zz@zaodama.cn";
     passwordField.text = @"123456";
 }
@@ -227,6 +235,13 @@
 //    self.jz_navigationBarBackgroundHidden = YES;
 //    self.title = @"个人中心";
 //    [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
+}
+
+-(void)logout{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    [ud removeObjectForKey:LOGINED_USER];
+    [self initUI];
+
 }
 
 //加载用户信息
@@ -290,7 +305,14 @@
     [view1 addSubview:headImageView];
     
     nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImageView.frame) + 10, 20+20, 0, 0)];
-    nameLabel.text = @"未设置";
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *user = [ud objectForKey:LOGINED_USER];
+    NSString *showName = [user objectForKey:@"SHOW_NAME"];
+    if (showName == nil || [showName isEqualToString:@""]) {
+        nameLabel.text = @"未设置";
+    }else{
+        nameLabel.text = showName;
+    }
     nameLabel.textColor = [UIColor whiteColor];
     [nameLabel sizeToFit];
     [view1 addSubview:nameLabel];
@@ -299,6 +321,9 @@
     logoutLabel.textColor = [UIColor whiteColor];
     logoutLabel.text = @"退出登录";
     [logoutLabel sizeToFit];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logout)];
+    logoutLabel.userInteractionEnabled = YES;
+    [logoutLabel addGestureRecognizer:tap];
     [view1 addSubview:logoutLabel];
     
     [tableHeaderView addSubview:view1];

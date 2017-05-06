@@ -57,7 +57,9 @@
 
 - (void)setTab:(NSNotification *)text{
     NSLog(@"%@",text.userInfo);
-    self.selectedIndex = 1;
+    NSDictionary *info = [text userInfo];
+    NSNumber *index = [info objectForKey:@"a"];
+    self.selectedIndex = [index integerValue];
 }
 
 - (void)didReceiveMemoryWarning {

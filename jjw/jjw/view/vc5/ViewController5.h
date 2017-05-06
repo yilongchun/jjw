@@ -10,6 +10,7 @@
 
 @interface ViewController5 : UIViewController
 
+@property (strong, nonatomic) IBOutlet UIView *loginView;
 @property (strong, nonatomic) IBOutlet UIView *userCenterView;
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;

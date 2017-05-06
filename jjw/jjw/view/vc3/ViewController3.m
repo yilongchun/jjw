@@ -9,6 +9,7 @@
 #import "ViewController3.h"
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
+#import "NSObject+Blocks.h"
 
 @interface ViewController3 ()<UIPickerViewDelegate,UIPickerViewDataSource>
 
@@ -371,11 +372,67 @@
 
 -(void)dianbo{
     
-    DLog(@"%@",gradeArray[gradeSelect]);
-    DLog(@"%@",subjectArray[subjectSelect]);
-    DLog(@"%@",chapterArray[chapterSelect]);
-    DLog(@"%@",textView.text);
-    DLog(@"%@",selectedArray);
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *user = [ud objectForKey:LOGINED_USER];
+    if (user == nil) {
+        [self showHintInView:self.view hint:@"请先登录"];
+        [self performBlock:^{
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1.5];
+    }else{
+        
+        if ([textView.text isEqualToString:@""]) {
+            [self showHintInView:self.view hint:@"请填写点播内容"];
+            return;
+        }
+        if (selectedArray.count == 0) {
+            [self showHintInView:self.view hint:@"请选择至少一个讲解老师"];
+            return;
+        }
+        
+        NSMutableDictionary *param = [NSMutableDictionary dictionary];
+        [param setObject:[user objectForKey:@"USER_ID"] forKey:@"uid"];
+        [param setObject:[gradeArray[gradeSelect] objectForKey:@"SUBJECT_ID"] forKey:@"grade"];
+        [param setObject:[subjectArray[subjectSelect] objectForKey:@"SUBJECT_ID"] forKey:@"subject_id"];
+        [param setObject:[chapterArray[chapterSelect] objectForKey:@"SUBJECT_ID"] forKey:@"chapter"];
+        [param setObject:textView.text forKey:@"content"];
+        
+        NSMutableArray *selectedTeacher = [NSMutableArray array];
+        for (int i = 0 ;i < selectedArray.count; i++) {
+            NSDictionary *teacher = [selectedArray objectAtIndex:i];
+            NSString *teacherid = [teacher objectForKey:@"ID"];
+            [selectedTeacher addObject:teacherid];
+        }
+        [param setObject:[selectedTeacher componentsJoinedByString:@","] forKey:@"teacher_ids"];
+        DLog(@"%@",param);
+        
+        [self showHudInView:self.view];
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSSet *set = [NSSet setWithObject:@"text/html"];
+        [manager.responseSerializer setAcceptableContentTypes:set];
+        NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/question/add_on_demand"];
+        [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+            [self hideHud];
+            NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+            DLog(@"%@",dic);
+            NSString *code = [dic objectForKey:@"code"];
+            if ([code isEqualToString:@"200"]) {
+//                NSDictionary *result = [dic objectForKey:@"result"];
+                [self showHintInView:self.view hint:@"点播成功"];
+            }else{
+                
+            }
+            
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            [self hideHud];
+            DLog(@"%@",error.description);
+        }];
+    }
+    
+    
+    
+    
     
     
 }
