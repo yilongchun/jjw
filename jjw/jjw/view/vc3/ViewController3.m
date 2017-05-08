@@ -412,6 +412,7 @@
         NSSet *set = [NSSet setWithObject:@"text/html"];
         [manager.responseSerializer setAcceptableContentTypes:set];
         NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/question/add_on_demand"];
+        DLog(@"url:%@",url);
         [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
             [self hideHud];
             NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
@@ -421,7 +422,7 @@
 //                NSDictionary *result = [dic objectForKey:@"result"];
                 [self showHintInView:self.view hint:@"点播成功"];
             }else{
-                
+                [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
             }
             
         } failure:^(NSURLSessionDataTask *task, NSError *error) {

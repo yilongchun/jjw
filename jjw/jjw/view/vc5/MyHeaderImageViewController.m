@@ -22,6 +22,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     self.jz_navigationBarBackgroundAlpha = 1;
+    self.jz_navigationBarTintColor = RGB(69, 179, 230);
     self.title = @"个人头像";
     
     [self initUI];

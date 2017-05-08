@@ -11,4 +11,10 @@
 @interface CollectionViewCell2 : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *topImageView;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *teacherLabel;
+@property (weak, nonatomic) IBOutlet UILabel *priceLabel;
+@property (weak, nonatomic) IBOutlet UILabel *lessionNumLabel;
+@property (weak, nonatomic) IBOutlet UILabel *playTimesLabel;
+
 @end
