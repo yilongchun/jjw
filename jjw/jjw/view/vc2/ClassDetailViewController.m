@@ -11,8 +11,11 @@
 #import "UIImage+Color.h"
 #import "LGSegment.h"
 #import "TeacherHomeViewController.h"
+#import "UIImageView+AFNetworking.h"
 
-@interface ClassDetailViewController ()<SegmentDelegate>
+@interface ClassDetailViewController ()<SegmentDelegate>{
+    NSDictionary *courseInfo;
+}
 
 @property(nonatomic,strong)NSMutableArray *buttonList;
 @property (nonatomic, weak) LGSegment *segment;
@@ -34,25 +37,70 @@
     self.jz_navigationBarBackgroundHidden = NO;
     self.title = @"课程详情";
     
-    [self initUI];
+    
+    [self loadData];
+}
+
+-(void)loadData{
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[_info objectForKey:@"COURSE_ID"] forKey:@"id"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    //    [param setObject:@"1" forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_course_info"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            
+            courseInfo = result;
+            [self initUI];
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
 }
 
 -(void)initUI{
     CGFloat videoHeight = (Main_Screen_Width - 20)/2;
     
+    NSDictionary *course_info = [courseInfo objectForKey:@"course_info"];
+    NSString *LOGO = [course_info objectForKey:@"LOGO"];
     //添加视频
+    UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, Main_Screen_Width - 20, videoHeight)];
+    [image setImageWithURL:[NSURL URLWithString:LOGO]];
+    ViewRadius(image, 10);
+    [_myScrollView addSubview:image];
     
     UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + videoHeight + 10, Main_Screen_Width - 20, 1)];
     line.backgroundColor = RGB(239, 239, 239);
     [_myScrollView addSubview:line];
     //标题
+    NSString *title = [course_info objectForKey:@"TITLE"];
     UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(line.frame) + 10, Main_Screen_Width - 20, 0)];
     titleLabel.font = SYSTEMFONT(18);
     titleLabel.numberOfLines = 0;
-    titleLabel.text = @"函数定义域之2：如何求抽象函数的定义域";
+    titleLabel.text = title;
     [titleLabel sizeToFit];
     [_myScrollView addSubview:titleLabel];
     //价格
+    NSString *currentPrice = [course_info objectForKey:@"CURRENT_PRICE"];
     UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(titleLabel.frame) + 10, 0, 0)];
     priceLabel.font = SYSTEMFONT(12);
     priceLabel.textColor = RGB(102, 102, 102);
@@ -62,7 +110,7 @@
     UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(priceLabel.frame) + 2, CGRectGetMinY(priceLabel.frame), 0, 0)];
     price.font = SYSTEMFONT(12);
     price.textColor = RGB(255, 153, 0);
-    price.text = @"￥3.00";
+    price.text = [NSString stringWithFormat:@"￥%@",currentPrice];
     [price sizeToFit];
     [_myScrollView addSubview:price];
     
@@ -70,10 +118,11 @@
     
     
     //原价
+    NSString *sourcePrice = [course_info objectForKey:@"SOURCE_PRICE"];
     UILabel *yuanjiaLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(price.frame) + 20, CGRectGetMaxY(titleLabel.frame) + 10, 0, 0)];
     yuanjiaLabel.font = SYSTEMFONT(12);
     yuanjiaLabel.textColor = RGB(102, 102, 102);
-    yuanjiaLabel.text = [NSString stringWithFormat:@"原价: 5.00"];
+    yuanjiaLabel.text = [NSString stringWithFormat:@"原价: %@",sourcePrice];
     [yuanjiaLabel sizeToFit];
     [_myScrollView addSubview:yuanjiaLabel];
     //有效期
@@ -85,10 +134,11 @@
     [_myScrollView addSubview:youxiaoqiLabel];
     
     //购买
+    NSString *buyNum = [course_info objectForKey:@"buy_num"];
     UILabel *payNumLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(priceLabel.frame) + 5, 0, 0)];
     payNumLabel.font = SYSTEMFONT(12);
     payNumLabel.textColor = RGB(102, 102, 102);
-    payNumLabel.text = [NSString stringWithFormat:@"购买: %d人",1];
+    payNumLabel.text = [NSString stringWithFormat:@"购买: %@人",buyNum];
     [payNumLabel sizeToFit];
     [_myScrollView addSubview:payNumLabel];
     //时长

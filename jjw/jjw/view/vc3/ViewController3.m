@@ -413,7 +413,7 @@
         [manager.responseSerializer setAcceptableContentTypes:set];
         NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/question/add_on_demand"];
         DLog(@"url:%@",url);
-        [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
             [self hideHud];
             NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
             DLog(@"%@",dic);
@@ -421,6 +421,9 @@
             if ([code isEqualToString:@"200"]) {
 //                NSDictionary *result = [dic objectForKey:@"result"];
                 [self showHintInView:self.view hint:@"点播成功"];
+                [selectedArray removeAllObjects];
+                [self reloadSelectedTeacherView];
+                textView.text = @"";
             }else{
                 [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
             }

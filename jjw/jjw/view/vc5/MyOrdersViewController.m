@@ -8,8 +8,12 @@
 
 #import "MyOrdersViewController.h"
 #import "JZNavigationExtension.h"
+#import "MJRefresh.h"
+#import "MyOrderTableViewCell.h"
 
-@interface MyOrdersViewController ()
+@interface MyOrdersViewController (){
+    NSMutableArray *dataSource;
+}
 
 @end
 
@@ -21,13 +25,21 @@
     self.jz_navigationBarBackgroundAlpha = 1;
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     self.title = @"我的订单";
-
     
-    [self loadData];
+    self.view.backgroundColor = RGB(245, 245, 245);
+    ViewBorderRadius(_myTableView, 0, 1, BORDER_COLOR);
+    self.automaticallyAdjustsScrollViewInsets = NO;
+
+    dataSource = [NSMutableArray array];
+    _myTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self loadData];
+    }];
+    _myTableView.tableFooterView = [[UIView alloc] init];
+    [_myTableView.mj_header beginRefreshing];
 }
 
 -(void)loadData{
-    [self showHudInView:self.view];
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
     [manager.responseSerializer setAcceptableContentTypes:set];
@@ -39,20 +51,23 @@
     [param setObject:@"SUCCESS" forKey:@"type"];//订单状态 SUCCESS已支付 INIT未支付 CANCEL已取消 （大写）
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_center/user_order"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self hideHud];
+        [_myTableView.mj_header endRefreshing];
         NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
             NSDictionary *result = [dic objectForKey:@"result"];
-            
-            
+            NSArray *array = [result objectForKey:@"data_list"];
+            [dataSource removeAllObjects];
+            [dataSource addObjectsFromArray:array];
+            [_myTableView reloadData];
+            [_myTableView.mj_header endRefreshing];
             DLog(@"%@",result);
             
         }else{
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self hideHud];
+        [_myTableView.mj_header endRefreshing];
         [self showHintInView:self.view hint:error.description];
         DLog(@"%@",error.description);
     }];
@@ -72,5 +87,50 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - UITableViewDelegate
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 100;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return dataSource.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *CellIdentifier = @"myOrderCell";
+    MyOrderTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell= (MyOrderTableViewCell *)[[[NSBundle  mainBundle]  loadNibNamed:@"MyOrderTableViewCell" owner:self options:nil]  lastObject];
+        
+    }
+    
+    NSDictionary *info = [dataSource objectAtIndex:indexPath.row];
+    NSString *ORDER_NO = [info objectForKey:@"ORDER_NO"];
+    NSString *CREATE_TIME = [info objectForKey:@"CREATE_TIME"];
+    NSString *f_desc = [info objectForKey:@"f_desc"];
+    NSString *money = [info objectForKey:@"SUM_MONEY"];
+    
+    cell.label1.text = ORDER_NO;
+    cell.label2.text = f_desc;
+    cell.label3.text = CREATE_TIME;
+    cell.label4.text = [NSString stringWithFormat:@"￥%@",money];
+    
+    
+    return cell;
+}
 
 @end

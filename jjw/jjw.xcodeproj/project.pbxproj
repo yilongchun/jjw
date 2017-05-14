@@ -139,6 +139,8 @@
 		BC5AD3D81E8FE6EF004D2D3F /* CollectionViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5AD3D61E8FE6EF004D2D3F /* CollectionViewCell2.xib */; };
 		BC821C121E9D15B00093A51F /* ClassDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC821C101E9D15B00093A51F /* ClassDetailViewController.m */; };
 		BC821C131E9D15B00093A51F /* ClassDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC821C111E9D15B00093A51F /* ClassDetailViewController.xib */; };
+		BC8A84391EC338890062F455 /* PaidRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A84371EC338890062F455 /* PaidRecordTableViewCell.m */; };
+		BC8A843A1EC338890062F455 /* PaidRecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8A84381EC338890062F455 /* PaidRecordTableViewCell.xib */; };
 		BC8D01961EAE168200EC5CDE /* default_avatar.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */; };
 		BC8D019A1EAE220200EC5CDE /* PaidRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */; };
 		BC8D019B1EAE220200EC5CDE /* PaidRecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01991EAE220200EC5CDE /* PaidRecordViewController.xib */; };
@@ -166,6 +168,10 @@
 		BC9141581EA10EA700F7A654 /* 1481518277839.png in Resources */ = {isa = PBXBuildFile; fileRef = BC9141571EA10EA700F7A654 /* 1481518277839.png */; };
 		BC93740F1E90C69F00AD4946 /* ico_play.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BC93740D1E90C69F00AD4946 /* ico_play.jpg */; };
 		BC9374101E90C69F00AD4946 /* ico_time.jpg in Resources */ = {isa = PBXBuildFile; fileRef = BC93740E1E90C69F00AD4946 /* ico_time.jpg */; };
+		BC93CD0D1EC8716000F97425 /* MyClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC93CD0B1EC8716000F97425 /* MyClassTableViewCell.m */; };
+		BC93CD0E1EC8716000F97425 /* MyClassTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC93CD0C1EC8716000F97425 /* MyClassTableViewCell.xib */; };
+		BC93CD121EC8800200F97425 /* MyOrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC93CD101EC8800200F97425 /* MyOrderTableViewCell.m */; };
+		BC93CD131EC8800200F97425 /* MyOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC93CD111EC8800200F97425 /* MyOrderTableViewCell.xib */; };
 		BC9817951EA39FA800F45E31 /* 1475988005412.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */; };
 		BC9817991EA3A2BF00F45E31 /* TeacherHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */; };
 		BC98179A1EA3A2BF00F45E31 /* TeacherHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9817981EA3A2BF00F45E31 /* TeacherHomeViewController.xib */; };
@@ -429,6 +435,9 @@
 		BC821C0F1E9D15B00093A51F /* ClassDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassDetailViewController.h; sourceTree = "<group>"; };
 		BC821C101E9D15B00093A51F /* ClassDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassDetailViewController.m; sourceTree = "<group>"; };
 		BC821C111E9D15B00093A51F /* ClassDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClassDetailViewController.xib; sourceTree = "<group>"; };
+		BC8A84361EC338890062F455 /* PaidRecordTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaidRecordTableViewCell.h; sourceTree = "<group>"; };
+		BC8A84371EC338890062F455 /* PaidRecordTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaidRecordTableViewCell.m; sourceTree = "<group>"; };
+		BC8A84381EC338890062F455 /* PaidRecordTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaidRecordTableViewCell.xib; sourceTree = "<group>"; };
 		BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_avatar.jpeg; sourceTree = "<group>"; };
 		BC8D01971EAE220200EC5CDE /* PaidRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaidRecordViewController.h; sourceTree = "<group>"; };
 		BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaidRecordViewController.m; sourceTree = "<group>"; };
@@ -468,6 +477,12 @@
 		BC9141571EA10EA700F7A654 /* 1481518277839.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1481518277839.png; sourceTree = "<group>"; };
 		BC93740D1E90C69F00AD4946 /* ico_play.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ico_play.jpg; sourceTree = "<group>"; };
 		BC93740E1E90C69F00AD4946 /* ico_time.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = ico_time.jpg; sourceTree = "<group>"; };
+		BC93CD0A1EC8716000F97425 /* MyClassTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyClassTableViewCell.h; sourceTree = "<group>"; };
+		BC93CD0B1EC8716000F97425 /* MyClassTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyClassTableViewCell.m; sourceTree = "<group>"; };
+		BC93CD0C1EC8716000F97425 /* MyClassTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyClassTableViewCell.xib; sourceTree = "<group>"; };
+		BC93CD0F1EC8800200F97425 /* MyOrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyOrderTableViewCell.h; sourceTree = "<group>"; };
+		BC93CD101EC8800200F97425 /* MyOrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyOrderTableViewCell.m; sourceTree = "<group>"; };
+		BC93CD111EC8800200F97425 /* MyOrderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrderTableViewCell.xib; sourceTree = "<group>"; };
 		BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1475988005412.jpeg; sourceTree = "<group>"; };
 		BC9817961EA3A2BF00F45E31 /* TeacherHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeacherHomeViewController.h; sourceTree = "<group>"; };
 		BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeacherHomeViewController.m; sourceTree = "<group>"; };
@@ -567,12 +582,18 @@
 				BC8D01971EAE220200EC5CDE /* PaidRecordViewController.h */,
 				BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */,
 				BC8D01991EAE220200EC5CDE /* PaidRecordViewController.xib */,
+				BC8A84361EC338890062F455 /* PaidRecordTableViewCell.h */,
+				BC8A84371EC338890062F455 /* PaidRecordTableViewCell.m */,
+				BC8A84381EC338890062F455 /* PaidRecordTableViewCell.xib */,
 				BC8D019C1EAE238200EC5CDE /* ShoppingCartViewController.h */,
 				BC8D019D1EAE238200EC5CDE /* ShoppingCartViewController.m */,
 				BC8D019E1EAE238200EC5CDE /* ShoppingCartViewController.xib */,
 				BC8D01A11EAE240300EC5CDE /* MyClassViewController.h */,
 				BC8D01A21EAE240300EC5CDE /* MyClassViewController.m */,
 				BC8D01A31EAE240300EC5CDE /* MyClassViewController.xib */,
+				BC93CD0A1EC8716000F97425 /* MyClassTableViewCell.h */,
+				BC93CD0B1EC8716000F97425 /* MyClassTableViewCell.m */,
+				BC93CD0C1EC8716000F97425 /* MyClassTableViewCell.xib */,
 				BC8D01A61EAE246800EC5CDE /* PackageClassViewController.h */,
 				BC8D01A71EAE246800EC5CDE /* PackageClassViewController.m */,
 				BC8D01A81EAE246800EC5CDE /* PackageClassViewController.xib */,
@@ -582,6 +603,9 @@
 				BC8D01B01EAE250D00EC5CDE /* MyOrdersViewController.h */,
 				BC8D01B11EAE250D00EC5CDE /* MyOrdersViewController.m */,
 				BC8D01B21EAE250D00EC5CDE /* MyOrdersViewController.xib */,
+				BC93CD0F1EC8800200F97425 /* MyOrderTableViewCell.h */,
+				BC93CD101EC8800200F97425 /* MyOrderTableViewCell.m */,
+				BC93CD111EC8800200F97425 /* MyOrderTableViewCell.xib */,
 				BC8D01B51EAE25D000EC5CDE /* MyCollectViewController.h */,
 				BC8D01B61EAE25D000EC5CDE /* MyCollectViewController.m */,
 				BC8D01B71EAE25D000EC5CDE /* MyCollectViewController.xib */,
@@ -1265,10 +1289,13 @@
 				BC9817951EA39FA800F45E31 /* 1475988005412.jpeg in Resources */,
 				44F3DDED1E8CAD280089208B /* ViewController1.xib in Resources */,
 				BC8D01CD1EAE274A00EC5CDE /* PasswordSettingViewController.xib in Resources */,
+				BC8A843A1EC338890062F455 /* PaidRecordTableViewCell.xib in Resources */,
 				44F3DF691E8CB1E00089208B /* MJRefresh.bundle in Resources */,
 				BC8D01A01EAE238200EC5CDE /* ShoppingCartViewController.xib in Resources */,
 				44F3DDDB1E8CABF40089208B /* LaunchScreen.storyboard in Resources */,
 				44F3DE001E8CAD690089208B /* ViewController4.xib in Resources */,
+				BC93CD131EC8800200F97425 /* MyOrderTableViewCell.xib in Resources */,
+				BC93CD0E1EC8716000F97425 /* MyClassTableViewCell.xib in Resources */,
 				BC8D01AF1EAE24B800EC5CDE /* StudyRecordViewController.xib in Resources */,
 				BC8D019B1EAE220200EC5CDE /* PaidRecordViewController.xib in Resources */,
 				BC8D01C31EAE269A00EC5CDE /* BasicInfoViewController.xib in Resources */,
@@ -1345,6 +1372,7 @@
 				44F3DF521E8CB1E00089208B /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				44F3DEA01E8CB1840089208B /* NSString+Hash.m in Sources */,
 				44F3DF581E8CB1E00089208B /* UIToolbar+JZExtension.m in Sources */,
+				BC8A84391EC338890062F455 /* PaidRecordTableViewCell.m in Sources */,
 				BC9141561EA101A800F7A654 /* LGSegment.m in Sources */,
 				44F3DF441E8CB1E00089208B /* MBProgressHUD.m in Sources */,
 				44F3DF671E8CB1E00089208B /* MJRefreshNormalHeader.m in Sources */,
@@ -1366,6 +1394,7 @@
 				44F3DF511E8CB1E00089208B /* IQToolbar.m in Sources */,
 				44F3DDF51E8CAD530089208B /* ViewController2.m in Sources */,
 				44F3DF5D1E8CB1E00089208B /* MJRefreshComponent.m in Sources */,
+				BC93CD121EC8800200F97425 /* MyOrderTableViewCell.m in Sources */,
 				44F3DEA21E8CB1840089208B /* NSString+RemoveEmoji.m in Sources */,
 				44F3DF501E8CB1E00089208B /* IQTitleBarButtonItem.m in Sources */,
 				44F3DDD01E8CABF40089208B /* AppDelegate.m in Sources */,
@@ -1405,6 +1434,7 @@
 				44F3DE851E8CB1840089208B /* NSArray+Block.m in Sources */,
 				44F3DEB01E8CB1840089208B /* UIRefreshControl+AFNetworking.m in Sources */,
 				44F3DEAD1E8CB1840089208B /* UIButton+AFNetworking.m in Sources */,
+				BC93CD0D1EC8716000F97425 /* MyClassTableViewCell.m in Sources */,
 				44F3DF471E8CB1E00089208B /* IQUITextFieldView+Additions.m in Sources */,
 				BC8D01C21EAE269A00EC5CDE /* BasicInfoViewController.m in Sources */,
 				44F3DEB41E8CB1840089208B /* UIViewController+DismissKeyboard.m in Sources */,

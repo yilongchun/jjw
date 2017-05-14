@@ -47,7 +47,7 @@
     
     [_myCollectionView.mj_header beginRefreshing];
     
-    [self loadTest2];
+//    [self loadTest2];
 }
 
 //获取课程一级分类
@@ -138,6 +138,7 @@
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [_myCollectionView.mj_header endRefreshing];
         [self showHintInView:self.view hint:error.description];
+        DLog(@"%@",error.description);
     }];
     
 }
@@ -244,7 +245,9 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    NSDictionary *info = [dataSource objectAtIndex:indexPath.row];
     ClassDetailViewController *vc = [[ClassDetailViewController alloc] init];
+    vc.info = info;
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
     

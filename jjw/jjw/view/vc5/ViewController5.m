@@ -21,6 +21,7 @@
 #import "MyHeaderImageViewController.h"
 #import "PasswordSettingViewController.h"
 #import "NSDictionary+Category.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface ViewController5 (){
     UIImageView *headImageView;
@@ -30,6 +31,8 @@
     
     UITextField *accountTextField;
     UITextField *passwordField;
+    
+    NSDictionary *userInfo;
 }
 
 @end
@@ -51,7 +54,7 @@
     
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    userInfo = [ud objectForKey:LOGINED_USER];
     if (userInfo) {
         [self loadUserInfo];
     }else{
@@ -176,7 +179,7 @@
     [loginContentView addSubview:wxBtn];
     
     self.view = _loginView;
-    accountTextField.text = @"zz@zaodama.cn";
+    accountTextField.text = @"zy@92yc.com";
     passwordField.text = @"123456";
 }
 
@@ -212,7 +215,7 @@
         if ([code isEqualToString:@"200"]) {
             NSDictionary *result = [dic objectForKey:@"result"];
             
-            NSDictionary *userInfo = [[result objectForKey:@"data_list"] cleanNull];
+            userInfo = [[result objectForKey:@"data_list"] cleanNull];
             
             NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
             [ud setObject:userInfo forKey:LOGINED_USER];
@@ -252,7 +255,7 @@
     [manager.responseSerializer setAcceptableContentTypes:set];
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    userInfo = [ud objectForKey:LOGINED_USER];
    
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
@@ -268,7 +271,7 @@
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
             NSDictionary *result = [dic objectForKey:@"result"];
-            NSDictionary *userInfo = [[result objectForKey:@"data_list"] cleanNull];
+            userInfo = [[result objectForKey:@"data_list"] cleanNull];
             
             NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
             [ud setObject:userInfo forKey:LOGINED_USER];
@@ -299,8 +302,9 @@
     
     UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 20 + headImageWidth +20)];
     
+    NSString *pic = [userInfo objectForKey:@"PIC_IMG"];
     headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(Main_Screen_Width*0.25, 20+10, headImageWidth, headImageWidth)];
-    headImageView.image = [UIImage imageNamed:@"default_avatar.jpeg"];
+    [headImageView setImageWithURL:[NSURL URLWithString:pic] placeholderImage:[UIImage imageNamed:@"default_avatar.jpeg"]];
     ViewRadius(headImageView, headImageWidth/2);
     [view1 addSubview:headImageView];
     
@@ -337,10 +341,12 @@
     [yueLabel sizeToFit];
     [view2 addSubview:yueLabel];
     
+    
+    NSString *f_money = [userInfo objectForKey:@"f_money"];
     yue = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueLabel.frame) + 3, CGRectGetMinY(yueLabel.frame), 0, 0)];
     yue.textColor = RGB(255, 153, 0);
     yue.font = BOLDSYSTEMFONT(14);
-    yue.text = [NSString stringWithFormat:@"￥%.2f",0.00];
+    yue.text = f_money;
     [yue sizeToFit];
     [view2 addSubview:yue];
     
