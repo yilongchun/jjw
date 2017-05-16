@@ -15,6 +15,9 @@
 
 @interface ClassDetailViewController ()<SegmentDelegate>{
     NSDictionary *courseInfo;
+    NSMutableArray *likeList;
+    NSMutableArray *pinglunList;
+    
 }
 
 @property(nonatomic,strong)NSMutableArray *buttonList;
@@ -37,10 +40,15 @@
     self.jz_navigationBarBackgroundHidden = NO;
     self.title = @"课程详情";
     
+    likeList = [NSMutableArray array];
+    pinglunList = [NSMutableArray array];
+    
     
     [self loadData];
+    [self loadPinglun];
 }
 
+//课程详情
 -(void)loadData{
     [self showHudInView:self.view];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -66,7 +74,116 @@
             NSDictionary *result = [dic objectForKey:@"result"];
             
             courseInfo = result;
-            [self initUI];
+            [self loadLike];
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
+}
+
+//猜你喜欢
+-(void)loadLike{
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[_info objectForKey:@"COURSE_ID"] forKey:@"id"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_like"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+//        DLog(@"get_like:%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            
+            NSArray *array = [result objectForKey:@"data_list"];
+            [likeList addObjectsFromArray:array];
+           
+        }else{
+//            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        [self initUI];
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        DLog(@"%@",error.description);
+    }];
+}
+
+//评论列表
+-(void)loadPinglun{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[_info objectForKey:@"COURSE_ID"] forKey:@"id"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_comment_list"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+//        DLog(@"pinglun:%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            
+            NSArray *array = [result objectForKey:@"data_list"];
+            [pinglunList addObjectsFromArray:array];
+            
+        }else{
+//            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        DLog(@"%@",error.description);
+    }];
+}
+
+//添加购物车
+-(void)addGoodToCard{
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[_info objectForKey:@"COURSE_ID"] forKey:@"course_id"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/cart/add_good_to_cart"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSString *moneyTotal = [result objectForKey:@"money_total"];
+            NSString *numTotal = [result objectForKey:@"num_total"];
+            
+            NSString *message = [NSString stringWithFormat:@"购物车总数:%@ , 总金额:%@",numTotal,moneyTotal];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:[dic objectForKey:@"msg"] message:message preferredStyle:UIAlertControllerStyleAlert];
+            
+            UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"好" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:cancel];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            
+            
+//            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            
         }else{
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
@@ -142,17 +259,19 @@
     [payNumLabel sizeToFit];
     [_myScrollView addSubview:payNumLabel];
     //时长
+    NSString *LESSION_NUM = [course_info objectForKey:@"LESSION_NUM"];
     UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(payNumLabel.frame) + 20, CGRectGetMaxY(priceLabel.frame) + 5, 0, 0)];
     timeLabel.font = SYSTEMFONT(12);
     timeLabel.textColor = RGB(102, 102, 102);
-    timeLabel.text = [NSString stringWithFormat:@"时长: 6分钟"];
+    timeLabel.text = [NSString stringWithFormat:@"时长: %@分钟",LESSION_NUM];
     [timeLabel sizeToFit];
     [_myScrollView addSubview:timeLabel];
     //播放
+    NSString *play_times = [course_info objectForKey:@"play_times"];
     UILabel *playNumLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(timeLabel.frame) + 20, CGRectGetMaxY(priceLabel.frame) + 5, 0, 0)];
     playNumLabel.font = SYSTEMFONT(12);
     playNumLabel.textColor = RGB(102, 102, 102);
-    playNumLabel.text = [NSString stringWithFormat:@"播放: 0次"];
+    playNumLabel.text = [NSString stringWithFormat:@"播放: %@次",play_times];
     [playNumLabel sizeToFit];
     [_myScrollView addSubview:playNumLabel];
     
@@ -173,6 +292,7 @@
     addBtn.titleLabel.font = SYSTEMFONT(15);
     [addBtn setBackgroundImage:[UIImage imageWithColor:RGB(150, 218, 255) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     ViewRadius(addBtn, 5);
+    [addBtn addTarget:self action:@selector(addGoodToCard) forControlEvents:UIControlEventTouchUpInside];
     [_myScrollView addSubview:addBtn];
     
     line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(addBtn.frame) + 20, Main_Screen_Width, 1)];
@@ -228,6 +348,8 @@
 }
 
 -(CGFloat)setV1{
+    NSDictionary *course_info = [courseInfo objectForKey:@"course_info"];
+    NSString *title = [course_info objectForKey:@"TITLE"];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
     label.font = SYSTEMFONT(15);
     label.text = @"课程详情";
@@ -238,7 +360,7 @@
     titleLabel2.numberOfLines = 0;
     titleLabel2.textColor = RGB(102, 102, 102);
     titleLabel2.font = SYSTEMFONT(15);
-    titleLabel2.text = @"函数定义域之2：如何求抽象函数的定义域";
+    titleLabel2.text = title;
     [titleLabel2 sizeToFit];
     [v1 addSubview:titleLabel2];
     
@@ -252,21 +374,24 @@
     [label2 sizeToFit];
     [v1 addSubview:label2];
     
+    NSDictionary *teacherInfo = [courseInfo objectForKey:@"teacher_info"];
+    
     CGFloat imgWidth = (Main_Screen_Width - 80)/3;
     UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(label2.frame) + 10, imgWidth, imgWidth)];
     ViewRadius(headImageView, imgWidth/2);
+    [headImageView setImageWithURL:[NSURL URLWithString:[teacherInfo objectForKey:@"PIC_PATH"]]];
     headImageView.image = [UIImage imageNamed:@"1481518277839.png"];
     [v1 addSubview:headImageView];
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImageView.frame) + 20, CGRectGetMinY(headImageView.frame) + 10, 0, 0)];
-    nameLabel.text = @"吴清华";
+    nameLabel.text = [teacherInfo objectForKey:@"NAME"];
     nameLabel.font = SYSTEMFONT(16);
     [nameLabel sizeToFit];
     [v1 addSubview:nameLabel];
     
     UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(nameLabel.frame), CGRectGetMaxY(nameLabel.frame) + 5, 0, 0)];
     detailLabel.textColor = RGB(153, 153, 153);
-    detailLabel.text = @"21节微课";
+    detailLabel.text = [NSString stringWithFormat:@"%@节微课",[teacherInfo objectForKey:@"course_num"]];
     detailLabel.font = SYSTEMFONT(12);
     [detailLabel sizeToFit];
     [v1 addSubview:detailLabel];
@@ -294,21 +419,31 @@
     CGFloat imageHeight2 = imgWidth2*2/3;
     CGFloat maxY = CGRectGetMaxY(label3.frame);
     
-    for (int i = 0; i< 3; i++) {
+    
+    
+    
+    for (int i = 0; i< likeList.count; i++) {
+        
+        NSDictionary *like = [likeList objectAtIndex:i];
+        NSString *image = [like objectForKey:@"image"];
+        NSString *teacher_name = [like objectForKey:@"teacher_name"];
+        NSString *look_num = [like objectForKey:@"look_num"];
+        NSString *name = [like objectForKey:@"name"];
+        
         UIImageView *imageview1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, maxY + 10, imgWidth2, imageHeight2)];
-        imageview1.image = [UIImage imageNamed:@"1475988005412.jpeg"];
+        [imageview1 setImageWithURL:[NSURL URLWithString:image]];
         ViewRadius(imageview1, 5);
         [v1 addSubview:imageview1];
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview1.frame) + 10, CGRectGetMinY(imageview1.frame)+5, 0, 0)];
-        titleLabel.text = @"集合的表示方法";
+        titleLabel.text = name;
         titleLabel.font = SYSTEMFONT(14);
         titleLabel.textColor = RGB(51, 51, 51);
         [titleLabel sizeToFit];
         [v1 addSubview:titleLabel];
         
         UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview1.frame) + 10, CGRectGetMaxY(titleLabel.frame) + 5, 0, 0)];
-        detailLabel.text = @"讲师：吴清华  浏览：27人";
+        detailLabel.text = [NSString stringWithFormat:@"讲师：%@  浏览：%@人",teacher_name,look_num];
         detailLabel.font = SYSTEMFONT(12);
         detailLabel.textColor = RGB(102, 102, 102);
         [detailLabel sizeToFit];

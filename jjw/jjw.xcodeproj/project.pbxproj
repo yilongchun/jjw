@@ -139,6 +139,8 @@
 		BC5AD3D81E8FE6EF004D2D3F /* CollectionViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5AD3D61E8FE6EF004D2D3F /* CollectionViewCell2.xib */; };
 		BC8014CB1ECB1C65001607D2 /* MyCollectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8014C91ECB1C65001607D2 /* MyCollectTableViewCell.m */; };
 		BC8014CC1ECB1C66001607D2 /* MyCollectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8014CA1ECB1C65001607D2 /* MyCollectTableViewCell.xib */; };
+		BC8014D01ECB2F7C001607D2 /* ShoppintCarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8014CE1ECB2F7C001607D2 /* ShoppintCarTableViewCell.m */; };
+		BC8014D11ECB2F7C001607D2 /* ShoppintCarTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8014CF1ECB2F7C001607D2 /* ShoppintCarTableViewCell.xib */; };
 		BC821C121E9D15B00093A51F /* ClassDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC821C101E9D15B00093A51F /* ClassDetailViewController.m */; };
 		BC821C131E9D15B00093A51F /* ClassDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC821C111E9D15B00093A51F /* ClassDetailViewController.xib */; };
 		BC8A84391EC338890062F455 /* PaidRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A84371EC338890062F455 /* PaidRecordTableViewCell.m */; };
@@ -437,6 +439,9 @@
 		BC8014C81ECB1C65001607D2 /* MyCollectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectTableViewCell.h; sourceTree = "<group>"; };
 		BC8014C91ECB1C65001607D2 /* MyCollectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectTableViewCell.m; sourceTree = "<group>"; };
 		BC8014CA1ECB1C65001607D2 /* MyCollectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCollectTableViewCell.xib; sourceTree = "<group>"; };
+		BC8014CD1ECB2F7C001607D2 /* ShoppintCarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShoppintCarTableViewCell.h; sourceTree = "<group>"; };
+		BC8014CE1ECB2F7C001607D2 /* ShoppintCarTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShoppintCarTableViewCell.m; sourceTree = "<group>"; };
+		BC8014CF1ECB2F7C001607D2 /* ShoppintCarTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShoppintCarTableViewCell.xib; sourceTree = "<group>"; };
 		BC821C0F1E9D15B00093A51F /* ClassDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClassDetailViewController.h; sourceTree = "<group>"; };
 		BC821C101E9D15B00093A51F /* ClassDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClassDetailViewController.m; sourceTree = "<group>"; };
 		BC821C111E9D15B00093A51F /* ClassDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ClassDetailViewController.xib; sourceTree = "<group>"; };
@@ -593,6 +598,9 @@
 				BC8D019C1EAE238200EC5CDE /* ShoppingCartViewController.h */,
 				BC8D019D1EAE238200EC5CDE /* ShoppingCartViewController.m */,
 				BC8D019E1EAE238200EC5CDE /* ShoppingCartViewController.xib */,
+				BC8014CD1ECB2F7C001607D2 /* ShoppintCarTableViewCell.h */,
+				BC8014CE1ECB2F7C001607D2 /* ShoppintCarTableViewCell.m */,
+				BC8014CF1ECB2F7C001607D2 /* ShoppintCarTableViewCell.xib */,
 				BC8D01A11EAE240300EC5CDE /* MyClassViewController.h */,
 				BC8D01A21EAE240300EC5CDE /* MyClassViewController.m */,
 				BC8D01A31EAE240300EC5CDE /* MyClassViewController.xib */,
@@ -1303,6 +1311,7 @@
 				BC8014CC1ECB1C66001607D2 /* MyCollectTableViewCell.xib in Resources */,
 				44F3DDDB1E8CABF40089208B /* LaunchScreen.storyboard in Resources */,
 				44F3DE001E8CAD690089208B /* ViewController4.xib in Resources */,
+				BC8014D11ECB2F7C001607D2 /* ShoppintCarTableViewCell.xib in Resources */,
 				BC93CD131EC8800200F97425 /* MyOrderTableViewCell.xib in Resources */,
 				BC93CD0E1EC8716000F97425 /* MyClassTableViewCell.xib in Resources */,
 				BC8D01AF1EAE24B800EC5CDE /* StudyRecordViewController.xib in Resources */,
@@ -1339,6 +1348,7 @@
 				44F3DF631E8CB1E00089208B /* MJRefreshBackGifFooter.m in Sources */,
 				44F3DE921E8CB1840089208B /* NSException+Trace.m in Sources */,
 				44F3DE041E8CAD720089208B /* ViewController5.m in Sources */,
+				BC8014D01ECB2F7C001607D2 /* ShoppintCarTableViewCell.m in Sources */,
 				44F3DDEC1E8CAD280089208B /* ViewController1.m in Sources */,
 				44F3DE891E8CB1840089208B /* NSDate+Addition.m in Sources */,
 				44F3DF4E1E8CB1E00089208B /* IQBarButtonItem.m in Sources */,
