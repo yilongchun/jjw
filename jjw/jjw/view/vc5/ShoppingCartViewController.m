@@ -25,9 +25,9 @@
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     self.title = @"购物车";
     
-//    dataSource = [NSMutableArray array];
+    dataSource = [NSMutableArray array];
 //    _myTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
-//        [self loadData];
+        [self loadData];
 //    }];
 //    _myTableView.tableFooterView = [[UIView alloc] init];
 //    [_myTableView.mj_header beginRefreshing];

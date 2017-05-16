@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="myCollectCell" id="KGk-i7-Jjw" customClass="MyCollectTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lg1-JT-UL6">
+                        <rect key="frame" x="10" y="10" width="37.5" height="18"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <color key="textColor" red="0.20000000000000001" green="0.20000000000000001" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="play2" translatesAutoresizingMaskIntoConstraints="NO" id="QTR-Qr-LWe">
+                        <rect key="frame" x="259" y="10" width="51" height="51"/>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eBK-9u-i7G">
+                        <rect key="frame" x="10" y="36" width="80" height="35"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="35" id="2GX-zh-k8s"/>
+                            <constraint firstAttribute="width" constant="80" id="2ti-J9-2ZK"/>
+                        </constraints>
+                        <state key="normal" title="取消收藏">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Shg-DH-VgW">
+                        <rect key="frame" x="10" y="79" width="31" height="14.5"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="eBK-9u-i7G" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="0s4-kO-HeV"/>
+                    <constraint firstItem="Lg1-JT-UL6" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="G8x-fz-44G"/>
+                    <constraint firstAttribute="trailing" secondItem="QTR-Qr-LWe" secondAttribute="trailing" constant="10" id="HmK-bp-52Y"/>
+                    <constraint firstItem="Lg1-JT-UL6" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="byp-m8-Gdc"/>
+                    <constraint firstItem="QTR-Qr-LWe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="eDK-tP-Qlh"/>
+                    <constraint firstItem="Shg-DH-VgW" firstAttribute="top" secondItem="eBK-9u-i7G" secondAttribute="bottom" constant="8" id="u8g-uQ-qvB"/>
+                    <constraint firstItem="Shg-DH-VgW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="uXK-fM-z1a"/>
+                    <constraint firstItem="eBK-9u-i7G" firstAttribute="top" secondItem="Lg1-JT-UL6" secondAttribute="bottom" constant="8" id="zVU-Jj-tDn"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="btn" destination="eBK-9u-i7G" id="9dn-gS-gyN"/>
+                <outlet property="label1" destination="Lg1-JT-UL6" id="md2-cE-cF9"/>
+                <outlet property="label2" destination="Shg-DH-VgW" id="TJv-iA-aYh"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="play2" width="51" height="51"/>
+    </resources>
+</document>

@@ -8,8 +8,15 @@
 
 #import "MyCollectViewController.h"
 #import "JZNavigationExtension.h"
+#import "MJRefresh.h"
+#import "MyCollectTableViewCell.h"
+#import "UIImage+Color.h"
 
-@interface MyCollectViewController ()
+@interface MyCollectViewController (){
+    NSMutableArray *dataSource;
+    int page;
+    int pageCount;
+}
 
 @end
 
@@ -21,11 +28,100 @@
     self.jz_navigationBarBackgroundAlpha = 1;
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     self.title = @"我的收藏";
+    
+    self.view.backgroundColor = RGB(245, 245, 245);
+    ViewBorderRadius(_myTableView, 0, 1, BORDER_COLOR);
+    self.automaticallyAdjustsScrollViewInsets = NO;
 
-    [self loadData];
+    _myTableView.tableFooterView = [[UIView alloc] init];
+    dataSource = [NSMutableArray array];
+    _myTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [self loadData];
+    }];
+    
+    _myTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        [self loadMore];
+    }];
+    
+    [_myTableView.mj_header beginRefreshing];
 }
 
 -(void)loadData{
+    page = 1;
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/get_user_favorite"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [_myTableView.mj_footer resetNoMoreData];
+        [_myTableView.mj_header endRefreshing];
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSArray *array = [result objectForKey:@"data_list"];
+            [dataSource removeAllObjects];
+            [dataSource addObjectsFromArray:array];
+            [_myTableView reloadData];
+            
+            NSNumber *page_count = [result objectForKey:@"page_count"];
+            pageCount = [page_count intValue];
+            DLog(@"%@",result);
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [_myTableView.mj_header endRefreshing];
+        [self showHintInView:self.view hint:error.description];
+        DLog(@"%@",error.description);
+    }];
+}
+
+-(void)loadMore{
+    page++;
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/get_user_favorite"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [_myTableView.mj_footer endRefreshing];
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSArray *array = [result objectForKey:@"data_list"];
+            [dataSource addObjectsFromArray:array];
+            NSNumber *pageNum = [result objectForKey:@"page"];
+            if (page == [pageNum intValue]) {
+                [_myTableView.mj_footer endRefreshingWithNoMoreData];
+            }
+            [_myTableView reloadData];
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [_myTableView.mj_footer endRefreshing];
+        [self showHintInView:self.view hint:error.description];
+        DLog(@"%@",error.description);
+    }];
+}
+
+//删除收藏
+-(void)delFav:(UIButton *)btn{
+    NSDictionary *info = [dataSource objectAtIndex:btn.tag];
+//    NSString *USER_ID = [info objectForKey:@"USER_ID"];
+    NSString *ids = [info objectForKey:@"ID"];
     [self showHudInView:self.view];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
@@ -34,18 +130,15 @@
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
-    [param setObject:@"1" forKey:@"page"];
-    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/get_user_favorite"];
+    [param setObject:ids forKey:@"cid"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/delete_user_favorite"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         [self hideHud];
+        DLog(@"%@",responseObject);
         NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
-            NSDictionary *result = [dic objectForKey:@"result"];
-            
-            
-            DLog(@"%@",result);
-            
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }else{
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
@@ -61,14 +154,49 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+#pragma mark - UITableViewDelegate
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 100;
 }
-*/
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+
+#pragma mark - UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return dataSource.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    static NSString *CellIdentifier = @"myCollectCell";
+    MyCollectTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell= (MyCollectTableViewCell *)[[[NSBundle  mainBundle]  loadNibNamed:@"MyCollectTableViewCell" owner:self options:nil]  lastObject];
+        [cell.btn setBackgroundImage:[UIImage imageWithColor:RGB(255, 153, 0) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+        ViewRadius(cell.btn, 5);
+    }
+    
+    NSDictionary *info = [dataSource objectAtIndex:indexPath.row];
+    NSString *courseName = [info objectForKey:@"COURSE_NAME"];
+    NSString *date = [info objectForKey:@"ADD_TIME"];
+    cell.label1.text = courseName;
+    cell.label2.text = [NSString stringWithFormat:@"%@收藏", date];
+    
+    cell.btn.tag = indexPath.row;
+    [cell.btn addTarget:self action:@selector(delFav:) forControlEvents:UIControlEventTouchUpInside];
+    
+    return cell;
+}
+
 
 @end
