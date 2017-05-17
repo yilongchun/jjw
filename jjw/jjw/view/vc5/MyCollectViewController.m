@@ -59,7 +59,7 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/get_user_favorite"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         [_myTableView.mj_footer resetNoMoreData];
-        [_myTableView.mj_header endRefreshing];
+        
         NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
@@ -71,6 +71,12 @@
             
             NSNumber *page_count = [result objectForKey:@"page_count"];
             pageCount = [page_count intValue];
+            if (page == pageCount) {
+                [_myTableView.mj_header endRefreshing];
+                [_myTableView.mj_footer endRefreshingWithNoMoreData];
+            }else{
+                [_myTableView.mj_header endRefreshing];
+            }
             DLog(@"%@",result);
             
         }else{
@@ -121,7 +127,7 @@
 -(void)delFav:(UIButton *)btn{
     NSDictionary *info = [dataSource objectAtIndex:btn.tag];
 //    NSString *USER_ID = [info objectForKey:@"USER_ID"];
-    NSString *ids = [info objectForKey:@"ID"];
+    NSString *ids = [info objectForKey:@"COURSE_ID"];
     [self showHudInView:self.view];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
@@ -139,6 +145,7 @@
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            [self loadData];
         }else{
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
