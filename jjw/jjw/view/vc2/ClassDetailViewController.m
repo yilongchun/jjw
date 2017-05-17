@@ -12,6 +12,8 @@
 #import "LGSegment.h"
 #import "TeacherHomeViewController.h"
 #import "UIImageView+AFNetworking.h"
+#import "SRVideoPlayer.h"
+#import "NSObject+Blocks.h"
 
 @interface ClassDetailViewController ()<SegmentDelegate>{
     NSDictionary *courseInfo;
@@ -19,6 +21,8 @@
     NSMutableArray *pinglunList;
     
 }
+
+@property (nonatomic, strong) SRVideoPlayer *videoPlayer;
 
 @property(nonatomic,strong)NSMutableArray *buttonList;
 @property (nonatomic, weak) LGSegment *segment;
@@ -48,6 +52,41 @@
     [self loadPinglun];
 }
 
+- (void)showVideoPlayer {
+    
+    NSDictionary *course_info = [courseInfo objectForKey:@"course_info"];
+    NSString *vid = [course_info objectForKey:@"VIDEO_URL"];
+//    DLog(@"%@",courseInfo);
+    
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSMutableSet *set = [NSMutableSet setWithObjects:@"application/x-javascript",@"text/javascript", nil];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    
+    NSString *url = [NSString stringWithFormat:@"http://player.polyv.net/videojson/%@.js",vid];
+    [manager GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+//        DLog(@"%@",responseObject);
+        NSArray *mp4Arr = [responseObject objectForKey:@"mp4"];
+        if (mp4Arr.count > 0) {
+            NSString *mp4 = [mp4Arr objectAtIndex:0];
+            UIView *playerView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 200)];
+            [self.view addSubview:playerView];
+            _videoPlayer = [SRVideoPlayer playerWithVideoURL:[NSURL URLWithString:mp4] playerView:playerView playerSuperView:playerView.superview];
+            _videoPlayer.videoName = [course_info objectForKey:@"TITLE"];
+            _videoPlayer.playerEndAction = SRVideoPlayerEndActionLoop;
+            
+            [_videoPlayer play];
+        }else{
+            [self showHudInView:self.view hint:@"获取视频失败"];
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
+}
+
 //课程详情
 -(void)loadData{
     [self showHudInView:self.view];
@@ -58,6 +97,17 @@
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    if (userInfo) {
+        
+    }else{
+        [self hideHud];
+        [self showHintInView:self.view hint:@"您未登录"];
+        [self performBlock:^{
+            [self.navigationController popViewControllerAnimated:YES];
+        } afterDelay:1.5];
+        return;
+    }
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:[_info objectForKey:@"COURSE_ID"] forKey:@"id"];
@@ -203,6 +253,9 @@
     UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, Main_Screen_Width - 20, videoHeight)];
     [image setImageWithURL:[NSURL URLWithString:LOGO]];
     ViewRadius(image, 10);
+    image.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showVideoPlayer)];
+    [image addGestureRecognizer:tap];
     [_myScrollView addSubview:image];
     
     UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + videoHeight + 10, Main_Screen_Width - 20, 1)];

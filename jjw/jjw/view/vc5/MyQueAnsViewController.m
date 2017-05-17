@@ -34,12 +34,14 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
+    _myTableView.tableFooterView = [[UIView alloc] init];
+    
     _myTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self loadData];
         
     }];
     
-    _myTableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
+    _myTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self loadMore];
         
     }];
