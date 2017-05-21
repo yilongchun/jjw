@@ -20,6 +20,10 @@
     int page;
     
     NSString *osid;//一级分类：高中、初中、小学
+    NSMutableArray *firstDataSource;//一级分类
+    
+    NSString *tsid;//二级分类：语文，数学，外语，政治，等
+    NSMutableArray *secondDataSource;//二级分类
 }
 
 @property (nonatomic,weak) WJDropdownMenu *menu;
@@ -47,11 +51,14 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     dataSource = [NSMutableArray array];
+    firstDataSource = [NSMutableArray array];
+    secondDataSource = [NSMutableArray array];
     
     [self initMenu];
     [self initUI];
     
     osid = @"268";
+    tsid = @"";
     
     _myCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self loadData];
@@ -64,7 +71,6 @@
     [_myCollectionView.mj_header beginRefreshing];
     
     [self loadTest];
-    [self loadTest2];
 }
 
 -(void)initMenu{
@@ -226,11 +232,21 @@
     [manager.responseSerializer setAcceptableContentTypes:set];
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_one_class"];
     
+    
+    
     [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
             NSDictionary *result = [dic objectForKey:@"result"];
+            NSArray *dataList = [result objectForKey:@"data_list"];
+            [firstDataSource removeAllObjects];
+            [firstDataSource addObjectsFromArray:dataList];
+            
+            if (firstDataSource.count > 0) {
+                NSString *subjectId = [firstDataSource[0] objectForKey:@"SUBJECT_ID"];
+                [self loadTwoClass:subjectId];
+            }
             
             DLog(@"课程一级分类%@",responseObject);
         }else{
@@ -242,19 +258,25 @@
     }];
 }
 
-//获得课程下级分类
--(void)loadTest2{
+//获得二级分类
+-(void)loadTwoClass:(NSString *)parentId{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
     [manager.responseSerializer setAcceptableContentTypes:set];
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_next_class"];
     
-    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+    NSMutableDictionary *parameters  = [NSMutableDictionary dictionary];
+    [parameters setValue:parentId forKey:@"subject_id"];
+    
+    [manager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
         NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
             NSDictionary *result = [dic objectForKey:@"result"];
             
+            NSArray *dataList = [result objectForKey:@"data_list"];
+            [secondDataSource removeAllObjects];
+            [secondDataSource addObjectsFromArray:dataList];
             DLog(@"%@",responseObject);
         }else{
             
@@ -278,7 +300,7 @@
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:osid forKey:@"osid"];//一级分类：高中、初中、小学
-    [param setObject:@"" forKey:@"tsid"];//二级分类：语文，数学，外语，政治，等
+    [param setObject:tsid forKey:@"tsid"];//二级分类：语文，数学，外语，政治，等
     [param setObject:@"" forKey:@"ttsid"];//三级分类：必修一，必修二，必修三，等
     [param setObject:@"" forKey:@"tttsid"];//四级分类：3．2 简单的三角恒等变换，等
     
@@ -330,7 +352,7 @@
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:osid forKey:@"osid"];//一级分类：高中、初中、小学
-    [param setObject:@"" forKey:@"tsid"];//二级分类：语文，数学，外语，政治，等
+    [param setObject:tsid forKey:@"tsid"];//二级分类：语文，数学，外语，政治，等
     [param setObject:@"" forKey:@"ttsid"];//三级分类：必修一，必修二，必修三，等
     [param setObject:@"" forKey:@"tttsid"];//四级分类：3．2 简单的三角恒等变换，等
     
