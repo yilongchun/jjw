@@ -11,6 +11,6 @@
 @interface ClassDetailViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIScrollView *myScrollView;
-@property (nonatomic, strong) NSDictionary *info;
+@property (nonatomic, strong) NSString *courseId;
 
 @end

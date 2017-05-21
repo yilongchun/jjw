@@ -37,7 +37,7 @@
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
     [param setObject:@"1" forKey:@"page"];
-    [param setObject:@"CANCEL" forKey:@"type"];//订单状态 SUCCESS已支付 INIT未支付 CANCEL已取消 （大写）
+//    [param setObject:@"CANCEL" forKey:@"type"];//订单状态 SUCCESS已支付 INIT未支付 CANCEL已取消 （大写）
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_center/user_order_pack_course"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         [self hideHud];

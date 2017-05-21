@@ -47,44 +47,83 @@
     likeList = [NSMutableArray array];
     pinglunList = [NSMutableArray array];
     
+    _myScrollView.bounces = NO;
+    
     
     [self loadData];
     [self loadPinglun];
 }
 
+
+- (void)viewDidDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
+    if (_videoPlayer) {
+        [_videoPlayer destroyPlayer];
+    }
+    
+}
+
 - (void)showVideoPlayer {
     
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    if (!userInfo) {
+        [self showHintInView:self.view hint:@"请先登录"];
+        return;
+    }
     NSDictionary *course_info = [courseInfo objectForKey:@"course_info"];
-    NSString *vid = [course_info objectForKey:@"VIDEO_URL"];
-//    DLog(@"%@",courseInfo);
-    
-    [self showHudInView:self.view];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSMutableSet *set = [NSMutableSet setWithObjects:@"application/x-javascript",@"text/javascript", nil];
-    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSNumber *isBuy = [courseInfo objectForKey:@"is_buy"];
+    NSString *expire_time = [courseInfo objectForKey:@"expire_time"];
     
     
-    NSString *url = [NSString stringWithFormat:@"http://player.polyv.net/videojson/%@.js",vid];
-    [manager GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self hideHud];
-//        DLog(@"%@",responseObject);
-        NSArray *mp4Arr = [responseObject objectForKey:@"mp4"];
-        if (mp4Arr.count > 0) {
-            NSString *mp4 = [mp4Arr objectAtIndex:0];
-            UIView *playerView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 200)];
-            [self.view addSubview:playerView];
-            _videoPlayer = [SRVideoPlayer playerWithVideoURL:[NSURL URLWithString:mp4] playerView:playerView playerSuperView:playerView.superview];
-            _videoPlayer.videoName = [course_info objectForKey:@"TITLE"];
-            _videoPlayer.playerEndAction = SRVideoPlayerEndActionLoop;
+    
+    if ([isBuy boolValue] && expire_time && ![expire_time isKindOfClass:[NSNull class]] && ![expire_time isEqualToString:@""]) {
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSDate *expireDate = [dateFormatter dateFromString:expire_time];
+        
+        if ([expireDate compare:[NSDate date]] > 0) {
+            NSString *vid = [course_info objectForKey:@"VIDEO_URL"];
             
-            [_videoPlayer play];
+            [self showHudInView:self.view];
+            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+            NSMutableSet *set = [NSMutableSet setWithObjects:@"application/x-javascript",@"text/javascript", nil];
+            [manager.responseSerializer setAcceptableContentTypes:set];
+            
+            
+            NSString *url = [NSString stringWithFormat:@"http://player.polyv.net/videojson/%@.js",vid];
+            [manager GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+                [self hideHud];
+                //        DLog(@"%@",responseObject);
+                NSArray *mp4Arr = [responseObject objectForKey:@"mp4"];
+                if (mp4Arr.count > 0) {
+                    NSString *mp4 = [mp4Arr objectAtIndex:0];
+                    UIView *playerView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 200)];
+                    [self.view addSubview:playerView];
+                    _videoPlayer = [SRVideoPlayer playerWithVideoURL:[NSURL URLWithString:mp4] playerView:playerView playerSuperView:playerView.superview];
+                    _videoPlayer.videoName = [course_info objectForKey:@"TITLE"];
+                    _videoPlayer.playerEndAction = SRVideoPlayerEndActionLoop;
+                    
+                    [_videoPlayer play];
+                }else{
+                    [self showHudInView:self.view hint:@"获取视频失败"];
+                }
+            } failure:^(NSURLSessionDataTask *task, NSError *error) {
+                [self hideHud];
+                DLog(@"%@",error.description);
+            }];
         }else{
-            [self showHudInView:self.view hint:@"获取视频失败"];
+            [self showHintInView:self.view hint:@"需要购买才能观看"];
+            return;
         }
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self hideHud];
-        DLog(@"%@",error.description);
-    }];
+    }else{
+        [self showHintInView:self.view hint:@"需要购买才能观看"];
+        return;
+    }
+    
 }
 
 //课程详情
@@ -95,23 +134,16 @@
     [manager.responseSerializer setAcceptableContentTypes:set];
     
     
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:_courseId forKey:@"id"];
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     
     if (userInfo) {
-        
-    }else{
-        [self hideHud];
-        [self showHintInView:self.view hint:@"您未登录"];
-        [self performBlock:^{
-            [self.navigationController popViewControllerAnimated:YES];
-        } afterDelay:1.5];
-        return;
+        [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
     }
     
-    NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    [param setObject:[_info objectForKey:@"COURSE_ID"] forKey:@"id"];
-    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
     //    [param setObject:@"1" forKey:@"uid"];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_course_info"];
@@ -143,7 +175,7 @@
     [manager.responseSerializer setAcceptableContentTypes:set];
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    [param setObject:[_info objectForKey:@"COURSE_ID"] forKey:@"id"];
+    [param setObject:_courseId forKey:@"id"];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_like"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -174,7 +206,7 @@
     [manager.responseSerializer setAcceptableContentTypes:set];
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    [param setObject:[_info objectForKey:@"COURSE_ID"] forKey:@"id"];
+    [param setObject:_courseId forKey:@"id"];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_comment_list"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -198,18 +230,98 @@
     }];
 }
 
-//添加购物车
--(void)addGoodToCard{
+-(void)btnClick:(UIButton *)btn{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    if (!userInfo) {
+        [self showHintInView:self.view hint:@"请先登录"];
+        return;
+    }
+    
+    if (btn.tag == 1) {//余额支付
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要购买吗?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self payByYue];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action2];
+        [alert addAction:action1];
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    }else if (btn.tag == 2){//支付宝支付
+        
+    }
+}
+
+//余额支付
+-(void)payByYue{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    if (!userInfo) {
+        [self showHintInView:self.view hint:@"请先登录"];
+        return;
+    }
+    
     [self showHudInView:self.view];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
     [manager.responseSerializer setAcceptableContentTypes:set];
     
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@"balance" forKey:@"pay_type"];
+    [param setObject:_courseId forKey:@"course_id"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/payment/goto_pay"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            
+            
+            
+            [_myScrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [obj removeFromSuperview];
+            }];
+            [self loadData];
+            [self loadPinglun];
+            
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
+}
+
+//添加购物车
+-(void)addGoodToCard{
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     
+    if (!userInfo) {
+        [self showHintInView:self.view hint:@"请先登录"];
+        return;
+    }
+    
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    
+    
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    [param setObject:[_info objectForKey:@"COURSE_ID"] forKey:@"course_id"];
+    [param setObject:_courseId forKey:@"course_id"];
     [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
     
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/cart/add_good_to_cart"];
@@ -256,6 +368,13 @@
     image.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showVideoPlayer)];
     [image addGestureRecognizer:tap];
+    
+    
+    
+    UIImageView *playImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"play"]];
+    [playImage setFrame:CGRectMake((CGRectGetWidth(image.frame) - CGRectGetWidth(playImage.frame))/2, videoHeight/2 - CGRectGetHeight(playImage.frame)/2, CGRectGetWidth(playImage.frame), CGRectGetHeight(playImage.frame))];
+    [image addSubview:playImage];
+    
     [_myScrollView addSubview:image];
     
     UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + videoHeight + 10, Main_Screen_Width - 20, 1)];
@@ -269,9 +388,34 @@
     titleLabel.text = title;
     [titleLabel sizeToFit];
     [_myScrollView addSubview:titleLabel];
+    
+    CGFloat maxY = CGRectGetMaxY(titleLabel.frame);
+    NSNumber *isBuy = [courseInfo objectForKey:@"is_buy"];
+    NSString *expire_time = [courseInfo objectForKey:@"expire_time"];
+    
+    
+    if ([isBuy boolValue] && expire_time && ![expire_time isKindOfClass:[NSNull class]] && ![expire_time isEqualToString:@""]) {
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSDate *expireDate = [dateFormatter dateFromString:expire_time];
+        
+        if ([expireDate compare:[NSDate date]] > 0) {
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, maxY + 10, 0, 0)];
+            label.font = SYSTEMFONT(18);
+            label.textColor = [UIColor redColor];
+            label.text = @"您已经购买了本课程";
+            [label sizeToFit];
+            maxY = CGRectGetMaxY(label.frame);
+            [_myScrollView addSubview:label];
+        }
+        
+    }
+    
+    
     //价格
     NSString *currentPrice = [course_info objectForKey:@"CURRENT_PRICE"];
-    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(titleLabel.frame) + 10, 0, 0)];
+    UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, maxY + 10, 0, 0)];
     priceLabel.font = SYSTEMFONT(12);
     priceLabel.textColor = RGB(102, 102, 102);
     priceLabel.text = @"价格:";
@@ -289,14 +433,14 @@
     
     //原价
     NSString *sourcePrice = [course_info objectForKey:@"SOURCE_PRICE"];
-    UILabel *yuanjiaLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(price.frame) + 20, CGRectGetMaxY(titleLabel.frame) + 10, 0, 0)];
+    UILabel *yuanjiaLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(price.frame) + 20, maxY + 10, 0, 0)];
     yuanjiaLabel.font = SYSTEMFONT(12);
     yuanjiaLabel.textColor = RGB(102, 102, 102);
     yuanjiaLabel.text = [NSString stringWithFormat:@"原价: %@",sourcePrice];
     [yuanjiaLabel sizeToFit];
     [_myScrollView addSubview:yuanjiaLabel];
     //有效期
-    UILabel *youxiaoqiLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yuanjiaLabel.frame) + 20, CGRectGetMaxY(titleLabel.frame) + 10, 0, 0)];
+    UILabel *youxiaoqiLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yuanjiaLabel.frame) + 20, maxY + 10, 0, 0)];
     youxiaoqiLabel.font = SYSTEMFONT(12);
     youxiaoqiLabel.textColor = RGB(102, 102, 102);
     youxiaoqiLabel.text = [NSString stringWithFormat:@"有效期: 180天"];
@@ -328,27 +472,98 @@
     [playNumLabel sizeToFit];
     [_myScrollView addSubview:playNumLabel];
     
-    CGFloat btnWidth = (Main_Screen_Width - 40)/3;
-    //支付宝支付
-    UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
-    [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
-    [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    zhifubaoBtn.titleLabel.font = SYSTEMFONT(15);
-    [zhifubaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-    ViewRadius(zhifubaoBtn, 5);
-    [_myScrollView addSubview:zhifubaoBtn];
+    if ([isBuy boolValue] && expire_time && ![expire_time isKindOfClass:[NSNull class]] && ![expire_time isEqualToString:@""]) {
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSDate *expireDate = [dateFormatter dateFromString:expire_time];
+        
+        if ([expireDate compare:[NSDate date]] > 0) {
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 20, 0, 0)];
+            label.font = SYSTEMFONT(20);
+            label.textColor = [UIColor redColor];
+            label.text = [NSString stringWithFormat:@"观看到期时间：%@",expire_time];
+            [label sizeToFit];
+            maxY = CGRectGetMaxY(label.frame);
+            [_myScrollView addSubview:label];
+        }else{
+            CGFloat btnWidth = (Main_Screen_Width - 40)/3;
+            //余额支付
+            UIButton *yueBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
+            [yueBtn setTitle:@"余额支付" forState:UIControlStateNormal];
+            [yueBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            yueBtn.titleLabel.font = SYSTEMFONT(15);
+            [yueBtn setBackgroundImage:[UIImage imageWithColor:RGB(255, 153, 0) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(yueBtn, 5);
+            yueBtn.tag = 1;
+            [yueBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [_myScrollView addSubview:yueBtn];
+            
+            //支付宝支付
+            UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
+            [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
+            [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            zhifubaoBtn.titleLabel.font = SYSTEMFONT(15);
+            [zhifubaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(zhifubaoBtn, 5);
+            zhifubaoBtn.tag = 2;
+            [zhifubaoBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [_myScrollView addSubview:zhifubaoBtn];
+            
+            //加入购物车
+            UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
+            [addBtn setTitle:@"加入购物车" forState:UIControlStateNormal];
+            [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            addBtn.titleLabel.font = SYSTEMFONT(15);
+            [addBtn setBackgroundImage:[UIImage imageWithColor:RGB(150, 218, 255) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(addBtn, 5);
+            [addBtn addTarget:self action:@selector(addGoodToCard) forControlEvents:UIControlEventTouchUpInside];
+            [_myScrollView addSubview:addBtn];
+            
+            maxY = CGRectGetMaxY(addBtn.frame);
+        }
+        
+        
+        
+    }else{
+        
+        CGFloat btnWidth = (Main_Screen_Width - 40)/3;
+        //余额支付
+        UIButton *yueBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
+        [yueBtn setTitle:@"余额支付" forState:UIControlStateNormal];
+        [yueBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        yueBtn.titleLabel.font = SYSTEMFONT(15);
+        [yueBtn setBackgroundImage:[UIImage imageWithColor:RGB(255, 153, 0) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+        ViewRadius(yueBtn, 5);
+        yueBtn.tag = 1;
+        [yueBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_myScrollView addSubview:yueBtn];
+        
+        //支付宝支付
+        UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
+        [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
+        [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        zhifubaoBtn.titleLabel.font = SYSTEMFONT(15);
+        [zhifubaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+        ViewRadius(zhifubaoBtn, 5);
+        zhifubaoBtn.tag = 2;
+        [zhifubaoBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_myScrollView addSubview:zhifubaoBtn];
+        
+        //加入购物车
+        UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
+        [addBtn setTitle:@"加入购物车" forState:UIControlStateNormal];
+        [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        addBtn.titleLabel.font = SYSTEMFONT(15);
+        [addBtn setBackgroundImage:[UIImage imageWithColor:RGB(150, 218, 255) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+        ViewRadius(addBtn, 5);
+        [addBtn addTarget:self action:@selector(addGoodToCard) forControlEvents:UIControlEventTouchUpInside];
+        [_myScrollView addSubview:addBtn];
+        
+        maxY = CGRectGetMaxY(addBtn.frame);
+        
+    }
     
-    //加入购物车
-    UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
-    [addBtn setTitle:@"加入购物车" forState:UIControlStateNormal];
-    [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    addBtn.titleLabel.font = SYSTEMFONT(15);
-    [addBtn setBackgroundImage:[UIImage imageWithColor:RGB(150, 218, 255) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-    ViewRadius(addBtn, 5);
-    [addBtn addTarget:self action:@selector(addGoodToCard) forControlEvents:UIControlEventTouchUpInside];
-    [_myScrollView addSubview:addBtn];
-    
-    line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(addBtn.frame) + 20, Main_Screen_Width, 1)];
+    line = [[UILabel alloc] initWithFrame:CGRectMake(0, maxY + 20, Main_Screen_Width, 1)];
     line.backgroundColor = RGB(223, 223, 223);
     [_myScrollView addSubview:line];
     
