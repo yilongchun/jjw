@@ -11,11 +11,20 @@
 #import "UIImage+Color.h"
 #import "UIImageView+AFNetworking.h"
 #import "MJRefresh.h"
+#import "HZSigmentView.h"
 
-@interface ViewController1 (){
+@interface ViewController1 ()<HZSigmentViewDelegate>{
     UIScrollView *myScrollView;//主界面滚动视图
     
     UIScrollView *bixiuScrollView;//必修滚动界面
+    
+    NSInteger secondIndex;
+    NSString *tsid;//二级分类：语文，数学，外语，政治，等
+    NSMutableArray *secondDataSource;//二级分类
+    
+    
+    NSString *ttsid;//三级分类：必修一，必修二，必修三，等
+    NSMutableArray *thirdDataSource;//三级分类
     
     int requestNum;
     NSArray *adImagesArray;
@@ -25,6 +34,8 @@
     NSArray *centerAdImagesArray;
     NSArray *recommendTeacherArray;
 }
+
+@property (nonatomic, strong) HZSigmentView * sigment;//横向滑动二级
 
 @end
 
@@ -61,7 +72,9 @@
     [navView addSubview:searchBar];
     self.navigationItem.titleView = navView;
     
-    
+    secondIndex = 0;
+    secondDataSource = [NSMutableArray array];
+    thirdDataSource = [NSMutableArray array];
     
     myScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height- - 49 - 50)];
     [self.view addSubview:myScrollView];
@@ -78,6 +91,7 @@
 -(void)loadData{
     
     requestNum = 0;
+    [self loadTwoClass:@"268"];
     [self loadData1];
     [self loadData2];
     [self loadData3];
@@ -93,10 +107,129 @@
     }
 }
 
+//获得二级分类
+-(void)loadTwoClass:(NSString *)parentId{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_next_class"];
+    
+    NSMutableDictionary *parameters  = [NSMutableDictionary dictionary];
+    [parameters setValue:parentId forKey:@"subject_id"];
+    
+    [manager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            
+            NSArray *dataList = [result objectForKey:@"data_list"];
+            
+            if (dataList.count > 0) {
+                [secondDataSource removeAllObjects];
+                [secondDataSource addObjectsFromArray:dataList];
+                DLog(@"%@",responseObject);
+                
+                NSMutableArray *titleArray = [NSMutableArray array];
+                for (int i = 0; i < secondDataSource.count; i++) {
+                    NSDictionary *dic = [secondDataSource objectAtIndex:i];
+                    NSString *name = [dic objectForKey:@"SUBJECT_NAME"];
+                    [titleArray addObject:name];
+                }
+                
+                if (self.sigment) {
+                    [self.sigment removeFromSuperview];
+                    self.sigment = nil;
+                }
+                
+                self.sigment = [[HZSigmentView alloc] initWithOrgin:CGPointMake(0, 0) andHeight:40];
+                self.sigment.delegate = self;
+                self.sigment.titleArry = titleArray;
+                
+                // 设置标题选中时的颜色
+                self.sigment.titleColorSelect = DDMColor(255, 153, 0);
+                // 设置标题未选中的颜色
+                //    self.sigment.titleColorNormal = [UIColor redColor];
+                // 默认选中第几项
+                //self.sigment.defaultIndex = 2;
+                // 设置标题字体大小
+                //    self.sigment.titleFont = [UIFont systemFontOfSize:9];
+                
+                //    self.sigment.bottomLineColor = [UIColor yellowColor];
+                self.sigment.titleLineColor = [UIColor grayColor];
+                self.sigment.defaultIndex = 1;
+                [myScrollView addSubview:self.sigment];
+                
+//                UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.sigment.frame), Main_Screen_Width, 0.5)];
+//                line.backgroundColor = RGB(219, 219, 219);
+//                [self.view addSubview:line];
+                
+                
+                NSDictionary *dic = [secondDataSource objectAtIndex:secondIndex];
+                NSString *subjectId = [dic objectForKey:@"SUBJECT_ID"];
+            
+                tsid = subjectId;
+                
+                [self loadThreeClass:subjectId];
+            }
+            
+            
+            
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self showHintInView:self.view hint:error.description];
+    }];
+}
+
+-(void)loadThreeClass:(NSString *)parentId{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_next_class"];
+    
+    NSMutableDictionary *parameters  = [NSMutableDictionary dictionary];
+    [parameters setValue:parentId forKey:@"subject_id"];
+    
+    [manager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSArray *dataList = [result objectForKey:@"data_list"];
+            
+            if (dataList.count > 0) {
+                [thirdDataSource removeAllObjects];
+                [thirdDataSource addObjectsFromArray:dataList];
+                
+//                NSDictionary *dic = [thirdDataSource objectAtIndex:0];
+//                NSString *subjectId = [dic objectForKey:@"SUBJECT_ID"];
+//                ttsid = subjectId;
+                
+                [self initBixiuData];
+                
+            }
+            
+            
+            
+            
+            
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self showHintInView:self.view hint:error.description];
+    }];
+}
+
+
 -(void)initUI{
     
     [myScrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (![obj isKindOfClass:[MJRefreshHeader class]]) {
+        if (![obj isKindOfClass:[MJRefreshHeader class]] && ![obj isKindOfClass:[HZSigmentView class]]) {
             [obj removeFromSuperview];
         }
         
@@ -104,21 +237,21 @@
     
     CGFloat maxY;
     
-    //广告图片
+//    //广告图片
     CGFloat imageViewHeight = Main_Screen_Width * 296 / 640;
-    UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, imageViewHeight)];
-    
-    if (adImagesArray.count > 0) {
-        NSDictionary *dic = adImagesArray[0];
-        NSString *imageUrl = [dic objectForKey:@"IMAGE_URL"];
-        [imageview setImageWithURL:[NSURL URLWithString:imageUrl]];
-    }
-    
-//    imageview.image = [UIImage imageNamed:@"1484533496_919.jpg"];
-    [myScrollView addSubview:imageview];
+//    UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, Main_Screen_Width, imageViewHeight)];
+//    
+//    if (adImagesArray.count > 0) {
+//        NSDictionary *dic = adImagesArray[0];
+//        NSString *imageUrl = [dic objectForKey:@"IMAGE_URL"];
+//        [imageview setImageWithURL:[NSURL URLWithString:imageUrl]];
+//    }
+//    
+////    imageview.image = [UIImage imageNamed:@"1484533496_919.jpg"];
+//    [myScrollView addSubview:imageview];
     
     //必修
-    bixiuScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(imageview.frame), Main_Screen_Width, 118)];
+    bixiuScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, Main_Screen_Width, 118)];
     bixiuScrollView.showsHorizontalScrollIndicator = NO;
     [myScrollView addSubview:bixiuScrollView];
     UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(bixiuScrollView.frame), Main_Screen_Width, 0.5)];
@@ -488,10 +621,23 @@
 //加载必修课程
 -(void)initBixiuData{
     
+    [bixiuScrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
+    
+    NSDictionary *secDic = [secondDataSource objectAtIndex:secondIndex];
+    NSString *name = [secDic objectForKey:@"SUBJECT_NAME"];
+    CGRect rect = CGRectMake(0, 0, 0, 0);
     CGFloat x = 0;
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < thirdDataSource.count; i++) {
+        NSDictionary *dic = [thirdDataSource objectAtIndex:i];
+        NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+        NSNumber *isPack = [dic objectForKey:@"is_pack"];
+        NSString *price = [dic objectForKey:@"price"];
+        DLog(@"%@",dic);
+        
         UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(x + 5, 10, 130, 80)];
-        [btn setTitle:@"必修1\n共21节" forState:UIControlStateNormal];
+        [btn setTitle:[NSString stringWithFormat:@"%@%@\n共0节",name,subjectName] forState:UIControlStateNormal];
         btn.titleLabel.numberOfLines = 0;
         [btn setBackgroundImage:[UIImage imageWithColor:RGB(86, 189, 238) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
         ViewBorderRadius(btn, 10, 0, [UIColor whiteColor]);
@@ -510,6 +656,10 @@
         [btn addTarget:self action:@selector(bixiuClick:) forControlEvents:UIControlEventTouchUpInside];
         [bixiuScrollView addSubview:btn];
         
+        if (i == 0) {
+            rect = btn.frame;
+        }
+        
         UILabel *btnLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(btn.frame), CGRectGetMaxY(btn.frame) + 8, CGRectGetWidth(btn.frame), 11)];
         btnLabel.text = @"暂时没有打包";
         btnLabel.textAlignment = NSTextAlignmentCenter;
@@ -519,7 +669,8 @@
         x = CGRectGetMaxX(btn.frame) + 5;
     }
     [bixiuScrollView setContentSize:CGSizeMake(x, CGRectGetHeight(bixiuScrollView.frame))];
-    
+    rect.origin.x -= 5;
+    [bixiuScrollView scrollRectToVisible:rect animated:YES];
 }
 
 //必修点击
@@ -676,6 +827,16 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - HZSigmentViewDelegate
+
+-(void)segment:(HZSigmentView *)sengment didSelectColumnIndex:(NSInteger)index {
+    
+    secondIndex = index-1;
+    NSDictionary *dic = [secondDataSource objectAtIndex:index-1];
+    NSString *subjectId = [dic objectForKey:@"SUBJECT_ID"];
+    [self loadThreeClass:subjectId];
 }
 
 /*
