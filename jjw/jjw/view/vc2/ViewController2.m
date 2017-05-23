@@ -939,7 +939,7 @@
     
     NSString *LESSION_NUM = [info objectForKey:@"LESSION_NUM"];
     NSString *play_times = [info objectForKey:@"play_times"];
-    [cell.topImageView setImageWithURL:[NSURL URLWithString:LOGO]];
+    [cell.topImageView setImageWithURL:[NSURL URLWithString:LOGO] placeholderImage:[UIImage imageWithColor:RGB(220, 220, 220) size:CGSizeMake(10, 10)]];
     cell.teacherLabel.text = teacher_name;
     cell.titleLabel.text = TITLE;
     cell.lessionNumLabel.text = LESSION_NUM;
