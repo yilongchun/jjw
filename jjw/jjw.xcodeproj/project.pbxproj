@@ -163,6 +163,10 @@
 		BC86E6CB1ECC60E500AC184D /* SRVideoTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = BC86E6B91ECC60E500AC184D /* SRVideoTopBar.m */; };
 		BC8A84391EC338890062F455 /* PaidRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A84371EC338890062F455 /* PaidRecordTableViewCell.m */; };
 		BC8A843A1EC338890062F455 /* PaidRecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8A84381EC338890062F455 /* PaidRecordTableViewCell.xib */; };
+		BC8C8E461ED17803005533C1 /* HZSigmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8C8E451ED17803005533C1 /* HZSigmentView.m */; };
+		BC8C8E4C1ED1AD56005533C1 /* accessory_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC8C8E481ED1AD56005533C1 /* accessory_highlight@2x.png */; };
+		BC8C8E4D1ED1AD56005533C1 /* accessory_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC8C8E491ED1AD56005533C1 /* accessory_normal@2x.png */; };
+		BC8C8E4E1ED1AD56005533C1 /* LrdSuperMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8C8E4B1ED1AD56005533C1 /* LrdSuperMenu.m */; };
 		BC8D01961EAE168200EC5CDE /* default_avatar.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */; };
 		BC8D019A1EAE220200EC5CDE /* PaidRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */; };
 		BC8D019B1EAE220200EC5CDE /* PaidRecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01991EAE220200EC5CDE /* PaidRecordViewController.xib */; };
@@ -507,6 +511,12 @@
 		BC8A84361EC338890062F455 /* PaidRecordTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaidRecordTableViewCell.h; sourceTree = "<group>"; };
 		BC8A84371EC338890062F455 /* PaidRecordTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaidRecordTableViewCell.m; sourceTree = "<group>"; };
 		BC8A84381EC338890062F455 /* PaidRecordTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaidRecordTableViewCell.xib; sourceTree = "<group>"; };
+		BC8C8E441ED17803005533C1 /* HZSigmentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HZSigmentView.h; sourceTree = "<group>"; };
+		BC8C8E451ED17803005533C1 /* HZSigmentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HZSigmentView.m; sourceTree = "<group>"; };
+		BC8C8E481ED1AD56005533C1 /* accessory_highlight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accessory_highlight@2x.png"; sourceTree = "<group>"; };
+		BC8C8E491ED1AD56005533C1 /* accessory_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accessory_normal@2x.png"; sourceTree = "<group>"; };
+		BC8C8E4A1ED1AD56005533C1 /* LrdSuperMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LrdSuperMenu.h; sourceTree = "<group>"; };
+		BC8C8E4B1ED1AD56005533C1 /* LrdSuperMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LrdSuperMenu.m; sourceTree = "<group>"; };
 		BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_avatar.jpeg; sourceTree = "<group>"; };
 		BC8D01971EAE220200EC5CDE /* PaidRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaidRecordViewController.h; sourceTree = "<group>"; };
 		BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaidRecordViewController.m; sourceTree = "<group>"; };
@@ -1022,6 +1032,8 @@
 		44F3DEB81E8CB1DF0089208B /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				BC8C8E471ED1AD56005533C1 /* LrdSuperMenu */,
+				BC8C8E431ED17803005533C1 /* HZSigmentView */,
 				BC949E531ECF3558001DF99E /* WJDropDownMenu */,
 				BC86E6901ECC60E500AC184D /* SRVideoPlayer */,
 				44F3DEB91E8CB1DF0089208B /* AFNetworking */,
@@ -1345,6 +1357,26 @@
 			path = Masonry;
 			sourceTree = "<group>";
 		};
+		BC8C8E431ED17803005533C1 /* HZSigmentView */ = {
+			isa = PBXGroup;
+			children = (
+				BC8C8E441ED17803005533C1 /* HZSigmentView.h */,
+				BC8C8E451ED17803005533C1 /* HZSigmentView.m */,
+			);
+			path = HZSigmentView;
+			sourceTree = "<group>";
+		};
+		BC8C8E471ED1AD56005533C1 /* LrdSuperMenu */ = {
+			isa = PBXGroup;
+			children = (
+				BC8C8E481ED1AD56005533C1 /* accessory_highlight@2x.png */,
+				BC8C8E491ED1AD56005533C1 /* accessory_normal@2x.png */,
+				BC8C8E4A1ED1AD56005533C1 /* LrdSuperMenu.h */,
+				BC8C8E4B1ED1AD56005533C1 /* LrdSuperMenu.m */,
+			);
+			path = LrdSuperMenu;
+			sourceTree = "<group>";
+		};
 		BC949E531ECF3558001DF99E /* WJDropDownMenu */ = {
 			isa = PBXGroup;
 			children = (
@@ -1414,10 +1446,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				BC8D01B91EAE25D000EC5CDE /* MyCollectViewController.xib in Resources */,
+				BC8C8E4C1ED1AD56005533C1 /* accessory_highlight@2x.png in Resources */,
 				44F3DF741E8CB4630089208B /* 1484533496_919.jpg in Resources */,
 				BC5AD3D81E8FE6EF004D2D3F /* CollectionViewCell2.xib in Resources */,
 				BC8D01BE1EAE263700EC5CDE /* MyQueAnsViewController.xib in Resources */,
 				BC9141581EA10EA700F7A654 /* 1481518277839.png in Resources */,
+				BC8C8E4D1ED1AD56005533C1 /* accessory_normal@2x.png in Resources */,
 				BC0693E21E926D310055D8E3 /* wx.jpeg in Resources */,
 				44F3DE051E8CAD720089208B /* ViewController5.xib in Resources */,
 				44F3DF411E8CB1E00089208B /* btnCheck.png in Resources */,
@@ -1509,6 +1543,7 @@
 				BC9817991EA3A2BF00F45E31 /* TeacherHomeViewController.m in Sources */,
 				44F3DF4B1E8CB1E00089208B /* IQKeyboardManager.m in Sources */,
 				BC8D01A91EAE246800EC5CDE /* PackageClassViewController.m in Sources */,
+				BC8C8E4E1ED1AD56005533C1 /* LrdSuperMenu.m in Sources */,
 				44F3DF4D1E8CB1E00089208B /* IQTextView.m in Sources */,
 				44F3DF381E8CB1E00089208B /* AFHTTPRequestOperation.m in Sources */,
 				44F3DEAE1E8CB1840089208B /* UIImageView+AFNetworking.m in Sources */,
@@ -1551,6 +1586,7 @@
 				44F3DE9B1E8CB1840089208B /* NSObject+Property.m in Sources */,
 				44F3DEA51E8CB1840089208B /* NSString+Valid.m in Sources */,
 				44F3DEB71E8CB1840089208B /* UIViewController+Visible.m in Sources */,
+				BC8C8E461ED17803005533C1 /* HZSigmentView.m in Sources */,
 				44F3DF511E8CB1E00089208B /* IQToolbar.m in Sources */,
 				44F3DDF51E8CAD530089208B /* ViewController2.m in Sources */,
 				44F3DF5D1E8CB1E00089208B /* MJRefreshComponent.m in Sources */,

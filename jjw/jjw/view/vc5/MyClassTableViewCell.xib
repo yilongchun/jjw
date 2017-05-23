@@ -47,6 +47,7 @@
                     <constraint firstItem="NZl-Lk-XLm" firstAttribute="top" secondItem="Jbf-t7-vUv" secondAttribute="bottom" constant="8" id="V7n-NJ-kre"/>
                     <constraint firstItem="QS5-c0-HEq" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="cXc-jZ-Fs9"/>
                     <constraint firstAttribute="trailing" secondItem="eTw-5E-NgW" secondAttribute="trailing" constant="10" id="eqf-Ya-0tl"/>
+                    <constraint firstItem="eTw-5E-NgW" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Jbf-t7-vUv" secondAttribute="trailing" constant="10" id="vpf-rJ-09T"/>
                     <constraint firstItem="Jbf-t7-vUv" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="xMa-vW-WtW"/>
                 </constraints>
             </tableViewCellContentView>
