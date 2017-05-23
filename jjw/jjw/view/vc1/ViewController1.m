@@ -72,7 +72,7 @@
     [navView addSubview:searchBar];
     self.navigationItem.titleView = navView;
     
-    secondIndex = 0;
+    
     secondDataSource = [NSMutableArray array];
     thirdDataSource = [NSMutableArray array];
     
@@ -89,7 +89,7 @@
 }
 
 -(void)loadData{
-    
+    secondIndex = 0;
     requestNum = 0;
     [self loadTwoClass:@"268"];
     [self loadData1];
