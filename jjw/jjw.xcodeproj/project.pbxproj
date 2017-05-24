@@ -199,6 +199,12 @@
 		BC93CD121EC8800200F97425 /* MyOrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC93CD101EC8800200F97425 /* MyOrderTableViewCell.m */; };
 		BC93CD131EC8800200F97425 /* MyOrderTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC93CD111EC8800200F97425 /* MyOrderTableViewCell.xib */; };
 		BC949E561ECF3558001DF99E /* WJDropdownMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = BC949E551ECF3558001DF99E /* WJDropdownMenu.m */; };
+		BC9686091ED5B223008CD8B6 /* NewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9686071ED5B223008CD8B6 /* NewsViewController.m */; };
+		BC96860A1ED5B223008CD8B6 /* NewsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9686081ED5B223008CD8B6 /* NewsViewController.xib */; };
+		BC96860E1ED5B283008CD8B6 /* NewsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC96860C1ED5B283008CD8B6 /* NewsCollectionViewCell.m */; };
+		BC96860F1ED5B283008CD8B6 /* NewsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC96860D1ED5B283008CD8B6 /* NewsCollectionViewCell.xib */; };
+		BC9686131ED5B7BD008CD8B6 /* NewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9686111ED5B7BD008CD8B6 /* NewsDetailViewController.m */; };
+		BC9686141ED5B7BD008CD8B6 /* NewsDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9686121ED5B7BD008CD8B6 /* NewsDetailViewController.xib */; };
 		BC9817951EA39FA800F45E31 /* 1475988005412.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */; };
 		BC9817991EA3A2BF00F45E31 /* TeacherHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */; };
 		BC98179A1EA3A2BF00F45E31 /* TeacherHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9817981EA3A2BF00F45E31 /* TeacherHomeViewController.xib */; };
@@ -564,6 +570,15 @@
 		BC93CD111EC8800200F97425 /* MyOrderTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyOrderTableViewCell.xib; sourceTree = "<group>"; };
 		BC949E541ECF3558001DF99E /* WJDropdownMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WJDropdownMenu.h; sourceTree = "<group>"; };
 		BC949E551ECF3558001DF99E /* WJDropdownMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WJDropdownMenu.m; sourceTree = "<group>"; };
+		BC9686061ED5B223008CD8B6 /* NewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsViewController.h; sourceTree = "<group>"; };
+		BC9686071ED5B223008CD8B6 /* NewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsViewController.m; sourceTree = "<group>"; };
+		BC9686081ED5B223008CD8B6 /* NewsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsViewController.xib; sourceTree = "<group>"; };
+		BC96860B1ED5B283008CD8B6 /* NewsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsCollectionViewCell.h; sourceTree = "<group>"; };
+		BC96860C1ED5B283008CD8B6 /* NewsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsCollectionViewCell.m; sourceTree = "<group>"; };
+		BC96860D1ED5B283008CD8B6 /* NewsCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsCollectionViewCell.xib; sourceTree = "<group>"; };
+		BC9686101ED5B7BD008CD8B6 /* NewsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsDetailViewController.h; sourceTree = "<group>"; };
+		BC9686111ED5B7BD008CD8B6 /* NewsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsDetailViewController.m; sourceTree = "<group>"; };
+		BC9686121ED5B7BD008CD8B6 /* NewsDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsDetailViewController.xib; sourceTree = "<group>"; };
 		BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1475988005412.jpeg; sourceTree = "<group>"; };
 		BC9817961EA3A2BF00F45E31 /* TeacherHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeacherHomeViewController.h; sourceTree = "<group>"; };
 		BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeacherHomeViewController.m; sourceTree = "<group>"; };
@@ -650,6 +665,15 @@
 				44F3DDE91E8CAD280089208B /* ViewController1.h */,
 				44F3DDEA1E8CAD280089208B /* ViewController1.m */,
 				44F3DDEB1E8CAD280089208B /* ViewController1.xib */,
+				BC9686061ED5B223008CD8B6 /* NewsViewController.h */,
+				BC9686071ED5B223008CD8B6 /* NewsViewController.m */,
+				BC9686081ED5B223008CD8B6 /* NewsViewController.xib */,
+				BC96860B1ED5B283008CD8B6 /* NewsCollectionViewCell.h */,
+				BC96860C1ED5B283008CD8B6 /* NewsCollectionViewCell.m */,
+				BC96860D1ED5B283008CD8B6 /* NewsCollectionViewCell.xib */,
+				BC9686101ED5B7BD008CD8B6 /* NewsDetailViewController.h */,
+				BC9686111ED5B7BD008CD8B6 /* NewsDetailViewController.m */,
+				BC9686121ED5B7BD008CD8B6 /* NewsDetailViewController.xib */,
 			);
 			path = vc1;
 			sourceTree = "<group>";
@@ -1467,6 +1491,7 @@
 				BC86E6C81ECC60E500AC184D /* SRVideoPlayer.bundle in Resources */,
 				44F3DDED1E8CAD280089208B /* ViewController1.xib in Resources */,
 				BC8D01CD1EAE274A00EC5CDE /* PasswordSettingViewController.xib in Resources */,
+				BC9686141ED5B7BD008CD8B6 /* NewsDetailViewController.xib in Resources */,
 				BC8A843A1EC338890062F455 /* PaidRecordTableViewCell.xib in Resources */,
 				44F3DF691E8CB1E00089208B /* MJRefresh.bundle in Resources */,
 				BC8D01A01EAE238200EC5CDE /* ShoppingCartViewController.xib in Resources */,
@@ -1479,6 +1504,7 @@
 				BC8D01AF1EAE24B800EC5CDE /* StudyRecordViewController.xib in Resources */,
 				BC8D019B1EAE220200EC5CDE /* PaidRecordViewController.xib in Resources */,
 				BC8D01C31EAE269A00EC5CDE /* BasicInfoViewController.xib in Resources */,
+				BC96860A1ED5B223008CD8B6 /* NewsViewController.xib in Resources */,
 				BC8D01A51EAE240300EC5CDE /* MyClassViewController.xib in Resources */,
 				44F3DE8C1E8CB1840089208B /* NSDateTimeAgo.bundle in Resources */,
 				442E9FDF1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.xib in Resources */,
@@ -1491,6 +1517,7 @@
 				BC8D01AA1EAE246800EC5CDE /* PackageClassViewController.xib in Resources */,
 				BC93740F1E90C69F00AD4946 /* ico_play.jpg in Resources */,
 				BC8D01B41EAE250D00EC5CDE /* MyOrdersViewController.xib in Resources */,
+				BC96860F1ED5B283008CD8B6 /* NewsCollectionViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1536,6 +1563,7 @@
 				44F3DE951E8CB1840089208B /* NSManagedObjectContext+Fetching.m in Sources */,
 				44F3DE981E8CB1840089208B /* NSObject+AddProperty.m in Sources */,
 				442E9FDE1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.m in Sources */,
+				BC9686091ED5B223008CD8B6 /* NewsViewController.m in Sources */,
 				44F3DF6B1E8CB1E00089208B /* UIScrollView+MJExtension.m in Sources */,
 				44F3DF5B1E8CB1E00089208B /* MJRefreshAutoFooter.m in Sources */,
 				44F3DF651E8CB1E00089208B /* MJRefreshBackStateFooter.m in Sources */,
@@ -1563,6 +1591,7 @@
 				44F3DF5C1E8CB1E00089208B /* MJRefreshBackFooter.m in Sources */,
 				44F3DF521E8CB1E00089208B /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				44F3DEA01E8CB1840089208B /* NSString+Hash.m in Sources */,
+				BC96860E1ED5B283008CD8B6 /* NewsCollectionViewCell.m in Sources */,
 				BC86E6CA1ECC60E500AC184D /* SRVideoProgressTip.m in Sources */,
 				44F3DF581E8CB1E00089208B /* UIToolbar+JZExtension.m in Sources */,
 				BC8A84391EC338890062F455 /* PaidRecordTableViewCell.m in Sources */,
@@ -1577,6 +1606,7 @@
 				BC86E6BC1ECC60E500AC184D /* MASConstraintMaker.m in Sources */,
 				44F3DF431E8CB1E00089208B /* HUD.m in Sources */,
 				BC8D01CC1EAE274A00EC5CDE /* PasswordSettingViewController.m in Sources */,
+				BC9686131ED5B7BD008CD8B6 /* NewsDetailViewController.m in Sources */,
 				44F3DF641E8CB1E00089208B /* MJRefreshBackNormalFooter.m in Sources */,
 				44F3DEB51E8CB1840089208B /* UIViewController+HUD.m in Sources */,
 				44F3DE961E8CB1840089208B /* NSManagedObjectContext+FetchRequestsConstructors.m in Sources */,

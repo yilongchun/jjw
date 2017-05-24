@@ -12,6 +12,8 @@
 #import "UIImageView+AFNetworking.h"
 #import "MJRefresh.h"
 #import "HZSigmentView.h"
+#import "NewsViewController.h"
+#import "NewsDetailViewController.h"
 
 @interface ViewController1 ()<HZSigmentViewDelegate>{
     UIScrollView *myScrollView;//主界面滚动视图
@@ -48,6 +50,8 @@
 //    self.jz_navigationBarBackgroundHidden = YES;
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
 //    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
     
@@ -225,6 +229,14 @@
     }];
 }
 
+-(void)btnClick:(UIButton *)btn{
+    if (btn.tag == 1) {
+        NewsViewController *vc = [[NewsViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+}
+
 
 -(void)initUI{
     
@@ -301,6 +313,10 @@
 //            cellLabel.text = @"5建议、6妙招，助你笑傲2017高考数学!";
             cellLabel.text = title;
             [cellView addSubview:cellLabel];
+            cellView.tag = i;
+            cellView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toNewsDetail:)];
+            [cellView addGestureRecognizer:tap];
             [dongtaiContent addSubview:cellView];
             
             if ((i+1) % 2 == 0) {
@@ -319,6 +335,8 @@
     moreBtn.titleLabel.font = SYSTEMFONT(15);
     [moreBtn setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     ViewBorderRadius(moreBtn, 5, 0.5, BORDER_COLOR);
+    moreBtn.tag = 1;
+    [moreBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     [zxdtView addSubview:moreBtn];
     
     
@@ -625,6 +643,10 @@
         [obj removeFromSuperview];
     }];
     
+    if (secondDataSource.count == 0) {
+        return;
+    }
+    
     NSDictionary *secDic = [secondDataSource objectAtIndex:secondIndex];
     NSString *name = [secDic objectForKey:@"SUBJECT_NAME"];
     CGRect rect = CGRectMake(0, 0, 0, 0);
@@ -822,6 +844,17 @@
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         DLog(@"%@",error.description);
     }];
+}
+
+-(void)toNewsDetail:(UITapGestureRecognizer *)recog{
+    NSDictionary *info = [newsArray objectAtIndex:recog.view.tag];
+    NSString *articleId = [info objectForKey:@"ARTICLE_ID"];
+    NSString *title = [info objectForKey:@"TITLE"];
+    NewsDetailViewController *vc = [[NewsDetailViewController alloc] init];
+    vc.newsId = articleId;
+    vc.title = title;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

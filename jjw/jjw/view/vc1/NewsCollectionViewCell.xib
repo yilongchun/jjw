@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="newsCollectionViewCell" id="bFU-El-T8l" customClass="NewsCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="190" height="233"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="190" height="233"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="aw3-Ea-sZc">
+                        <rect key="frame" x="5" y="5" width="180" height="120"/>
+                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="width" secondItem="aw3-Ea-sZc" secondAttribute="height" multiplier="3:2" id="Gz7-aC-Dip"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="函数定义域之2：如何求抽象函数的定义域" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="oXi-pU-Sa4">
+                        <rect key="frame" x="5" y="130" width="180" height="36"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+            </view>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="oXi-pU-Sa4" secondAttribute="trailing" constant="5" id="3ba-u8-zE0"/>
+                <constraint firstItem="aw3-Ea-sZc" firstAttribute="top" secondItem="bFU-El-T8l" secondAttribute="top" constant="5" id="8Jp-18-ilt"/>
+                <constraint firstItem="aw3-Ea-sZc" firstAttribute="leading" secondItem="bFU-El-T8l" secondAttribute="leading" constant="5" id="IQV-DA-Uia"/>
+                <constraint firstAttribute="trailing" secondItem="aw3-Ea-sZc" secondAttribute="trailing" constant="5" id="cv2-Uq-cfb"/>
+                <constraint firstItem="oXi-pU-Sa4" firstAttribute="top" secondItem="aw3-Ea-sZc" secondAttribute="bottom" constant="5" id="pXf-Ja-kLt"/>
+                <constraint firstItem="oXi-pU-Sa4" firstAttribute="leading" secondItem="bFU-El-T8l" secondAttribute="leading" constant="5" id="sF9-rp-Rfd"/>
+            </constraints>
+            <size key="customSize" width="190" height="233"/>
+            <connections>
+                <outlet property="titleLabel" destination="oXi-pU-Sa4" id="rmL-P4-Fuq"/>
+                <outlet property="topImageView" destination="aw3-Ea-sZc" id="SBE-79-eWF"/>
+            </connections>
+            <point key="canvasLocation" x="3" y="143.5"/>
+        </collectionViewCell>
+    </objects>
+</document>
