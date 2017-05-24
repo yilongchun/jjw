@@ -10,6 +10,7 @@
 #import "JZNavigationExtension.h"
 #import "MyClassTableViewCell.h"
 #import "MJRefresh.h"
+#import "ClassDetailViewController.h"
 
 @interface StudyRecordViewController (){
     NSMutableArray *dataSource;
@@ -96,7 +97,13 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    NSDictionary *info = [dataSource objectAtIndex:indexPath.row];
     
+    NSString *f_course_id = [info objectForKey:@"COURSE_ID"];
+    ClassDetailViewController *vc = [[ClassDetailViewController alloc] init];
+    vc.courseId = f_course_id;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 #pragma mark - UITableViewDataSource

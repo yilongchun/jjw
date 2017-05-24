@@ -40,6 +40,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     self.jz_navigationBarBackgroundHidden = NO;
     self.title = @"课程详情";

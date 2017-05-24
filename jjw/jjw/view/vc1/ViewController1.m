@@ -14,6 +14,7 @@
 #import "HZSigmentView.h"
 #import "NewsViewController.h"
 #import "NewsDetailViewController.h"
+#import "ClassDetailViewController.h"
 
 @interface ViewController1 ()<HZSigmentViewDelegate>{
     UIScrollView *myScrollView;//主界面滚动视图
@@ -394,7 +395,10 @@
             clickLabel.textColor = [UIColor lightGrayColor];
             clickLabel.text = [NSString stringWithFormat:@"%@  点击%@次",teacherName,pageViewcount];
             [cellView addSubview:clickLabel];
-            
+            cellView.tag = i;
+            cellView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toClassDetail:)];
+            [cellView addGestureRecognizer:tap];
             [content addSubview:cellView];
             if ((i+1) % 2 == 0) {
                 cellX = 0;
@@ -412,6 +416,7 @@
     moreBtn.titleLabel.font = SYSTEMFONT(15);
     [moreBtn setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     ViewBorderRadius(moreBtn, 5, 0.5, BORDER_COLOR);
+    [moreBtn addTarget:self action:@selector(bixiuClick:) forControlEvents:UIControlEventTouchUpInside];
     [jptjView addSubview:moreBtn];
     
     [myScrollView addSubview:jptjView];
@@ -469,7 +474,10 @@
 //            clickLabel.text = @"江艳  点击44次";
             clickLabel.text = [NSString stringWithFormat:@"%@  点击%@次",teacherName,pageViewcount];
             [cellView addSubview:clickLabel];
-            
+            cellView.tag = i;
+            cellView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toFreeClassDetail:)];
+            [cellView addGestureRecognizer:tap];
             [content addSubview:cellView];
             if ((i+1) % 2 == 0) {
                 cellX = 0;
@@ -488,6 +496,7 @@
     moreBtn.titleLabel.font = SYSTEMFONT(15);
     [moreBtn setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     ViewBorderRadius(moreBtn, 5, 0.5, BORDER_COLOR);
+    [moreBtn addTarget:self action:@selector(bixiuClick:) forControlEvents:UIControlEventTouchUpInside];
     [mftyView addSubview:moreBtn];
     
     
@@ -853,6 +862,22 @@
     NewsDetailViewController *vc = [[NewsDetailViewController alloc] init];
     vc.newsId = articleId;
     vc.title = title;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)toClassDetail:(UITapGestureRecognizer *)recog{
+    NSDictionary *info = [recCoursecArray objectAtIndex:recog.view.tag];
+    ClassDetailViewController *vc = [[ClassDetailViewController alloc] init];
+    vc.courseId = [info objectForKey:@"COURSE_ID"];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)toFreeClassDetail:(UITapGestureRecognizer *)recog{
+    NSDictionary *info = [freeCoursesArray objectAtIndex:recog.view.tag];
+    ClassDetailViewController *vc = [[ClassDetailViewController alloc] init];
+    vc.courseId = [info objectForKey:@"COURSE_ID"];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
