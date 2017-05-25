@@ -50,7 +50,7 @@
     //    self.automaticallyAdjustsScrollViewInsets = NO;
     
     
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadUserInfo) name:@"loadUserInfo" object:nil];
     
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];

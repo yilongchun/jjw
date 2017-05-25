@@ -85,7 +85,7 @@
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
-    [param setObject:ids forKey:@"id"];
+    [param setObject:ids forKey:@"cid"];
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_center/user_cart_delete"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         [self hideHud];
