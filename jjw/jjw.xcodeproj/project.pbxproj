@@ -14,7 +14,6 @@
 		44F3DDD31E8CABF40089208B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F3DDD21E8CABF40089208B /* ViewController.m */; };
 		44F3DDD61E8CABF40089208B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44F3DDD41E8CABF40089208B /* Main.storyboard */; };
 		44F3DDD81E8CABF40089208B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 44F3DDD71E8CABF40089208B /* Assets.xcassets */; };
-		44F3DDDB1E8CABF40089208B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 44F3DDD91E8CABF40089208B /* LaunchScreen.storyboard */; };
 		44F3DDEC1E8CAD280089208B /* ViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F3DDEA1E8CAD280089208B /* ViewController1.m */; };
 		44F3DDED1E8CAD280089208B /* ViewController1.xib in Resources */ = {isa = PBXBuildFile; fileRef = 44F3DDEB1E8CAD280089208B /* ViewController1.xib */; };
 		44F3DDF51E8CAD530089208B /* ViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = 44F3DDF31E8CAD530089208B /* ViewController2.m */; };
@@ -224,7 +223,6 @@
 		44F3DDD21E8CABF40089208B /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		44F3DDD51E8CABF40089208B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		44F3DDD71E8CABF40089208B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		44F3DDDA1E8CABF40089208B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		44F3DDDC1E8CABF40089208B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		44F3DDE91E8CAD280089208B /* ViewController1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController1.h; sourceTree = "<group>"; };
 		44F3DDEA1E8CAD280089208B /* ViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController1.m; sourceTree = "<group>"; };
@@ -624,7 +622,6 @@
 				44F3DDD21E8CABF40089208B /* ViewController.m */,
 				44F3DDD41E8CABF40089208B /* Main.storyboard */,
 				44F3DDD71E8CABF40089208B /* Assets.xcassets */,
-				44F3DDD91E8CABF40089208B /* LaunchScreen.storyboard */,
 				44F3DDDC1E8CABF40089208B /* Info.plist */,
 				44F3DF6E1E8CB21D0089208B /* ACMacros.h */,
 				44F3DDE21E8CAC940089208B /* view */,
@@ -1496,7 +1493,6 @@
 				44F3DF691E8CB1E00089208B /* MJRefresh.bundle in Resources */,
 				BC8D01A01EAE238200EC5CDE /* ShoppingCartViewController.xib in Resources */,
 				BC8014CC1ECB1C66001607D2 /* MyCollectTableViewCell.xib in Resources */,
-				44F3DDDB1E8CABF40089208B /* LaunchScreen.storyboard in Resources */,
 				44F3DE001E8CAD690089208B /* ViewController4.xib in Resources */,
 				BC8014D11ECB2F7C001607D2 /* ShoppintCarTableViewCell.xib in Resources */,
 				BC93CD131EC8800200F97425 /* MyOrderTableViewCell.xib in Resources */,
@@ -1696,14 +1692,6 @@
 			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
-		44F3DDD91E8CABF40089208B /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				44F3DDDA1E8CABF40089208B /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1799,6 +1787,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = VV96JSE58Z;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/jjw/jjw.h";
@@ -1817,6 +1806,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = VV96JSE58Z;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/jjw/jjw.h";

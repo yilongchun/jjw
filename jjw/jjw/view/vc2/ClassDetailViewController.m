@@ -88,7 +88,7 @@
         NSDate *expireDate = [dateFormatter dateFromString:expire_time];
         
         if ([expireDate compare:[NSDate date]] > 0) {
-            NSString *vid = [course_info objectForKey:@"VIDEO_URL"];
+            NSString *vid = [course_info objectForKey:@"video_url2"];
             
             [self showHudInView:self.view];
             AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
@@ -111,11 +111,12 @@
                     
                     [_videoPlayer play];
                 }else{
-                    [self showHudInView:self.view hint:@"获取视频失败"];
+                    [self showHintInView:self.view hint:@"获取视频失败"];
                 }
             } failure:^(NSURLSessionDataTask *task, NSError *error) {
                 [self hideHud];
                 DLog(@"%@",error.description);
+                [self showHintInView:self.view hint:error.localizedDescription];
             }];
         }else{
             [self showHintInView:self.view hint:@"需要购买才能观看"];
