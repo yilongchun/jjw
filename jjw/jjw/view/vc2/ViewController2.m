@@ -50,7 +50,6 @@
 }
 
 @property (nonatomic, strong) HZSigmentView * sigment;//横向滑动二级
-//@property (nonatomic,weak) WJDropdownMenu *menu;//三级
 @property (nonatomic, strong) LrdSuperMenu *menu;
 
 @end

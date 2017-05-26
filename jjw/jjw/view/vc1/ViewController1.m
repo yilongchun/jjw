@@ -15,6 +15,7 @@
 #import "NewsViewController.h"
 #import "NewsDetailViewController.h"
 #import "ClassDetailViewController.h"
+#import "TeacherViewController.h"
 
 @interface ViewController1 ()<HZSigmentViewDelegate>{
     UIScrollView *myScrollView;//主界面滚动视图
@@ -233,6 +234,11 @@
 -(void)btnClick:(UIButton *)btn{
     if (btn.tag == 1) {
         NewsViewController *vc = [[NewsViewController alloc] init];
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    if (btn.tag == 2) {
+        TeacherViewController *vc = [[TeacherViewController alloc] init];
         vc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:vc animated:YES];
     }
@@ -632,6 +638,8 @@
     moreBtn.titleLabel.font = SYSTEMFONT(15);
     [moreBtn setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     ViewBorderRadius(moreBtn, 5, 0.5, BORDER_COLOR);
+    moreBtn.tag = 2;
+    [moreBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     [mstjView addSubview:moreBtn];
     
     

@@ -136,6 +136,10 @@
 		BC0693E21E926D310055D8E3 /* wx.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC0693E01E926D310055D8E3 /* wx.jpeg */; };
 		BC5AD3D71E8FE6EF004D2D3F /* CollectionViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5AD3D51E8FE6EF004D2D3F /* CollectionViewCell2.m */; };
 		BC5AD3D81E8FE6EF004D2D3F /* CollectionViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5AD3D61E8FE6EF004D2D3F /* CollectionViewCell2.xib */; };
+		BC7EC8C31ED84B7300D5859C /* TeacherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7EC8C11ED84B7300D5859C /* TeacherViewController.m */; };
+		BC7EC8C41ED84B7300D5859C /* TeacherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7EC8C21ED84B7300D5859C /* TeacherViewController.xib */; };
+		BC7EC8C81ED84C6700D5859C /* TeacherCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7EC8C61ED84C6700D5859C /* TeacherCollectionViewCell.m */; };
+		BC7EC8C91ED84C6700D5859C /* TeacherCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7EC8C71ED84C6700D5859C /* TeacherCollectionViewCell.xib */; };
 		BC8014CB1ECB1C65001607D2 /* MyCollectTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8014C91ECB1C65001607D2 /* MyCollectTableViewCell.m */; };
 		BC8014CC1ECB1C66001607D2 /* MyCollectTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8014CA1ECB1C65001607D2 /* MyCollectTableViewCell.xib */; };
 		BC8014D01ECB2F7C001607D2 /* ShoppintCarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8014CE1ECB2F7C001607D2 /* ShoppintCarTableViewCell.m */; };
@@ -463,6 +467,12 @@
 		BC5AD3D41E8FE6EF004D2D3F /* CollectionViewCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell2.h; sourceTree = "<group>"; };
 		BC5AD3D51E8FE6EF004D2D3F /* CollectionViewCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell2.m; sourceTree = "<group>"; };
 		BC5AD3D61E8FE6EF004D2D3F /* CollectionViewCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell2.xib; sourceTree = "<group>"; };
+		BC7EC8C01ED84B7300D5859C /* TeacherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeacherViewController.h; sourceTree = "<group>"; };
+		BC7EC8C11ED84B7300D5859C /* TeacherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeacherViewController.m; sourceTree = "<group>"; };
+		BC7EC8C21ED84B7300D5859C /* TeacherViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeacherViewController.xib; sourceTree = "<group>"; };
+		BC7EC8C51ED84C6700D5859C /* TeacherCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeacherCollectionViewCell.h; sourceTree = "<group>"; };
+		BC7EC8C61ED84C6700D5859C /* TeacherCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeacherCollectionViewCell.m; sourceTree = "<group>"; };
+		BC7EC8C71ED84C6700D5859C /* TeacherCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeacherCollectionViewCell.xib; sourceTree = "<group>"; };
 		BC8014C81ECB1C65001607D2 /* MyCollectTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyCollectTableViewCell.h; sourceTree = "<group>"; };
 		BC8014C91ECB1C65001607D2 /* MyCollectTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyCollectTableViewCell.m; sourceTree = "<group>"; };
 		BC8014CA1ECB1C65001607D2 /* MyCollectTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyCollectTableViewCell.xib; sourceTree = "<group>"; };
@@ -671,6 +681,12 @@
 				BC9686101ED5B7BD008CD8B6 /* NewsDetailViewController.h */,
 				BC9686111ED5B7BD008CD8B6 /* NewsDetailViewController.m */,
 				BC9686121ED5B7BD008CD8B6 /* NewsDetailViewController.xib */,
+				BC7EC8C01ED84B7300D5859C /* TeacherViewController.h */,
+				BC7EC8C11ED84B7300D5859C /* TeacherViewController.m */,
+				BC7EC8C21ED84B7300D5859C /* TeacherViewController.xib */,
+				BC7EC8C51ED84C6700D5859C /* TeacherCollectionViewCell.h */,
+				BC7EC8C61ED84C6700D5859C /* TeacherCollectionViewCell.m */,
+				BC7EC8C71ED84C6700D5859C /* TeacherCollectionViewCell.xib */,
 			);
 			path = vc1;
 			sourceTree = "<group>";
@@ -1475,6 +1491,7 @@
 				BC8C8E4D1ED1AD56005533C1 /* accessory_normal@2x.png in Resources */,
 				BC0693E21E926D310055D8E3 /* wx.jpeg in Resources */,
 				44F3DE051E8CAD720089208B /* ViewController5.xib in Resources */,
+				BC7EC8C91ED84C6700D5859C /* TeacherCollectionViewCell.xib in Resources */,
 				44F3DF411E8CB1E00089208B /* btnCheck.png in Resources */,
 				44F3DF7B1E8CEE930089208B /* 1484533489_1588.jpg in Resources */,
 				44F3DF531E8CB1E00089208B /* IQKeyboardManager.bundle in Resources */,
@@ -1512,6 +1529,7 @@
 				BC821C131E9D15B00093A51F /* ClassDetailViewController.xib in Resources */,
 				BC8D01AA1EAE246800EC5CDE /* PackageClassViewController.xib in Resources */,
 				BC93740F1E90C69F00AD4946 /* ico_play.jpg in Resources */,
+				BC7EC8C41ED84B7300D5859C /* TeacherViewController.xib in Resources */,
 				BC8D01B41EAE250D00EC5CDE /* MyOrdersViewController.xib in Resources */,
 				BC96860F1ED5B283008CD8B6 /* NewsCollectionViewCell.xib in Resources */,
 			);
@@ -1583,6 +1601,7 @@
 				44F3DDFA1E8CAD5F0089208B /* ViewController3.m in Sources */,
 				44F3DE871E8CB1840089208B /* NSBundle+AppIcon.m in Sources */,
 				44F3DE991E8CB1840089208B /* NSObject+AssociatedObject.m in Sources */,
+				BC7EC8C31ED84B7300D5859C /* TeacherViewController.m in Sources */,
 				44F3DF601E8CB1E00089208B /* MJRefreshAutoGifFooter.m in Sources */,
 				44F3DF5C1E8CB1E00089208B /* MJRefreshBackFooter.m in Sources */,
 				44F3DF521E8CB1E00089208B /* IQUIView+IQKeyboardToolbar.m in Sources */,
@@ -1616,6 +1635,7 @@
 				44F3DF511E8CB1E00089208B /* IQToolbar.m in Sources */,
 				44F3DDF51E8CAD530089208B /* ViewController2.m in Sources */,
 				44F3DF5D1E8CB1E00089208B /* MJRefreshComponent.m in Sources */,
+				BC7EC8C81ED84C6700D5859C /* TeacherCollectionViewCell.m in Sources */,
 				BC93CD121EC8800200F97425 /* MyOrderTableViewCell.m in Sources */,
 				BC86E6C71ECC60E500AC184D /* SRVideoDownloader.m in Sources */,
 				44F3DEA21E8CB1840089208B /* NSString+RemoveEmoji.m in Sources */,
