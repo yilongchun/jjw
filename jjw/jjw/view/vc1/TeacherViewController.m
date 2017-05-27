@@ -17,6 +17,9 @@
     int page;
     int loadTypeCount;
     
+    NSString *type_one;
+    NSString *type_two;
+    
     NSMutableArray *typeOneDataSource;
     NSMutableArray *typeTwoDataSource;
 }
@@ -45,6 +48,9 @@
     typeOneDataSource = [NSMutableArray array];
     typeTwoDataSource = [NSMutableArray array];
     loadTypeCount = 0;
+    
+    type_one = @"";
+    type_two = @"";
     
     [self getOneType];
     [self getTwoType];
@@ -75,6 +81,9 @@
             NSArray *array = [result objectForKey:@"data_list"];
             
             [typeOneDataSource removeAllObjects];
+            
+//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"SUBJECT_ID",@"年级",@"SUBJECT_NAME", nil];
+//            [typeOneDataSource addObject:dic];
             [typeOneDataSource addObjectsFromArray:array];
             
             
@@ -103,6 +112,8 @@
             NSArray *array = [result objectForKey:@"data_list"];
             
             [typeTwoDataSource removeAllObjects];
+//            NSDictionary *dic = [NSDictionary dictionaryWithObjectsAndKeys:@"",@"SUBJECT_ID",@"学科",@"SUBJECT_NAME", nil];
+//            [typeTwoDataSource addObject:dic];
             [typeTwoDataSource addObjectsFromArray:array];
             
             
@@ -125,9 +136,11 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/teacher/index"];
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:type_one forKey:@"type_one"];
+    [param setObject:type_two forKey:@"type_two"];
     [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];//当前第几页
     
-    
+    DLog(@"%@",param);
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         [_myCollectionView.mj_header endRefreshing];
         NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
@@ -147,7 +160,7 @@
             }
             
             
-            DLog(@"%@",responseObject);
+//            DLog(@"%@",responseObject);
         }else{
             [_myCollectionView.mj_footer endRefreshing];
         }
@@ -169,6 +182,8 @@
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/teacher/index"];
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:type_one forKey:@"type_one"];
+    [param setObject:type_two forKey:@"type_two"];
     [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];//当前第几页
     
     
@@ -191,7 +206,7 @@
             }
             
             
-            DLog(@"%@",responseObject);
+//            DLog(@"%@",responseObject);
         }else{
             [_myCollectionView.mj_footer endRefreshing];
         }
@@ -292,7 +307,17 @@
 #pragma mark - LrdSuperMenuDelegate
 
 - (void)menu:(LrdSuperMenu *)menu didSelectRowAtIndexPath:(LrdIndexPath *)indexPath {
-    
+    if (indexPath.column == 0) {
+        NSDictionary *dic3 = [typeOneDataSource objectAtIndex:indexPath.row];
+        NSString *name3 = [dic3 objectForKey:@"SUBJECT_ID"];
+        type_one = name3;
+    }
+    if (indexPath.column == 1) {
+        NSDictionary *dic4 = [typeTwoDataSource objectAtIndex:indexPath.row];
+        NSString *name4 = [dic4 objectForKey:@"SUBJECT_ID"];
+        type_two = name4;
+    }
+    [self loadData];
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -337,6 +362,27 @@
     [cell.headImageView setImageWithURL:[NSURL URLWithString:img]];
     cell.name.text = teacher_name;
     cell.education.text = [NSString stringWithFormat:@"%@%@",f_type,subject_name];
+    
+    if ([cell.education.text isEqualToString:@"高中数学"]) {
+        cell.education.backgroundColor = RGB(245, 123, 40);
+    }else if ([cell.education.text isEqualToString:@"高中英语"]) {
+        cell.education.backgroundColor = RGB(223, 10, 200);
+    }else if ([cell.education.text isEqualToString:@"高中物理"]) {
+        cell.education.backgroundColor = RGB(34, 60, 170);
+    }else if ([cell.education.text isEqualToString:@"高中化学"]) {
+        cell.education.backgroundColor = RGB(48, 177, 136);
+    }else if ([cell.education.text isEqualToString:@"高中生物"]) {
+        cell.education.backgroundColor = RGB(154, 103, 37);
+    }else if ([cell.education.text isEqualToString:@"高中政治"]) {
+        cell.education.backgroundColor = RGB(133, 195, 6);
+    }else if ([cell.education.text isEqualToString:@"高中历史"]) {
+        cell.education.backgroundColor = RGB(234, 154, 39);
+    }else if ([cell.education.text isEqualToString:@"高中地理"]) {
+        cell.education.backgroundColor = RGB(160, 6, 16);
+    }
+    
+    
+    
     cell.des.text = des;
     
     
