@@ -9,6 +9,7 @@
 #import "PasswordSettingViewController.h"
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
+#import "NSObject+Blocks.h"
 
 @interface PasswordSettingViewController (){
     UITextField *oldPwdTF;
@@ -52,6 +53,7 @@
     UIView *leftAView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
     oldPwdTF.leftView = leftAView;
     oldPwdTF.leftViewMode = UITextFieldViewModeAlways;
+    oldPwdTF.secureTextEntry = YES;
     [contentView addSubview:oldPwdTF];
     
     //新密码
@@ -68,6 +70,7 @@
     UIView *leftView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
     newPwdTF.leftView = leftView2;
     newPwdTF.leftViewMode = UITextFieldViewModeAlways;
+    newPwdTF.secureTextEntry = YES;
     [contentView addSubview:newPwdTF];
     
     
@@ -85,6 +88,7 @@
     UIView *leftView3 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
     newPwdTF2.leftView = leftView3;
     newPwdTF2.leftViewMode = UITextFieldViewModeAlways;
+    newPwdTF2.secureTextEntry = YES;
     [contentView addSubview:newPwdTF2];
     
     UIButton *submitBtn = [[UIButton alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(newPwdTF2.frame) + 20, CGRectGetWidth(contentView.frame) - 60, 35)];
@@ -103,6 +107,57 @@
 }
 
 -(void)submit{
+    
+    if ([oldPwdTF.text isEqualToString:@""]) {
+        [self showHintInView:self.view hint:@"请输入旧密码"];
+        return;
+    }
+    if ([newPwdTF.text isEqualToString:@""]) {
+        [self showHintInView:self.view hint:@"请输入新密码"];
+        return;
+    }
+    if ([newPwdTF2.text isEqualToString:@""]) {
+        [self showHintInView:self.view hint:@"请再次输入新密码"];
+        return;
+    }
+    if (![newPwdTF.text isEqualToString:newPwdTF2.text]) {
+        [self showHintInView:self.view hint:@"两次密码不一致"];
+        return;
+    }
+    
+    [self.view endEditing:YES];
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    [param setObject:oldPwdTF.text forKey:@"old_pwd"];
+    [param setObject:newPwdTF.text forKey:@"pwd1"];
+    [param setObject:newPwdTF2.text forKey:@"pwd2"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/update_pwd"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            
+            [self performBlock:^{
+                [self.navigationController popViewControllerAnimated:YES];
+            } afterDelay:1.5];
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        [self showHintInView:self.view hint:error.description];
+        DLog(@"%@",error.description);
+    }];
     
 }
 

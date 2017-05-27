@@ -700,7 +700,7 @@
         NSString *teacher_name = [like objectForKey:@"teacher_name"];
         NSString *look_num = [like objectForKey:@"look_num"];
         NSString *name = [like objectForKey:@"name"];
-        
+         
         UIImageView *imageview1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, maxY + 10, imgWidth2, imageHeight2)];
         [imageview1 setImageWithURL:[NSURL URLWithString:image]];
         ViewRadius(imageview1, 5);
