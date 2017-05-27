@@ -11,5 +11,6 @@
 @interface TeacherHomeViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
+@property (nonatomic, strong) NSString *teacherId;
 
 @end

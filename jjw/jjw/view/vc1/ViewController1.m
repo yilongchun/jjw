@@ -16,6 +16,7 @@
 #import "NewsDetailViewController.h"
 #import "ClassDetailViewController.h"
 #import "TeacherViewController.h"
+#import "TeacherHomeViewController.h"
 
 @interface ViewController1 ()<HZSigmentViewDelegate>{
     UIScrollView *myScrollView;//主界面滚动视图
@@ -621,6 +622,11 @@
             bottomLabel.textColor = [UIColor lightGrayColor];
             [cellView addSubview:bottomLabel];
             
+            cellView.userInteractionEnabled = YES;
+            cellView.tag = i;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(toTeacherDetail:)];
+            [cellView addGestureRecognizer:tap];
+            
             [content addSubview:cellView];
             if ((i+1) % 2 == 0) {
                 cellX = 0;
@@ -886,6 +892,14 @@
     NSDictionary *info = [freeCoursesArray objectAtIndex:recog.view.tag];
     ClassDetailViewController *vc = [[ClassDetailViewController alloc] init];
     vc.courseId = [info objectForKey:@"COURSE_ID"];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)toTeacherDetail:(UITapGestureRecognizer *)recog{
+    NSDictionary *info = [recommendTeacherArray objectAtIndex:recog.view.tag];
+    TeacherHomeViewController *vc = [[TeacherHomeViewController alloc] init];
+    vc.teacherId = [info objectForKey:@"ID"];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }

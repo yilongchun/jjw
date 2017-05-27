@@ -749,7 +749,11 @@
 }
 
 -(void)toTeacherHome{
+    NSDictionary *teacherInfo = [courseInfo objectForKey:@"teacher_info"];
+    NSString *teacherId = [teacherInfo objectForKey:@"ID"];
+    
     TeacherHomeViewController *vc = [[TeacherHomeViewController alloc] init];
+    vc.teacherId = teacherId;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

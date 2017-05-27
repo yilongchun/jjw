@@ -11,6 +11,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "TeacherCollectionViewCell.h"
 #import "LrdSuperMenu.h"
+#import "TeacherHomeViewController.h"
 
 @interface TeacherViewController ()<LrdSuperMenuDataSource, LrdSuperMenuDelegate>{
     NSMutableArray *dataSource;
@@ -419,10 +420,11 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     NSDictionary *info = [dataSource objectAtIndex:indexPath.row];
-//    ClassDetailViewController *vc = [[ClassDetailViewController alloc] init];
-//    vc.courseId = [info objectForKey:@"COURSE_ID"];
-//    vc.hidesBottomBarWhenPushed = YES;
-//    [self.navigationController pushViewController:vc animated:YES];
+    NSString *teacherId = [info objectForKey:@"ID"];
+    TeacherHomeViewController *vc = [[TeacherHomeViewController alloc] init];
+    vc.teacherId = teacherId;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 
