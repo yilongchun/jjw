@@ -10,6 +10,7 @@
 #import "JZNavigationExtension.h"
 #import "NSDictionary+Category.h"
 #import "UIImage+Color.h"
+#import "NSObject+Blocks.h"
 
 #define SELECTED_IMAGE @"RadioButton-Selected"
 #define UNSELECTED_IMAGE @"RadioButton-Unselected"
@@ -29,6 +30,7 @@
     UIView *maskView;
     UIView *popView;
     UIPickerView *picker1;
+    int sexSelect;
 }
 
 @end
@@ -107,6 +109,8 @@
     
 }
 
+
+
 -(void)initUI{
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, Main_Screen_Width - 20, 0)];
     contentView.backgroundColor = [UIColor whiteColor];
@@ -127,6 +131,7 @@
     UIView *leftAView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
     emailTF.leftView = leftAView;
     emailTF.leftViewMode = UITextFieldViewModeAlways;
+    emailTF.userInteractionEnabled = NO;
     [contentView addSubview:emailTF];
     
     //姓名
@@ -234,7 +239,49 @@
 }
 
 -(void)submit{
+    [self.view endEditing:YES];
+    [self showHudInView:self.view];
     
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    [param setObject:nameTF.text forKey:@"user_name"];
+    [param setObject:nicknameTF.text forKey:@"nick_name"];
+    [param setObject:[NSNumber numberWithInt:sexSelect] forKey:@"gender"];
+    
+    NSNumber *ageNum = ageArray[ageSelected];
+    [param setObject:[ageNum stringValue] forKey:@"age"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/update_user_info"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+
+             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"loadUserInfo" object:nil userInfo:nil]];
+            [self performBlock:^{
+                [self.navigationController popViewControllerAnimated:YES];
+            } afterDelay:1.5];
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        [self showHintInView:self.view hint:error.localizedDescription];
+        DLog(@"%@",error.description);
+    }];
+
 }
 
 -(void)setSexValue:(UIButton *)btn{
@@ -252,6 +299,7 @@
     }else if (sex == 0){
         [otherBtn setImage:[UIImage imageNamed:SELECTED_IMAGE] forState:UIControlStateNormal];
     }
+    sexSelect = sex;
 }
 
 -(void)cancel{
