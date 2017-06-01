@@ -43,6 +43,8 @@
     UIView *teacherView;
     UIButton *dianboBtn;
     UIView *contentView;
+    
+    UISearchBar *_searchBar;
 }
 
 - (void)viewDidLoad {
@@ -71,8 +73,9 @@
     ViewBorderRadius(btn1, 5, 0, [UIColor whiteColor]);
     [self.navigationController.navigationBar addSubview:btn1];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 10, Main_Screen_Width - CGRectGetMaxX(btn1.frame) - 20, barContentHeight)];
-    [self.navigationController.navigationBar addSubview:searchBar];
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 10, Main_Screen_Width - CGRectGetMaxX(btn1.frame) - 20, barContentHeight)];
+    _searchBar.delegate = self;
+    [self.navigationController.navigationBar addSubview:_searchBar];
 
     UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 42)];
     topLabel.backgroundColor = [UIColor whiteColor];
@@ -610,6 +613,13 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - UISearchBarDelegate
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
+    NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_searchBar.text,@"a":@"1"}];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
 
 #pragma mark - UIPickerViewDelegate
 

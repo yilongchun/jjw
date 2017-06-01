@@ -12,6 +12,7 @@
 #import "ViewController3.h"
 #import "ViewController4.h"
 #import "ViewController5.h"
+#import "NSObject+Blocks.h"
 
 @interface MainTabBarController ()
 
@@ -60,6 +61,15 @@
     NSDictionary *info = [text userInfo];
     NSNumber *index = [info objectForKey:@"a"];
     self.selectedIndex = [index integerValue];
+    
+    NSString *searchValue = [info objectForKey:@"searchValue"];
+    if (searchValue && ![searchValue isEqualToString:@""]) {
+        NSNotification *notification =[NSNotification notificationWithName:@"searchClass" object:nil userInfo:@{@"searchValue":[info objectForKey:@"searchValue"]}];
+        [self performBlock:^{
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:0.5];
+        
+    }
 }
 
 - (void)didReceiveMemoryWarning {

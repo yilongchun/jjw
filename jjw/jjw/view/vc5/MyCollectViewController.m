@@ -80,6 +80,7 @@
             DLog(@"%@",result);
             
         }else{
+            [_myTableView.mj_header endRefreshing];
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {

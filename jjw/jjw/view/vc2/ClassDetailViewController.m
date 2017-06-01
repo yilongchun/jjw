@@ -360,7 +360,7 @@
 }
 
 -(void)initUI{
-    CGFloat videoHeight = (Main_Screen_Width - 20)/2;
+    CGFloat videoHeight = (Main_Screen_Width - 20)*0.6;
     
     NSDictionary *course_info = [courseInfo objectForKey:@"course_info"];
     NSString *LOGO = [course_info objectForKey:@"LOGO"];
@@ -651,7 +651,7 @@
     UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(20, CGRectGetMaxY(label2.frame) + 10, imgWidth, imgWidth)];
     ViewRadius(headImageView, imgWidth/2);
     [headImageView setImageWithURL:[NSURL URLWithString:[teacherInfo objectForKey:@"PIC_PATH"]]];
-    headImageView.image = [UIImage imageNamed:@"1481518277839.png"];
+//    headImageView.image = [UI
     [v1 addSubview:headImageView];
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImageView.frame) + 20, CGRectGetMinY(headImageView.frame) + 10, 0, 0)];

@@ -18,7 +18,7 @@
 #import "TeacherViewController.h"
 #import "TeacherHomeViewController.h"
 
-@interface ViewController1 ()<HZSigmentViewDelegate>{
+@interface ViewController1 ()<HZSigmentViewDelegate,UISearchBarDelegate>{
     UIScrollView *myScrollView;//主界面滚动视图
     
     UIScrollView *bixiuScrollView;//必修滚动界面
@@ -30,6 +30,8 @@
     
     NSString *ttsid;//三级分类：必修一，必修二，必修三，等
     NSMutableArray *thirdDataSource;//三级分类
+    
+    UISearchBar *_searchBar;
     
     int requestNum;
     NSArray *adImagesArray;
@@ -74,9 +76,10 @@
     ViewBorderRadius(btn2, 5, 0, [UIColor whiteColor]);
     [navView addSubview:btn2];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 28, 28)];
-    ViewRadius(searchBar, 5);
-    [navView addSubview:searchBar];
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 28, 28)];
+    ViewRadius(_searchBar, 5);
+    _searchBar.delegate = self;
+    [navView addSubview:_searchBar];
     self.navigationItem.titleView = navView;
     
     
@@ -907,6 +910,13 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - UISearchBarDelegate
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
+    NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_searchBar.text,@"a":@"1"}];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 #pragma mark - HZSigmentViewDelegate

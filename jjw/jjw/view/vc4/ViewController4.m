@@ -10,7 +10,9 @@
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
 
-@interface ViewController4 ()
+@interface ViewController4 ()<UISearchBarDelegate>{
+    UISearchBar *_searchBar;
+}
 
 @end
 
@@ -28,7 +30,7 @@
     [_submitBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 133, 204) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     [_submitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     ViewBorderRadius(_submitBtn, 5, 0, [UIColor whiteColor]);
-    
+    [_submitBtn addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
     [self initUI];
 }
 
@@ -52,10 +54,18 @@
     ViewBorderRadius(btn2, 5, 0, [UIColor whiteColor]);
     [navView addSubview:btn2];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 28, 28)];
-    ViewRadius(searchBar, 5);
-    [navView addSubview:searchBar];
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 28, 28)];
+    ViewRadius(_searchBar, 5);
+    _searchBar.delegate = self;
+    [navView addSubview:_searchBar];
     self.navigationItem.titleView = navView;
+}
+
+
+
+-(void)search{
+    NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_keyWordTextField.text,@"a":@"1"}];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -72,5 +82,12 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+#pragma mark - UISearchBarDelegate
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
+    NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_searchBar.text,@"a":@"1"}];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
+}
 
 @end

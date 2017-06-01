@@ -18,7 +18,7 @@
 
 #import "LrdSuperMenu.h"
 
-@interface ViewController2 ()<HZSigmentViewDelegate,LrdSuperMenuDataSource, LrdSuperMenuDelegate>{
+@interface ViewController2 ()<HZSigmentViewDelegate,LrdSuperMenuDataSource, LrdSuperMenuDelegate,UISearchBarDelegate>{
     NSMutableArray *dataSource;
     int page;
     
@@ -46,7 +46,7 @@
     NSString *oby;//new：发布时间降序，look：浏览次数降序，price：价格降序，price_asc：价格升序
     NSMutableArray *obyDataSource;
     
-    
+    UISearchBar *_searchBar;
 }
 
 @property (nonatomic, strong) HZSigmentView * sigment;//横向滑动二级
@@ -73,6 +73,8 @@
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchClass:) name:@"searchClass" object:nil];
     
     dataSource = [NSMutableArray array];
     firstDataSource = [NSMutableArray array];
@@ -124,8 +126,12 @@
     [self loadTest];
 }
 
-
-
+-(void)searchClass:(NSNotification *)text{
+    NSLog(@"%@",text.userInfo);
+    NSString *searchValue = [text.userInfo objectForKey:@"searchValue"];
+    _searchBar.text = searchValue;
+    [self loadData];
+}
 -(void)initMenu{
     
     
@@ -608,7 +614,7 @@
     
     [param setObject:ctype forKey:@"ctype"];//课程分类：3:同步课程,5:方法建模,6:题型突破,9:习题讲评
     [param setObject:oby forKey:@"oby"];//new：发布时间降序，look：浏览次数降序，price：价格降序，price_asc：价格升序
-    [param setObject:@"" forKey:@"search_key"];//搜索关键词
+    [param setObject:_searchBar.text forKey:@"search_key"];//搜索关键词
     [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];//当前第几页
     
     
@@ -660,7 +666,7 @@
     
     [param setObject:ctype forKey:@"ctype"];//课程分类：3:同步课程,5:方法建模,6:题型突破,9:习题讲评
     [param setObject:oby forKey:@"oby"];//new：发布时间降序，look：浏览次数降序，price：价格降序，price_asc：价格升序
-    [param setObject:@"" forKey:@"search_key"];//搜索关键词
+    [param setObject:_searchBar.text forKey:@"search_key"];//搜索关键词
     [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];//当前第几页
     
     
@@ -715,9 +721,10 @@
     ViewBorderRadius(btn2, 5, 0, [UIColor whiteColor]);
     [navView addSubview:btn2];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 28, 28)];
-    ViewRadius(searchBar, 5);
-    [navView addSubview:searchBar];
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 28, 28)];
+    ViewRadius(_searchBar, 5);
+    _searchBar.delegate = self;
+    [navView addSubview:_searchBar];
     self.navigationItem.titleView = navView;
     
 }
@@ -725,6 +732,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - UISearchBarDelegate
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    [searchBar resignFirstResponder];
+    [self loadData];
 }
 
 #pragma mark - LrdSuperMenuDataSource
