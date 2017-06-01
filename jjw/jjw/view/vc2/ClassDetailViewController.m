@@ -380,7 +380,53 @@
     
     [_myScrollView addSubview:image];
     
-    UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(10, 10 + videoHeight + 10, Main_Screen_Width - 20, 1)];
+    NSNumber *isBuy = [courseInfo objectForKey:@"is_buy"];
+    NSString *expire_time = [courseInfo objectForKey:@"expire_time"];
+    
+    CGFloat maxY = 10 + videoHeight;
+    
+    if ([isBuy boolValue] && expire_time && ![expire_time isKindOfClass:[NSNull class]] && ![expire_time isEqualToString:@""]) {
+        
+    }else{
+        //打包课程
+        NSDictionary *pack = [courseInfo objectForKey:@"pack"];
+        if (pack) {
+            NSNumber *isPack = [pack objectForKey:@"is_pack"];
+            if ([isPack boolValue]) {
+                NSString *price = [pack objectForKey:@"price"];
+                NSNumber *packNum = [pack objectForKey:@"pack_num"];
+                
+                UIButton *packageBtn = [[UIButton alloc] initWithFrame:CGRectMake((Main_Screen_Width - 80)/2, 10 + videoHeight + 10, 80, 30)];
+                [packageBtn setTitle:@"打包购买" forState:UIControlStateNormal];
+                [packageBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                packageBtn.titleLabel.font = SYSTEMFONT(15);
+                [packageBtn setBackgroundImage:[UIImage imageWithColor:RGB(255, 153, 0) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+                ViewRadius(packageBtn, 5);
+                //            packageBtn.tag = 1;
+                //            [packageBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+                [_myScrollView addSubview:packageBtn];
+                
+                UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(packageBtn.frame), CGRectGetMinY(packageBtn.frame)+6, 0, 0)];
+                priceLabel.text = [NSString stringWithFormat:@"￥%@",price];
+                priceLabel.textColor = RGB(255, 153, 0);
+                priceLabel.font = BOLDSYSTEMFONT(14);
+                [priceLabel sizeToFit];
+                [_myScrollView addSubview:priceLabel];
+                
+                UILabel *courseLabel = [[UILabel alloc] init];
+                courseLabel.text = [NSString stringWithFormat:@"本册%d节",[packNum intValue]];
+                courseLabel.font = SYSTEMFONT(14);
+                [courseLabel sizeToFit];
+                [courseLabel setFrame:CGRectMake(CGRectGetMinX(packageBtn.frame) - CGRectGetWidth(courseLabel.frame) - 2, CGRectGetMinY(packageBtn.frame)+6, CGRectGetWidth(courseLabel.frame), CGRectGetHeight(courseLabel.frame))];
+                [_myScrollView addSubview:courseLabel];
+                
+                maxY = CGRectGetMaxY(packageBtn.frame);
+            }
+        }
+    }
+    
+    
+    UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(10, maxY + 10, Main_Screen_Width - 20, 1)];
     line.backgroundColor = RGB(239, 239, 239);
     [_myScrollView addSubview:line];
     //标题
@@ -392,9 +438,8 @@
     [titleLabel sizeToFit];
     [_myScrollView addSubview:titleLabel];
     
-    CGFloat maxY = CGRectGetMaxY(titleLabel.frame);
-    NSNumber *isBuy = [courseInfo objectForKey:@"is_buy"];
-    NSString *expire_time = [courseInfo objectForKey:@"expire_time"];
+    maxY = CGRectGetMaxY(titleLabel.frame);
+    
     
     
     if ([isBuy boolValue] && expire_time && ![expire_time isKindOfClass:[NSNull class]] && ![expire_time isEqualToString:@""]) {

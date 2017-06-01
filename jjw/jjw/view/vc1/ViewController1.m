@@ -198,7 +198,7 @@
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
     [manager.responseSerializer setAcceptableContentTypes:set];
-    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/get_next_class"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_course_pack"];
     
     NSMutableDictionary *parameters  = [NSMutableDictionary dictionary];
     [parameters setValue:parentId forKey:@"subject_id"];
@@ -682,10 +682,11 @@
         NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
         NSNumber *isPack = [dic objectForKey:@"is_pack"];
         NSString *price = [dic objectForKey:@"price"];
+        NSNumber *course_num = [dic objectForKey:@"course_num"];
         DLog(@"%@",dic);
         
         UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(x + 5, 10, 130, 80)];
-        [btn setTitle:[NSString stringWithFormat:@"%@%@\n共0节",name,subjectName] forState:UIControlStateNormal];
+        [btn setTitle:[NSString stringWithFormat:@"%@%@\n共%d节",name,subjectName,[course_num intValue]] forState:UIControlStateNormal];
         btn.titleLabel.numberOfLines = 0;
         [btn setBackgroundImage:[UIImage imageWithColor:RGB(86, 189, 238) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
         ViewBorderRadius(btn, 10, 0, [UIColor whiteColor]);
@@ -708,11 +709,34 @@
             rect = btn.frame;
         }
         
-        UILabel *btnLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(btn.frame), CGRectGetMaxY(btn.frame) + 8, CGRectGetWidth(btn.frame), 11)];
-        btnLabel.text = @"暂时没有打包";
-        btnLabel.textAlignment = NSTextAlignmentCenter;
-        btnLabel.font = SYSTEMFONT(14);
-        [bixiuScrollView addSubview:btnLabel];
+        if ([isPack intValue] == 0) {
+            UILabel *btnLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(btn.frame), CGRectGetMaxY(btn.frame) + 8, CGRectGetWidth(btn.frame), 11)];
+            btnLabel.text = @"暂时没有打包";
+            btnLabel.textAlignment = NSTextAlignmentCenter;
+            btnLabel.font = SYSTEMFONT(14);
+            [bixiuScrollView addSubview:btnLabel];
+        }else if ([isPack intValue] == 1){
+            UILabel *btnLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(btn.frame), CGRectGetMaxY(btn.frame) + 8, CGRectGetWidth(btn.frame), 11)];
+            NSString *str = [NSString stringWithFormat:@"打包购买￥%@",price];
+//            btnLabel.text = [NSString stringWithFormat:@"打包购买￥%@",price];
+            btnLabel.textAlignment = NSTextAlignmentCenter;
+            btnLabel.font = SYSTEMFONT(14);
+            
+            
+            
+            NSMutableAttributedString *AttributedStr = [[NSMutableAttributedString alloc]initWithString:str];
+            [AttributedStr addAttribute:NSForegroundColorAttributeName
+                                  value:RGB(255, 153, 0)
+                                  range:NSMakeRange(4, str.length-4)];
+            btnLabel.attributedText = AttributedStr;
+            btnLabel.userInteractionEnabled = YES;
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(buyPackage:)];
+            btnLabel.tag = i;
+            [btnLabel addGestureRecognizer:tap];
+            [bixiuScrollView addSubview:btnLabel];
+        }
+        
+        
         
         x = CGRectGetMaxX(btn.frame) + 5;
     }
@@ -870,6 +894,11 @@
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         DLog(@"%@",error.description);
     }];
+}
+
+-(void)buyPackage:(UIGestureRecognizer *)recog{
+    NSDictionary *package = [thirdDataSource objectAtIndex:recog.view.tag];
+    DLog(@"%@",package);
 }
 
 -(void)toNewsDetail:(UITapGestureRecognizer *)recog{
