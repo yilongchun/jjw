@@ -10,4 +10,5 @@
 
 @interface PackageClassViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *mySegment;
 @end

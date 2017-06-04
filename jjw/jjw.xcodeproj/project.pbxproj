@@ -164,6 +164,8 @@
 		BC86E6C91ECC60E500AC184D /* SRVideoPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = BC86E6B51ECC60E500AC184D /* SRVideoPlayer.m */; };
 		BC86E6CA1ECC60E500AC184D /* SRVideoProgressTip.m in Sources */ = {isa = PBXBuildFile; fileRef = BC86E6B71ECC60E500AC184D /* SRVideoProgressTip.m */; };
 		BC86E6CB1ECC60E500AC184D /* SRVideoTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = BC86E6B91ECC60E500AC184D /* SRVideoTopBar.m */; };
+		BC89B4191EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC89B4171EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.m */; };
+		BC89B41A1EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC89B4181EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.xib */; };
 		BC8A84391EC338890062F455 /* PaidRecordTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8A84371EC338890062F455 /* PaidRecordTableViewCell.m */; };
 		BC8A843A1EC338890062F455 /* PaidRecordTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8A84381EC338890062F455 /* PaidRecordTableViewCell.xib */; };
 		BC8C8E461ED17803005533C1 /* HZSigmentView.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8C8E451ED17803005533C1 /* HZSigmentView.m */; };
@@ -213,6 +215,8 @@
 		BC98179A1EA3A2BF00F45E31 /* TeacherHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9817981EA3A2BF00F45E31 /* TeacherHomeViewController.xib */; };
 		BC98179E1EA3A5C100F45E31 /* TeacherHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC98179C1EA3A5C100F45E31 /* TeacherHomeTableViewCell.m */; };
 		BC98179F1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC98179D1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib */; };
+		BCC08C2C1EE3B04200C3CD7B /* PackageClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC08C2A1EE3B04200C3CD7B /* PackageClassTableViewCell.m */; };
+		BCC08C2D1EE3B04200C3CD7B /* PackageClassTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCC08C2B1EE3B04200C3CD7B /* PackageClassTableViewCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -522,6 +526,9 @@
 		BC86E6B71ECC60E500AC184D /* SRVideoProgressTip.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRVideoProgressTip.m; sourceTree = "<group>"; };
 		BC86E6B81ECC60E500AC184D /* SRVideoTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRVideoTopBar.h; sourceTree = "<group>"; };
 		BC86E6B91ECC60E500AC184D /* SRVideoTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRVideoTopBar.m; sourceTree = "<group>"; };
+		BC89B4161EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackageClassDetailTableViewCell.h; sourceTree = "<group>"; };
+		BC89B4171EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PackageClassDetailTableViewCell.m; sourceTree = "<group>"; };
+		BC89B4181EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PackageClassDetailTableViewCell.xib; sourceTree = "<group>"; };
 		BC8A84361EC338890062F455 /* PaidRecordTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaidRecordTableViewCell.h; sourceTree = "<group>"; };
 		BC8A84371EC338890062F455 /* PaidRecordTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaidRecordTableViewCell.m; sourceTree = "<group>"; };
 		BC8A84381EC338890062F455 /* PaidRecordTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaidRecordTableViewCell.xib; sourceTree = "<group>"; };
@@ -594,6 +601,9 @@
 		BC98179B1EA3A5C100F45E31 /* TeacherHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeacherHomeTableViewCell.h; sourceTree = "<group>"; };
 		BC98179C1EA3A5C100F45E31 /* TeacherHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeacherHomeTableViewCell.m; sourceTree = "<group>"; };
 		BC98179D1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeacherHomeTableViewCell.xib; sourceTree = "<group>"; };
+		BCC08C291EE3B04200C3CD7B /* PackageClassTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackageClassTableViewCell.h; sourceTree = "<group>"; };
+		BCC08C2A1EE3B04200C3CD7B /* PackageClassTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PackageClassTableViewCell.m; sourceTree = "<group>"; };
+		BCC08C2B1EE3B04200C3CD7B /* PackageClassTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PackageClassTableViewCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -718,6 +728,12 @@
 				BC8D01A61EAE246800EC5CDE /* PackageClassViewController.h */,
 				BC8D01A71EAE246800EC5CDE /* PackageClassViewController.m */,
 				BC8D01A81EAE246800EC5CDE /* PackageClassViewController.xib */,
+				BCC08C291EE3B04200C3CD7B /* PackageClassTableViewCell.h */,
+				BCC08C2A1EE3B04200C3CD7B /* PackageClassTableViewCell.m */,
+				BCC08C2B1EE3B04200C3CD7B /* PackageClassTableViewCell.xib */,
+				BC89B4161EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.h */,
+				BC89B4171EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.m */,
+				BC89B4181EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.xib */,
 				BC8D01AB1EAE24B800EC5CDE /* StudyRecordViewController.h */,
 				BC8D01AC1EAE24B800EC5CDE /* StudyRecordViewController.m */,
 				BC8D01AD1EAE24B800EC5CDE /* StudyRecordViewController.xib */,
@@ -1490,6 +1506,7 @@
 				BC9141581EA10EA700F7A654 /* 1481518277839.png in Resources */,
 				BC8C8E4D1ED1AD56005533C1 /* accessory_normal@2x.png in Resources */,
 				BC0693E21E926D310055D8E3 /* wx.jpeg in Resources */,
+				BC89B41A1EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.xib in Resources */,
 				44F3DE051E8CAD720089208B /* ViewController5.xib in Resources */,
 				BC7EC8C91ED84C6700D5859C /* TeacherCollectionViewCell.xib in Resources */,
 				44F3DF411E8CB1E00089208B /* btnCheck.png in Resources */,
@@ -1508,6 +1525,7 @@
 				BC9686141ED5B7BD008CD8B6 /* NewsDetailViewController.xib in Resources */,
 				BC8A843A1EC338890062F455 /* PaidRecordTableViewCell.xib in Resources */,
 				44F3DF691E8CB1E00089208B /* MJRefresh.bundle in Resources */,
+				BCC08C2D1EE3B04200C3CD7B /* PackageClassTableViewCell.xib in Resources */,
 				BC8D01A01EAE238200EC5CDE /* ShoppingCartViewController.xib in Resources */,
 				BC8014CC1ECB1C66001607D2 /* MyCollectTableViewCell.xib in Resources */,
 				44F3DE001E8CAD690089208B /* ViewController4.xib in Resources */,
@@ -1564,6 +1582,7 @@
 				BC86E6C61ECC60E500AC184D /* SRVideoBottomBar.m in Sources */,
 				44F3DF661E8CB1E00089208B /* MJRefreshGifHeader.m in Sources */,
 				BC8D01B31EAE250D00EC5CDE /* MyOrdersViewController.m in Sources */,
+				BCC08C2C1EE3B04200C3CD7B /* PackageClassTableViewCell.m in Sources */,
 				BC86E6BB1ECC60E500AC184D /* MASConstraint.m in Sources */,
 				44F3DEA41E8CB1840089208B /* NSString+UUID.m in Sources */,
 				BC86E6BE1ECC60E500AC184D /* MASViewAttribute.m in Sources */,
@@ -1577,6 +1596,7 @@
 				44F3DE951E8CB1840089208B /* NSManagedObjectContext+Fetching.m in Sources */,
 				44F3DE981E8CB1840089208B /* NSObject+AddProperty.m in Sources */,
 				442E9FDE1EBAFD0D005C1A8B /* MyQusAnsTableViewCell.m in Sources */,
+				BC89B4191EE3E8F0003CC7CF /* PackageClassDetailTableViewCell.m in Sources */,
 				BC9686091ED5B223008CD8B6 /* NewsViewController.m in Sources */,
 				44F3DF6B1E8CB1E00089208B /* UIScrollView+MJExtension.m in Sources */,
 				44F3DF5B1E8CB1E00089208B /* MJRefreshAutoFooter.m in Sources */,
