@@ -18,6 +18,7 @@
 #import "TeacherViewController.h"
 #import "TeacherHomeViewController.h"
 
+
 @interface ViewController1 ()<HZSigmentViewDelegate,UISearchBarDelegate>{
     UIScrollView *myScrollView;//主界面滚动视图
     
@@ -40,6 +41,23 @@
     NSArray *freeCoursesArray;
     NSArray *centerAdImagesArray;
     NSArray *recommendTeacherArray;
+    
+    NSArray *courseList;//课程排名
+    NSArray *teacherList;//教师排名
+    
+    UIButton *nbtn2;
+    
+    UIView *popView;
+    UIView *maskView;
+    
+    UILabel *label1;
+    UILabel *label2;
+    UILabel *line1;
+    UILabel *line2;
+    
+    UIView *view1;
+    UIView *view_1;
+    UIView *view_2;
 }
 
 @property (nonatomic, strong) HZSigmentView * sigment;//横向滑动二级
@@ -68,15 +86,16 @@
     ViewBorderRadius(btn1, 5, 0, [UIColor whiteColor]);
     [navView addSubview:btn1];
     
-    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 6, 60, 28)];
-    [btn2 setTitle:@"课程" forState:UIControlStateNormal];
-    [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn2.titleLabel.font = SYSTEMFONT(13);
-    [btn2 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
-    ViewBorderRadius(btn2, 5, 0, [UIColor whiteColor]);
-    [navView addSubview:btn2];
+    nbtn2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 6, 60, 28)];
+    [nbtn2 setTitle:@"课程" forState:UIControlStateNormal];
+    [nbtn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    nbtn2.titleLabel.font = SYSTEMFONT(13);
+    [nbtn2 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+    ViewBorderRadius(nbtn2, 5, 0, [UIColor whiteColor]);
+    [nbtn2 addTarget:self action:@selector(chooseType2:) forControlEvents:UIControlEventTouchUpInside];
+    [navView addSubview:nbtn2];
     
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 28, 28)];
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(nbtn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(nbtn2.frame) - 28, 28)];
     ViewRadius(_searchBar, 5);
     _searchBar.delegate = self;
     [navView addSubview:_searchBar];
@@ -108,11 +127,13 @@
     [self loadData4];
     [self loadData5];
     [self loadData6];
+    [self loadData7];
+    [self loadData8];
 }
 
 -(void)loadSuccess{
     DLog(@"%d",requestNum);
-    if (requestNum == 6) {
+    if (requestNum == 8) {
         [self initUI];
     }
 }
@@ -222,10 +243,6 @@
                 
             }
             
-            
-            
-            
-            
         }else{
             
         }
@@ -233,6 +250,74 @@
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [self showHintInView:self.view hint:error.description];
     }];
+}
+
+-(void)action1:(UIButton *)btn{
+    [nbtn2 setTitle:btn.currentTitle forState:UIControlStateNormal];
+    [self hidePopView:nil];
+}
+
+-(void)chooseType2:(UIButton *)sender{
+    if (popView == nil) {
+        popView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 122)];
+        popView.backgroundColor = RGB(255, 255, 255);
+        
+        UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
+        btn1.tag = 1;
+        btn1.titleLabel.font = SYSTEMFONT(14);
+        [btn1 setTitle:@"课程" forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [btn1 addTarget:self action:@selector(action1:) forControlEvents:UIControlEventTouchUpInside];
+        [popView addSubview:btn1];
+        UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(btn1.frame), Main_Screen_Width, 1)];
+        line.backgroundColor = RGB(210, 210, 210);
+        [popView addSubview:line];
+        
+        UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, 40)];
+        btn2.tag = 2;
+        btn2.titleLabel.font = SYSTEMFONT(14);
+        [btn2 setTitle:@"名师" forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [btn2 addTarget:self action:@selector(action1:) forControlEvents:UIControlEventTouchUpInside];
+        [popView addSubview:btn2];
+        line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(btn2.frame), Main_Screen_Width, 1)];
+        line.backgroundColor = RGB(210, 210, 210);
+        [popView addSubview:line];
+        
+        UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, 40)];
+        btn3.tag = 3;
+        btn3.titleLabel.font = SYSTEMFONT(14);
+        [btn3 setTitle:@"题目" forState:UIControlStateNormal];
+        [btn3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn3 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [btn3 addTarget:self action:@selector(action1:) forControlEvents:UIControlEventTouchUpInside];
+        [popView addSubview:btn3];
+        
+        ViewBorderRadius(popView, 0, 0.5, RGB(160, 160, 160));
+    }
+    if (maskView == nil) {
+        maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
+        maskView.backgroundColor = RGBA(0, 0, 0, 0.1);
+        maskView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidePopView:)];
+        [maskView addGestureRecognizer:tap];
+    }
+    
+    [self.navigationController.view addSubview:maskView];
+    [self.navigationController.view addSubview:popView];
+}
+
+-(void)hidePopView:(UIGestureRecognizer *)sender{
+    
+    if (maskView) {
+        [maskView removeFromSuperview];
+    }
+    if (popView) {
+        [popView removeFromSuperview];
+    }
+    
 }
 
 -(void)btnClick:(UIButton *)btn{
@@ -292,6 +377,7 @@
     UIView *zxdtView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, viewHeight)];
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 35)];
     label.text = @"  最新动态";
+    label.font = SYSTEMFONT(20);
     label.backgroundColor = [UIColor whiteColor];
     [zxdtView addSubview:label];
     line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label.frame), Main_Screen_Width, 0.5)];
@@ -364,6 +450,7 @@
     UIView *jptjView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, viewHeight)];
     label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 35)];
     label.text = @"  精品推荐";
+    label.font = SYSTEMFONT(20);
     label.backgroundColor = [UIColor whiteColor];
     [jptjView addSubview:label];
     line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label.frame), Main_Screen_Width, 0.5)];
@@ -442,6 +529,7 @@
     UIView *mftyView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, viewHeight)];
     label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 35)];
     label.text = @"  免费体验";
+    label.font = SYSTEMFONT(20);
     label.backgroundColor = [UIColor whiteColor];
     [mftyView addSubview:label];
     line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label.frame), Main_Screen_Width, 0.5)];
@@ -549,6 +637,7 @@
     UIView *mstjView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, viewHeight)];
     label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 35)];
     label.text = @"  名师推荐";
+    label.font = SYSTEMFONT(20);
     label.backgroundColor = [UIColor whiteColor];
     [mstjView addSubview:label];
     line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label.frame), Main_Screen_Width, 0.5)];
@@ -657,9 +746,236 @@
     line.backgroundColor = BORDER_COLOR;
     [myScrollView addSubview:line];
     
+    viewHeight = 35 + 5 + 44 + 70*4 + 5;
+    
+    UIView *wkfybView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, viewHeight)];
+    label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 35)];
+    label.text = @"  微课风云榜";
+    label.font = SYSTEMFONT(20);
+    label.backgroundColor = [UIColor whiteColor];
+    [wkfybView addSubview:label];
+    line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label.frame), Main_Screen_Width, 0.5)];
+    line.backgroundColor = BORDER_COLOR;
+    [wkfybView addSubview:line];
+    
+    content = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, 44 + 70 * 4 + 10)];
+    content.backgroundColor = RGB(246, 246, 246);
+    [wkfybView addSubview:content];
+    
+    view1 = [[UIView alloc] initWithFrame:CGRectMake(5, 5, Main_Screen_Width - 10, 44 + 70 * 4)];
+    view1.backgroundColor = [UIColor whiteColor];
+    ViewBorderRadius(view1, 0, 1, BORDER_COLOR);
+    [content addSubview:view1];
+    
+    label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, (Main_Screen_Width - 10)/3, 34)];
+    label1.font = SYSTEMFONT(18);
+    label1.textColor = RGB(0, 150, 230);
+    label1.textAlignment = NSTextAlignmentCenter;
+    label1.text = @"课程排名";
+    [view1 addSubview:label1];
+    label1.tag = 1;
+    UITapGestureRecognizer *tap1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+    label1.userInteractionEnabled = YES;
+    [label1 addGestureRecognizer:tap1];
+    
+    label2 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label1.frame), 10, (Main_Screen_Width - 10)/3, 34)];
+    label2.font = SYSTEMFONT(18);
+    label2.textColor = RGB(51, 51, 51);
+    label2.textAlignment = NSTextAlignmentCenter;
+    label2.text = @"教师排名";
+    [view1 addSubview:label2];
+    label2.tag = 2;
+    UITapGestureRecognizer *tap2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap:)];
+    label2.userInteractionEnabled = YES;
+    [label2 addGestureRecognizer:tap2];
+    
+//    UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label2.frame), 10, (Main_Screen_Width - 10)/3, 34)];
+//    label3.font = SYSTEMFONT(18);
+//    label3.textColor = RGB(51, 51, 51);
+//    label3.textAlignment = NSTextAlignmentCenter;
+//    label3.text = @"教师排名";
+//    [view1 addSubview:label3];
+    
+    UILabel *line9 = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label1.frame), Main_Screen_Width - 10, 1)];
+    line9.backgroundColor = BORDER_COLOR;
+    [view1 addSubview:line9];
+    
+    line1 = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(label1.frame), CGRectGetWidth(label1.frame), 1)];
+    line1.backgroundColor = RGB(0, 150, 230);
+    [view1 addSubview:line1];
+    
+    line2 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label1.frame), CGRectGetMaxY(label1.frame), CGRectGetWidth(label1.frame), 1)];
+//    line2.backgroundColor = [UIColor clearColor];
+    [view1 addSubview:line2];
+    
+    //课程排名
+    view_1 = [[UIView alloc] initWithFrame:CGRectMake(0, 45, Main_Screen_Width - 10, 70 * 4)];
+    view_1.backgroundColor = [UIColor whiteColor];
+    [view1 addSubview:view_1];
+    
+    
+    for (int i = 0; i < courseList.count; i++) {
+        NSDictionary *dic = [courseList objectAtIndex:i];
+        NSString *courseName = [dic objectForKey:@"COURSE_NAME"];
+        NSString *teacherName = [dic objectForKey:@"TEACHER_NAME"];
+        NSString *playNum = [dic objectForKey:@"PLAY_NUM"];
+        
+        
+        
+        UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 70*i, Main_Screen_Width - 10, 70)];
+        
+        
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, Main_Screen_Width - 20, 24)];
+        titleLabel.text = courseName;
+        titleLabel.font = SYSTEMFONT(15);
+        [cell addSubview:titleLabel];
+        
+        UILabel *playNumLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(titleLabel.frame) + 10, 0, 0)];
+        playNumLabel1.text = @"播放: ";
+        playNumLabel1.textColor = RGB(101, 101, 101);
+        playNumLabel1.font = SYSTEMFONT(12);
+        [playNumLabel1 sizeToFit];
+        [cell addSubview:playNumLabel1];
+        UILabel *playNumLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(playNumLabel1.frame), CGRectGetMaxY(titleLabel.frame) + 10, 0, 0)];
+        playNumLabel2.text = playNum;
+        playNumLabel2.textColor = RGB(255, 153, 0);
+        playNumLabel2.font = SYSTEMFONT(12);
+        [playNumLabel2 sizeToFit];
+        [cell addSubview:playNumLabel2];
+        UILabel *playNumLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(playNumLabel2.frame), CGRectGetMaxY(titleLabel.frame) + 10, 0, 0)];
+        playNumLabel3.text = @"次";
+        playNumLabel3.textColor = RGB(101, 101, 101);
+        playNumLabel3.font = SYSTEMFONT(12);
+        [playNumLabel3 sizeToFit];
+        [cell addSubview:playNumLabel3];
+        
+        UILabel *teacherLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(playNumLabel3.frame) + 30, CGRectGetMaxY(titleLabel.frame) + 10, 0, 0)];
+        teacherLabel.text = [NSString stringWithFormat:@"讲师: %@",teacherName];
+        teacherLabel.textColor = RGB(101, 101, 101);
+        teacherLabel.font = SYSTEMFONT(12);
+        [teacherLabel sizeToFit];
+        [cell addSubview:teacherLabel];
+        
+        line = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, Main_Screen_Width-10, 0.5)];
+        line.backgroundColor = BORDER_COLOR;
+        [cell addSubview:line];
+        cell.userInteractionEnabled = YES;
+        cell.tag = i;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapCourse:)];
+        [cell addGestureRecognizer:tap];
+        
+        [view_1 addSubview:cell];
+    }
+    
+    //讲师排名
+    view_2 = [[UIView alloc] initWithFrame:CGRectMake(0, 45, Main_Screen_Width - 10, 70 * 4)];
+    view_2.backgroundColor = [UIColor whiteColor];
+    [view1 addSubview:view_2];
+    
+    for (int i = 0; i < teacherList.count; i++) {
+        UIView *cell = [[UIView alloc] initWithFrame:CGRectMake(0, 70*i, Main_Screen_Width - 10, 70)];
+        
+        NSDictionary *dic = [teacherList objectAtIndex:i];
+        NSString *teacherName = [dic objectForKey:@"TEAHCER_NAME"];
+        NSString *type = [dic objectForKey:@"TYPE"];
+        NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+        NSString *img = [dic objectForKey:@"IMG"];
+        NSNumber *courseNum = [dic objectForKey:@"COURSE_NUM"];
+        
+        UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 50, 50)];
+        [imageview setImageWithURL:[NSURL URLWithString:img]];
+        [cell addSubview:imageview];
+        ViewRadius(imageview, 25);
+        
+        UILabel *teacherNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(70, 15, 0, 0)];
+        teacherNameLabel.font = SYSTEMFONT(15);
+        teacherNameLabel.textColor = RGB(51, 51, 51);
+        teacherNameLabel.text = teacherName;
+        [teacherNameLabel sizeToFit];
+        [cell addSubview:teacherNameLabel];
+        
+        UILabel *courseNumLabel1 = [[UILabel alloc] initWithFrame:CGRectMake(70, 40, 0, 0)];
+        courseNumLabel1.text = @"微课: ";
+        courseNumLabel1.textColor = RGB(101, 101, 101);
+        courseNumLabel1.font = SYSTEMFONT(12);
+        [courseNumLabel1 sizeToFit];
+        [cell addSubview:courseNumLabel1];
+        UILabel *courseNumLabel2 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(courseNumLabel1.frame), 40, 0, 0)];
+        courseNumLabel2.text = [NSString stringWithFormat:@"%d",[courseNum intValue]];
+        courseNumLabel2.textColor = RGB(255, 153, 0);
+        courseNumLabel2.font = SYSTEMFONT(12);
+        [courseNumLabel2 sizeToFit];
+        [cell addSubview:courseNumLabel2];
+        UILabel *courseNumLabel3 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(courseNumLabel2.frame), 40, 0, 0)];
+        courseNumLabel3.text = @"节";
+        courseNumLabel3.textColor = RGB(101, 101, 101);
+        courseNumLabel3.font = SYSTEMFONT(12);
+        [courseNumLabel3 sizeToFit];
+        [cell addSubview:courseNumLabel3];
+        
+        UILabel *subjectNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(courseNumLabel3.frame) + 30, 40, 0, 0)];
+        subjectNameLabel.text = [NSString stringWithFormat:@"%@%@",type,subjectName];
+        subjectNameLabel.textColor = RGB(101, 101, 101);
+        subjectNameLabel.font = SYSTEMFONT(12);
+        [subjectNameLabel sizeToFit];
+        [cell addSubview:subjectNameLabel];
+        
+        line = [[UILabel alloc] initWithFrame:CGRectMake(0, 70, Main_Screen_Width-10, 0.5)];
+        line.backgroundColor = BORDER_COLOR;
+        [cell addSubview:line];
+        cell.userInteractionEnabled = YES;
+        cell.tag = i;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapTeacher:)];
+        [cell addGestureRecognizer:tap];
+        [view_2 addSubview:cell];
+    }
+    
+    [view1 bringSubviewToFront:view_1];
+    
+    
+    [myScrollView addSubview:wkfybView];
+    line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(wkfybView.frame), Main_Screen_Width, 0.5)];
+    line.backgroundColor = BORDER_COLOR;
+    [myScrollView addSubview:line];
+    
     maxY = CGRectGetMaxY(line.frame);
     [myScrollView setContentSize:CGSizeMake(Main_Screen_Width, maxY)];
     
+}
+
+-(void)tapCourse:(UIGestureRecognizer *)recog{
+    NSDictionary *dic = [courseList objectAtIndex:recog.view.tag];
+    NSString *courseId = [dic objectForKey:@"COURSE_ID"];
+    ClassDetailViewController *vc = [[ClassDetailViewController alloc] init];
+    vc.courseId = courseId;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+-(void)tapTeacher:(UIGestureRecognizer *)recog{
+    NSDictionary *dic = [teacherList objectAtIndex:recog.view.tag];
+    NSString *teacherId = [dic objectForKey:@"ID"];
+    TeacherHomeViewController *vc = [[TeacherHomeViewController alloc] init];
+    vc.teacherId = teacherId;
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+    
+}
+
+-(void)tap:(UIGestureRecognizer *)recog{
+    if (recog.view.tag == 1) {
+        label1.textColor = RGB(0, 150, 230);
+        line1.backgroundColor = RGB(0, 150, 230);
+        label2.textColor = RGB(51, 51, 51);
+        line2.backgroundColor = [UIColor clearColor];
+        [view1 bringSubviewToFront:view_1];
+    }
+    if (recog.view.tag == 2) {
+        label1.textColor = RGB(51, 51, 51);
+        line1.backgroundColor = [UIColor clearColor];
+        label2.textColor = RGB(0, 150, 230);
+        line2.backgroundColor = RGB(0, 150, 230);
+        [view1 bringSubviewToFront:view_2];
+    }
 }
 
 //加载必修课程
@@ -885,6 +1201,54 @@
             requestNum++;
             NSDictionary *result = [dic objectForKey:@"result"];
             recommendTeacherArray = [result objectForKey:@"data_list"];
+            [self loadSuccess];
+            DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+//加载首页课程排名
+-(void)loadData7{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_course_by_playtime"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            requestNum++;
+            NSDictionary *result = [dic objectForKey:@"result"];
+            courseList = [result objectForKey:@"data_list"];
+            [self loadSuccess];
+            DLog(@"%@",responseObject);
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        DLog(@"%@",error.description);
+    }];
+}
+
+//加载首页课程排名
+-(void)loadData8{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_teacher_by_pay"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            requestNum++;
+            NSDictionary *result = [dic objectForKey:@"result"];
+            teacherList = [result objectForKey:@"data_list"];
             [self loadSuccess];
             DLog(@"%@",responseObject);
         }else{
