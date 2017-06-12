@@ -14,6 +14,7 @@
 
 @interface MyClassViewController (){
     NSMutableArray *dataSource;
+    int page;
 }
 
 @end
@@ -35,12 +36,15 @@
     _myTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self loadData];
     }];
+    _myTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+        [self loadMore];
+    }];
     _myTableView.tableFooterView = [[UIView alloc] init];
     [_myTableView.mj_header beginRefreshing];
 }
 
 -(void)loadData{
-    
+    page = 1;
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
     [manager.responseSerializer setAcceptableContentTypes:set];
@@ -48,9 +52,11 @@
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_center/user_course"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         [_myTableView.mj_header endRefreshing];
+        [_myTableView.mj_footer resetNoMoreData];
         NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
@@ -60,11 +66,56 @@
             [dataSource addObjectsFromArray:array];
             [_myTableView reloadData];
             DLog(@"%@",result);
+            NSNumber *pageTotal = [result objectForKey:@"page_total"];
+            if (page == [pageTotal intValue]) {
+                [_myTableView.mj_footer endRefreshingWithNoMoreData];
+            }
         }else{
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [_myTableView.mj_header endRefreshing];
+        [self showHintInView:self.view hint:error.description];
+        DLog(@"%@",error.description);
+    }];
+}
+
+-(void)loadMore{
+    page ++;
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_center/user_course"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+       
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSArray *array = [result objectForKey:@"data_list"];
+            [dataSource addObjectsFromArray:array];
+            [_myTableView reloadData];
+            DLog(@"%@",result);
+            
+            NSNumber *pageTotal = [result objectForKey:@"page_total"];
+            if (page >= [pageTotal intValue]) {
+                [_myTableView.mj_footer endRefreshingWithNoMoreData];
+            }else{
+                [_myTableView.mj_footer endRefreshing];
+            }
+            
+        }else{
+            [_myTableView.mj_header endRefreshing];
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [_myTableView.mj_footer endRefreshing];
         [self showHintInView:self.view hint:error.description];
         DLog(@"%@",error.description);
     }];

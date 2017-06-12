@@ -136,6 +136,12 @@
 		BC0693E21E926D310055D8E3 /* wx.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC0693E01E926D310055D8E3 /* wx.jpeg */; };
 		BC5AD3D71E8FE6EF004D2D3F /* CollectionViewCell2.m in Sources */ = {isa = PBXBuildFile; fileRef = BC5AD3D51E8FE6EF004D2D3F /* CollectionViewCell2.m */; };
 		BC5AD3D81E8FE6EF004D2D3F /* CollectionViewCell2.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC5AD3D61E8FE6EF004D2D3F /* CollectionViewCell2.xib */; };
+		BC79ADF11EE96EEB00509B90 /* OpenShare+Alipay.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79ADE51EE96EEB00509B90 /* OpenShare+Alipay.m */; };
+		BC79ADF21EE96EEB00509B90 /* OpenShare+QQ.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79ADE71EE96EEB00509B90 /* OpenShare+QQ.m */; };
+		BC79ADF31EE96EEB00509B90 /* OpenShare+Renren.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79ADE91EE96EEB00509B90 /* OpenShare+Renren.m */; };
+		BC79ADF41EE96EEB00509B90 /* OpenShare+Weibo.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79ADEB1EE96EEB00509B90 /* OpenShare+Weibo.m */; };
+		BC79ADF51EE96EEB00509B90 /* OpenShare+Weixin.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79ADED1EE96EEB00509B90 /* OpenShare+Weixin.m */; };
+		BC79ADF61EE96EEB00509B90 /* OpenShare.m in Sources */ = {isa = PBXBuildFile; fileRef = BC79ADEF1EE96EEB00509B90 /* OpenShare.m */; };
 		BC7EC8C31ED84B7300D5859C /* TeacherViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7EC8C11ED84B7300D5859C /* TeacherViewController.m */; };
 		BC7EC8C41ED84B7300D5859C /* TeacherViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC7EC8C21ED84B7300D5859C /* TeacherViewController.xib */; };
 		BC7EC8C81ED84C6700D5859C /* TeacherCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BC7EC8C61ED84C6700D5859C /* TeacherCollectionViewCell.m */; };
@@ -210,6 +216,8 @@
 		BC96860F1ED5B283008CD8B6 /* NewsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC96860D1ED5B283008CD8B6 /* NewsCollectionViewCell.xib */; };
 		BC9686131ED5B7BD008CD8B6 /* NewsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9686111ED5B7BD008CD8B6 /* NewsDetailViewController.m */; };
 		BC9686141ED5B7BD008CD8B6 /* NewsDetailViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9686121ED5B7BD008CD8B6 /* NewsDetailViewController.xib */; };
+		BC9810181EEEBE0B007E19D3 /* RechargeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9810161EEEBE0B007E19D3 /* RechargeViewController.m */; };
+		BC9810191EEEBE0B007E19D3 /* RechargeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9810171EEEBE0B007E19D3 /* RechargeViewController.xib */; };
 		BC9817951EA39FA800F45E31 /* 1475988005412.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */; };
 		BC9817991EA3A2BF00F45E31 /* TeacherHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */; };
 		BC98179A1EA3A2BF00F45E31 /* TeacherHomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC9817981EA3A2BF00F45E31 /* TeacherHomeViewController.xib */; };
@@ -471,6 +479,19 @@
 		BC5AD3D41E8FE6EF004D2D3F /* CollectionViewCell2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell2.h; sourceTree = "<group>"; };
 		BC5AD3D51E8FE6EF004D2D3F /* CollectionViewCell2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell2.m; sourceTree = "<group>"; };
 		BC5AD3D61E8FE6EF004D2D3F /* CollectionViewCell2.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewCell2.xib; sourceTree = "<group>"; };
+		BC79ADE41EE96EEB00509B90 /* OpenShare+Alipay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenShare+Alipay.h"; sourceTree = "<group>"; };
+		BC79ADE51EE96EEB00509B90 /* OpenShare+Alipay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+Alipay.m"; sourceTree = "<group>"; };
+		BC79ADE61EE96EEB00509B90 /* OpenShare+QQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenShare+QQ.h"; sourceTree = "<group>"; };
+		BC79ADE71EE96EEB00509B90 /* OpenShare+QQ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+QQ.m"; sourceTree = "<group>"; };
+		BC79ADE81EE96EEB00509B90 /* OpenShare+Renren.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenShare+Renren.h"; sourceTree = "<group>"; };
+		BC79ADE91EE96EEB00509B90 /* OpenShare+Renren.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+Renren.m"; sourceTree = "<group>"; };
+		BC79ADEA1EE96EEB00509B90 /* OpenShare+Weibo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenShare+Weibo.h"; sourceTree = "<group>"; };
+		BC79ADEB1EE96EEB00509B90 /* OpenShare+Weibo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+Weibo.m"; sourceTree = "<group>"; };
+		BC79ADEC1EE96EEB00509B90 /* OpenShare+Weixin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "OpenShare+Weixin.h"; sourceTree = "<group>"; };
+		BC79ADED1EE96EEB00509B90 /* OpenShare+Weixin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OpenShare+Weixin.m"; sourceTree = "<group>"; };
+		BC79ADEE1EE96EEB00509B90 /* OpenShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenShare.h; sourceTree = "<group>"; };
+		BC79ADEF1EE96EEB00509B90 /* OpenShare.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenShare.m; sourceTree = "<group>"; };
+		BC79ADF01EE96EEB00509B90 /* OpenShareHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenShareHeader.h; sourceTree = "<group>"; };
 		BC7EC8C01ED84B7300D5859C /* TeacherViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeacherViewController.h; sourceTree = "<group>"; };
 		BC7EC8C11ED84B7300D5859C /* TeacherViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeacherViewController.m; sourceTree = "<group>"; };
 		BC7EC8C21ED84B7300D5859C /* TeacherViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TeacherViewController.xib; sourceTree = "<group>"; };
@@ -594,6 +615,9 @@
 		BC9686101ED5B7BD008CD8B6 /* NewsDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewsDetailViewController.h; sourceTree = "<group>"; };
 		BC9686111ED5B7BD008CD8B6 /* NewsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewsDetailViewController.m; sourceTree = "<group>"; };
 		BC9686121ED5B7BD008CD8B6 /* NewsDetailViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewsDetailViewController.xib; sourceTree = "<group>"; };
+		BC9810151EEEBE0B007E19D3 /* RechargeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RechargeViewController.h; sourceTree = "<group>"; };
+		BC9810161EEEBE0B007E19D3 /* RechargeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RechargeViewController.m; sourceTree = "<group>"; };
+		BC9810171EEEBE0B007E19D3 /* RechargeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RechargeViewController.xib; sourceTree = "<group>"; };
 		BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = 1475988005412.jpeg; sourceTree = "<group>"; };
 		BC9817961EA3A2BF00F45E31 /* TeacherHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeacherHomeViewController.h; sourceTree = "<group>"; };
 		BC9817971EA3A2BF00F45E31 /* TeacherHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeacherHomeViewController.m; sourceTree = "<group>"; };
@@ -707,6 +731,9 @@
 				44F3DE011E8CAD720089208B /* ViewController5.h */,
 				44F3DE021E8CAD720089208B /* ViewController5.m */,
 				44F3DE031E8CAD720089208B /* ViewController5.xib */,
+				BC9810151EEEBE0B007E19D3 /* RechargeViewController.h */,
+				BC9810161EEEBE0B007E19D3 /* RechargeViewController.m */,
+				BC9810171EEEBE0B007E19D3 /* RechargeViewController.xib */,
 				BC8D01971EAE220200EC5CDE /* PaidRecordViewController.h */,
 				BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */,
 				BC8D01991EAE220200EC5CDE /* PaidRecordViewController.xib */,
@@ -1085,6 +1112,7 @@
 		44F3DEB81E8CB1DF0089208B /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				BC79ADE31EE96EEB00509B90 /* openshare */,
 				BC8C8E471ED1AD56005533C1 /* LrdSuperMenu */,
 				BC8C8E431ED17803005533C1 /* HZSigmentView */,
 				BC949E531ECF3558001DF99E /* WJDropDownMenu */,
@@ -1355,6 +1383,26 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		BC79ADE31EE96EEB00509B90 /* openshare */ = {
+			isa = PBXGroup;
+			children = (
+				BC79ADE41EE96EEB00509B90 /* OpenShare+Alipay.h */,
+				BC79ADE51EE96EEB00509B90 /* OpenShare+Alipay.m */,
+				BC79ADE61EE96EEB00509B90 /* OpenShare+QQ.h */,
+				BC79ADE71EE96EEB00509B90 /* OpenShare+QQ.m */,
+				BC79ADE81EE96EEB00509B90 /* OpenShare+Renren.h */,
+				BC79ADE91EE96EEB00509B90 /* OpenShare+Renren.m */,
+				BC79ADEA1EE96EEB00509B90 /* OpenShare+Weibo.h */,
+				BC79ADEB1EE96EEB00509B90 /* OpenShare+Weibo.m */,
+				BC79ADEC1EE96EEB00509B90 /* OpenShare+Weixin.h */,
+				BC79ADED1EE96EEB00509B90 /* OpenShare+Weixin.m */,
+				BC79ADEE1EE96EEB00509B90 /* OpenShare.h */,
+				BC79ADEF1EE96EEB00509B90 /* OpenShare.m */,
+				BC79ADF01EE96EEB00509B90 /* OpenShareHeader.h */,
+			);
+			path = openshare;
+			sourceTree = "<group>";
+		};
 		BC86E6901ECC60E500AC184D /* SRVideoPlayer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1546,6 +1594,7 @@
 				BC9374101E90C69F00AD4946 /* ico_time.jpg in Resources */,
 				BC821C131E9D15B00093A51F /* ClassDetailViewController.xib in Resources */,
 				BC8D01AA1EAE246800EC5CDE /* PackageClassViewController.xib in Resources */,
+				BC9810191EEEBE0B007E19D3 /* RechargeViewController.xib in Resources */,
 				BC93740F1E90C69F00AD4946 /* ico_play.jpg in Resources */,
 				BC7EC8C41ED84B7300D5859C /* TeacherViewController.xib in Resources */,
 				BC8D01B41EAE250D00EC5CDE /* MyOrdersViewController.xib in Resources */,
@@ -1564,6 +1613,8 @@
 				BC8D019F1EAE238200EC5CDE /* ShoppingCartViewController.m in Sources */,
 				44F3DF561E8CB1E00089208B /* NSNumber+JZExtension.m in Sources */,
 				44F3DEAC1E8CB1840089208B /* UIAlertView+AFNetworking.m in Sources */,
+				BC9810181EEEBE0B007E19D3 /* RechargeViewController.m in Sources */,
+				BC79ADF41EE96EEB00509B90 /* OpenShare+Weibo.m in Sources */,
 				44F3DF461E8CB1E00089208B /* IQUIScrollView+Additions.m in Sources */,
 				BC8D01A41EAE240300EC5CDE /* MyClassViewController.m in Sources */,
 				44F3DF631E8CB1E00089208B /* MJRefreshBackGifFooter.m in Sources */,
@@ -1626,6 +1677,7 @@
 				44F3DF5C1E8CB1E00089208B /* MJRefreshBackFooter.m in Sources */,
 				44F3DF521E8CB1E00089208B /* IQUIView+IQKeyboardToolbar.m in Sources */,
 				44F3DEA01E8CB1840089208B /* NSString+Hash.m in Sources */,
+				BC79ADF51EE96EEB00509B90 /* OpenShare+Weixin.m in Sources */,
 				BC96860E1ED5B283008CD8B6 /* NewsCollectionViewCell.m in Sources */,
 				BC86E6CA1ECC60E500AC184D /* SRVideoProgressTip.m in Sources */,
 				44F3DF581E8CB1E00089208B /* UIToolbar+JZExtension.m in Sources */,
@@ -1651,6 +1703,7 @@
 				44F3DE9B1E8CB1840089208B /* NSObject+Property.m in Sources */,
 				44F3DEA51E8CB1840089208B /* NSString+Valid.m in Sources */,
 				44F3DEB71E8CB1840089208B /* UIViewController+Visible.m in Sources */,
+				BC79ADF21EE96EEB00509B90 /* OpenShare+QQ.m in Sources */,
 				BC8C8E461ED17803005533C1 /* HZSigmentView.m in Sources */,
 				44F3DF511E8CB1E00089208B /* IQToolbar.m in Sources */,
 				44F3DDF51E8CAD530089208B /* ViewController2.m in Sources */,
@@ -1679,6 +1732,7 @@
 				44F3DEAB1E8CB1840089208B /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				BC86E6BD1ECC60E500AC184D /* MASLayoutConstraint.m in Sources */,
 				44F3DE861E8CB1840089208B /* NSArray+SafeAccess.m in Sources */,
+				BC79ADF31EE96EEB00509B90 /* OpenShare+Renren.m in Sources */,
 				BC8D01C71EAE270300EC5CDE /* MyHeaderImageViewController.m in Sources */,
 				BC8D019A1EAE220200EC5CDE /* PaidRecordViewController.m in Sources */,
 				44F3DF551E8CB1E00089208B /* _JZValue.m in Sources */,
@@ -1706,6 +1760,7 @@
 				BC8D01C21EAE269A00EC5CDE /* BasicInfoViewController.m in Sources */,
 				44F3DEB41E8CB1840089208B /* UIViewController+DismissKeyboard.m in Sources */,
 				44F3DE931E8CB1840089208B /* NSFileManager+Paths.m in Sources */,
+				BC79ADF11EE96EEB00509B90 /* OpenShare+Alipay.m in Sources */,
 				44F3DEB31E8CB1840089208B /* UITextView+PlaceHolder.m in Sources */,
 				44F3DF5E1E8CB1E00089208B /* MJRefreshFooter.m in Sources */,
 				44F3DEA91E8CB1840089208B /* UIImage+Color.m in Sources */,
@@ -1718,6 +1773,7 @@
 				BC5AD3D71E8FE6EF004D2D3F /* CollectionViewCell2.m in Sources */,
 				44F3DEB61E8CB1840089208B /* UIViewController+RecursiveDescription.m in Sources */,
 				44F3DE8D1E8CB1840089208B /* NSDateFormatter+Make.m in Sources */,
+				BC79ADF61EE96EEB00509B90 /* OpenShare.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

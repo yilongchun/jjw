@@ -22,6 +22,7 @@
 #import "PasswordSettingViewController.h"
 #import "NSDictionary+Category.h"
 #import "UIImageView+AFNetworking.h"
+#import "RechargeViewController.h"
 
 @interface ViewController5 (){
     UIImageView *headImageView;
@@ -294,6 +295,12 @@
     
 }
 
+-(void)toPay{
+    RechargeViewController *vc = [[RechargeViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 -(void)setTableHeaderView{
     CGFloat headImageWidth = Main_Screen_Width * 0.25;
     UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 20 +headImageWidth + 20 + 45 + 40)];
@@ -356,6 +363,7 @@
     [chongzhiBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     chongzhiBtn.titleLabel.font = BOLDSYSTEMFONT(15);
     [chongzhiBtn setBackgroundImage:[UIImage imageWithColor:RGB(255, 153, 0) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+    [chongzhiBtn addTarget:self action:@selector(toPay) forControlEvents:UIControlEventTouchUpInside];
     ViewRadius(chongzhiBtn, 5);
     [view2 addSubview:chongzhiBtn];
     

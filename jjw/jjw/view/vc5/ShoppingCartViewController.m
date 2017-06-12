@@ -10,6 +10,8 @@
 #import "JZNavigationExtension.h"
 #import "MJRefresh.h"
 #import "ShoppintCarTableViewCell.h"
+#import "UIImage+Color.h"
+#import "OpenShareHeader.h"
 
 @interface ShoppingCartViewController (){
     NSMutableArray *dataSource;
@@ -63,13 +65,178 @@
             
             DLog(@"%@",result);
             
+            UIView *tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 90)];
+//            ViewBorderRadius(tableFooterView, 0, 1, [UIColor blackColor]);
+            
+            
+            UILabel *totalMoney = [[UILabel alloc] initWithFrame:CGRectMake(0, 5, Main_Screen_Width - 20, 30)];
+            [tableFooterView addSubview:totalMoney];
+            totalMoney.font = SYSTEMFONT(14);
+            totalMoney.textColor = RGB(51, 51, 51);
+            totalMoney.text = [NSString stringWithFormat:@"总额:￥%@",[result objectForKey:@"total"]];
+            totalMoney.textAlignment = NSTextAlignmentCenter;
+            
+            CGFloat btnWidth = (Main_Screen_Width - 60)/3;
+            //余额支付
+            UIButton *yueBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 40, btnWidth, 32)];
+            [yueBtn setTitle:@"余额支付" forState:UIControlStateNormal];
+            [yueBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            yueBtn.titleLabel.font = SYSTEMFONT(15);
+            [yueBtn setBackgroundImage:[UIImage imageWithColor:RGB(255, 153, 0) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(yueBtn, 5);
+            yueBtn.tag = 1;
+            [yueBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [tableFooterView addSubview:yueBtn];
+            
+            //支付宝支付
+            UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueBtn.frame) + 10, 40, btnWidth, 32)];
+            [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
+            [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            zhifubaoBtn.titleLabel.font = SYSTEMFONT(15);
+            [zhifubaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(zhifubaoBtn, 5);
+            zhifubaoBtn.tag = 2;
+            [zhifubaoBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [tableFooterView addSubview:zhifubaoBtn];
+            
+            //微信支付
+            UIButton *weixinBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, 40, btnWidth, 32)];
+            [weixinBtn setTitle:@"微信支付" forState:UIControlStateNormal];
+            [weixinBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            weixinBtn.titleLabel.font = SYSTEMFONT(15);
+            [weixinBtn setBackgroundImage:[UIImage imageWithColor:RGB(85, 183, 55) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(weixinBtn, 5);
+            weixinBtn.tag = 3;
+            [weixinBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [tableFooterView addSubview:weixinBtn];
+            
+            _myTableView.tableFooterView = tableFooterView;
+            
         }else{
+            _myTableView.tableFooterView = [[UIView alloc] init];
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
         [_myTableView reloadData];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [_myTableView.mj_header endRefreshing];
         [self showHintInView:self.view hint:error.description];
+    }];
+}
+
+-(void)btnClick:(UIButton *)btn{
+    if (btn.tag == 1) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要购买吗?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self payByYue];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action2];
+        [alert addAction:action1];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    if (btn.tag == 2) {
+        
+    }
+    if (btn.tag == 3) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要购买吗?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self payByWeixin];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action2];
+        [alert addAction:action1];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+-(void)payByWeixin{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@"wechat" forKey:@"pay_type"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/payment/cart_goto_pay"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSString *link = [result objectForKey:@"wechat_link"];
+            
+            [OpenShare WeixinPay:link Success:^(NSDictionary *message) {
+                DLog(@"微信支付成功:\n%@",message);
+                [self showHintInView:self.view hint:@"支付成功"];
+                
+                [self loadData];
+                
+            } Fail:^(NSDictionary *message, NSError *error) {
+                DLog(@"微信支付失败:\n%@\n%@",message,error);
+                NSString *ret = [message objectForKey:@"ret"];
+                if ([ret isEqualToString:@"-2"]) {
+                    [self showHintInView:self.view hint:@"支付取消"];
+                }else{
+                    [self showHintInView:self.view hint:@"支付失败"];
+                }
+                
+            }];
+            
+            //            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
+}
+
+-(void)payByYue{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    
+    
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@"balance" forKey:@"pay_type"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/payment/cart_goto_pay"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            [self loadData];
+            
+           
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
     }];
 }
 
