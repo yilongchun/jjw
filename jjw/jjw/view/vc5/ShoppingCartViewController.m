@@ -135,7 +135,14 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
     if (btn.tag == 2) {
-        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要购买吗?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self payByAlipay];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action2];
+        [alert addAction:action1];
+        [self presentViewController:alert animated:YES completion:nil];
     }
     if (btn.tag == 3) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要购买吗?" preferredStyle:UIAlertControllerStyleAlert];
@@ -147,6 +154,59 @@
         [alert addAction:action1];
         [self presentViewController:alert animated:YES completion:nil];
     }
+}
+
+-(void)payByAlipay{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@"alipay" forKey:@"pay_type"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/payment/cart_goto_pay"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSString *link = [result objectForKey:@"alipay_link"];
+            
+            [OpenShare AliPay:link Success:^(NSDictionary *message) {
+                DLog(@"支付宝支付成功:\n%@",message);
+                [self showHintInView:self.view hint:@"支付成功"];
+                
+                [self loadData];
+                
+            } Fail:^(NSDictionary *message, NSError *error) {
+                DLog(@"支付宝支付失败:\n%@\n%@",message,error);
+//                NSString *ret = [message objectForKey:@"ret"];
+//                if ([ret isEqualToString:@"-2"]) {
+//                    [self showHintInView:self.view hint:@"支付取消"];
+//                }else{
+//                    [self showHintInView:self.view hint:@"支付失败"];
+//                }
+                
+            }];
+            
+            //            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
 }
 
 -(void)payByWeixin{

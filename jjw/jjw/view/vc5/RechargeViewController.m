@@ -56,7 +56,7 @@
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"支付方式" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
+        [self payByAlipay];
     }];
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         [self payByWeixin];
@@ -67,6 +67,60 @@
     [alert addAction:action2];
     [alert addAction:action4];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+-(void)payByAlipay{
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    if (!userInfo) {
+        [self showHintInView:self.view hint:@"请先登录"];
+        return;
+    }
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@"alipay" forKey:@"pay_type"];
+    [param setObject:_moneyTextField.text forKey:@"money"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/pay_recharge/index"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSString *link = [result objectForKey:@"alipay_link"];
+            
+            [OpenShare AliPay:link Success:^(NSDictionary *message) {
+                DLog(@"支付宝支付成功:\n%@",message);
+                [self showHintInView:self.view hint:@"支付成功"];
+                [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"loadUserInfo" object:nil userInfo:nil]];
+                [self performBlock:^{
+                    [self.navigationController popViewControllerAnimated:YES];
+                } afterDelay:1.5];
+            } Fail:^(NSDictionary *message, NSError *error) {
+                DLog(@"支付宝支付失败:\n%@\n%@",message,error);
+            }];
+            
+            
+            
+            //            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
 }
 
 -(void)payByWeixin{

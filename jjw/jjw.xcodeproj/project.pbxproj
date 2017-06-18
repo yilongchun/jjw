@@ -225,6 +225,8 @@
 		BC98179F1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC98179D1EA3A5C100F45E31 /* TeacherHomeTableViewCell.xib */; };
 		BCC08C2C1EE3B04200C3CD7B /* PackageClassTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = BCC08C2A1EE3B04200C3CD7B /* PackageClassTableViewCell.m */; };
 		BCC08C2D1EE3B04200C3CD7B /* PackageClassTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCC08C2B1EE3B04200C3CD7B /* PackageClassTableViewCell.xib */; };
+		BCD7F8781EF6671500A00940 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD7F8761EF6671500A00940 /* RegisterViewController.m */; };
+		BCD7F8791EF6671500A00940 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCD7F8771EF6671500A00940 /* RegisterViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -628,6 +630,9 @@
 		BCC08C291EE3B04200C3CD7B /* PackageClassTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PackageClassTableViewCell.h; sourceTree = "<group>"; };
 		BCC08C2A1EE3B04200C3CD7B /* PackageClassTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PackageClassTableViewCell.m; sourceTree = "<group>"; };
 		BCC08C2B1EE3B04200C3CD7B /* PackageClassTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PackageClassTableViewCell.xib; sourceTree = "<group>"; };
+		BCD7F8751EF6671500A00940 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		BCD7F8761EF6671500A00940 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		BCD7F8771EF6671500A00940 /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -731,6 +736,9 @@
 				44F3DE011E8CAD720089208B /* ViewController5.h */,
 				44F3DE021E8CAD720089208B /* ViewController5.m */,
 				44F3DE031E8CAD720089208B /* ViewController5.xib */,
+				BCD7F8751EF6671500A00940 /* RegisterViewController.h */,
+				BCD7F8761EF6671500A00940 /* RegisterViewController.m */,
+				BCD7F8771EF6671500A00940 /* RegisterViewController.xib */,
 				BC9810151EEEBE0B007E19D3 /* RechargeViewController.h */,
 				BC9810161EEEBE0B007E19D3 /* RechargeViewController.m */,
 				BC9810171EEEBE0B007E19D3 /* RechargeViewController.xib */,
@@ -1551,6 +1559,7 @@
 				44F3DF741E8CB4630089208B /* 1484533496_919.jpg in Resources */,
 				BC5AD3D81E8FE6EF004D2D3F /* CollectionViewCell2.xib in Resources */,
 				BC8D01BE1EAE263700EC5CDE /* MyQueAnsViewController.xib in Resources */,
+				BCD7F8791EF6671500A00940 /* RegisterViewController.xib in Resources */,
 				BC9141581EA10EA700F7A654 /* 1481518277839.png in Resources */,
 				BC8C8E4D1ED1AD56005533C1 /* accessory_normal@2x.png in Resources */,
 				BC0693E21E926D310055D8E3 /* wx.jpeg in Resources */,
@@ -1762,6 +1771,7 @@
 				44F3DE931E8CB1840089208B /* NSFileManager+Paths.m in Sources */,
 				BC79ADF11EE96EEB00509B90 /* OpenShare+Alipay.m in Sources */,
 				44F3DEB31E8CB1840089208B /* UITextView+PlaceHolder.m in Sources */,
+				BCD7F8781EF6671500A00940 /* RegisterViewController.m in Sources */,
 				44F3DF5E1E8CB1E00089208B /* MJRefreshFooter.m in Sources */,
 				44F3DEA91E8CB1840089208B /* UIImage+Color.m in Sources */,
 				44F3DF5F1E8CB1E00089208B /* MJRefreshHeader.m in Sources */,

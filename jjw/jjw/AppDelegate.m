@@ -22,6 +22,7 @@
     // Override point for customization after application launch.
     
     [OpenShare connectWeixinWithAppId:@"wxc01e48ca5fe9c5c5"];
+    [OpenShare connectAlipay];
     
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;
