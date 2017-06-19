@@ -261,7 +261,14 @@
 //        NSString *link=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         
         
-        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要购买吗?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            [self payByAlipay];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action2];
+        [alert addAction:action1];
+        [self presentViewController:alert animated:YES completion:nil];
         
     }else if (btn.tag == 3){//微信支付
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要购买吗?" preferredStyle:UIAlertControllerStyleAlert];
@@ -276,7 +283,7 @@
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"支付方式" preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            
+            [self alipayPayByPackage];
         }];
         UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self weixinPayByPackage];
@@ -346,6 +353,75 @@
     }];
 }
 
+-(void)alipayPayByPackage{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    if (!userInfo) {
+        [self showHintInView:self.view hint:@"请先登录"];
+        return;
+    }
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@"alipay" forKey:@"pay_type"];
+    NSDictionary *pack = [courseInfo objectForKey:@"pack"];
+    if (pack) {
+        NSString *subjectId = [pack objectForKey:@"SUBJECT_ID"];
+        [param setObject:subjectId forKey:@"subject_id"];
+    }else{
+        [self showHintInView:self.view hint:@"打包购买失败"];
+        return;
+    }
+    
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/payment_pack/goto_pay"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSString *link = [result objectForKey:@"alipay_link"];
+            
+            [OpenShare AliPay:link Success:^(NSDictionary *message) {
+                DLog(@"支付宝支付成功:\n%@",message);
+                UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                [self showHintInView:self.view hint:@"支付成功" customView:imageView];
+                
+                [_myScrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [obj removeFromSuperview];
+                }];
+                [self loadData];
+                [self loadPinglun];
+                
+                
+            } Fail:^(NSDictionary *message, NSError *error) {
+                DLog(@"微信支付失败:\n%@\n%@",message,error);
+                NSDictionary *memo = [message objectForKey:@"memo"];
+                NSString *memos = [memo objectForKey:@"memo"];
+                [self showHintInView:self.view hint:memos];
+                
+            }];
+            
+            //            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
+}
+
 -(void)weixinPayByPackage{
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
@@ -384,7 +460,9 @@
             
             [OpenShare WeixinPay:link Success:^(NSDictionary *message) {
                 DLog(@"微信支付成功:\n%@",message);
-                [self showHintInView:self.view hint:@"支付成功"];
+                UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                [self showHintInView:self.view hint:@"支付成功" customView:imageView];
                 
                 [_myScrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     [obj removeFromSuperview];
@@ -401,6 +479,67 @@
                 }else{
                     [self showHintInView:self.view hint:@"支付失败"];
                 }
+                
+            }];
+            
+            //            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
+}
+
+-(void)payByAlipay{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    if (!userInfo) {
+        [self showHintInView:self.view hint:@"请先登录"];
+        return;
+    }
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@"alipay" forKey:@"pay_type"];
+    [param setObject:_courseId forKey:@"course_id"];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/payment/goto_pay"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSString *link = [result objectForKey:@"alipay_link"];
+            
+            [OpenShare AliPay:link Success:^(NSDictionary *message) {
+                DLog(@"支付宝支付成功:\n%@",message);
+                UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                [self showHintInView:self.view hint:@"支付成功" customView:imageView];
+                
+                [_myScrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [obj removeFromSuperview];
+                }];
+                [self loadData];
+                [self loadPinglun];
+                
+                
+            } Fail:^(NSDictionary *message, NSError *error) {
+                DLog(@"支付宝支付失败:\n%@\n%@",message,error);
+                NSDictionary *memo = [message objectForKey:@"memo"];
+                NSString *memos = [memo objectForKey:@"memo"];
+                [self showHintInView:self.view hint:memos];
                 
             }];
             
@@ -446,7 +585,9 @@
             
             [OpenShare WeixinPay:link Success:^(NSDictionary *message) {
                 DLog(@"微信支付成功:\n%@",message);
-                [self showHintInView:self.view hint:@"支付成功"];
+                UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                [self showHintInView:self.view hint:@"支付成功" customView:imageView];
                 
                 [_myScrollView.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     [obj removeFromSuperview];

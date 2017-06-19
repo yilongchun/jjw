@@ -178,11 +178,13 @@
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
             NSDictionary *result = [dic objectForKey:@"result"];
-            NSString *link = [result objectForKey:@"alipay_link"];
+            NSString *link = [result objectForKey:@"wechat_link"];
             
             [OpenShare AliPay:link Success:^(NSDictionary *message) {
                 DLog(@"支付宝支付成功:\n%@",message);
-                [self showHintInView:self.view hint:@"支付成功"];
+                UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                [self showHintInView:self.view hint:@"支付成功" customView:imageView];
                 
                 [self loadData];
                 
@@ -194,6 +196,10 @@
 //                }else{
 //                    [self showHintInView:self.view hint:@"支付失败"];
 //                }
+                
+                NSDictionary *memo = [message objectForKey:@"memo"];
+                NSString *memos = [memo objectForKey:@"memo"];
+                [self showHintInView:self.view hint:memos];
                 
             }];
             
