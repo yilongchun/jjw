@@ -23,6 +23,8 @@
 
 - (void)hideHud;
 
+- (void)showHintInView:(UIView *)view hint:(NSString *)hint customView:(UIView *)customView;
+
 - (void)showHintInView:(UIView *)view hint:(NSString *)hint;
 
 - (void)showHintInView:(UIView *)view detailHint:(NSString *)detailHint;

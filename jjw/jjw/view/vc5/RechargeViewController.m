@@ -35,20 +35,35 @@
     [_submitBtn addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+}
+
 - (BOOL)isPureInt:(NSString*)string{
     NSScanner* scan = [NSScanner scannerWithString:string];
     int val;
     return[scan scanInt:&val] && [scan isAtEnd];
 }
 
+-(BOOL)validateMoney:(NSString *)money
+{
+    NSString *phoneRegex = @"^[0-9]+(\\.[0-9]{1,2})?$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
+    return [phoneTest evaluateWithObject:money];
+}
+
 -(void)pay{
     
-    if ([_moneyTextField.text isEqualToString:@""]) {
-        [self showHintInView:self.view hint:@"请填写金额"];
+//    if ([_moneyTextField.text isEqualToString:@""]) {
+//        [self showHintInView:self.view hint:@"请填写金额"];
+//        return;
+//    }
+    if (![self validateMoney:_moneyTextField.text]) {
+        [self showHintInView:self.view hint:@"请填写正确的金额"];
         return;
     }
-    if (![self isPureInt:_moneyTextField.text]) {
-        [self showHintInView:self.view hint:@"请填写数字"];
+    if ([_moneyTextField.text floatValue] <= 0) {
+        [self showHintInView:self.view hint:@"请填写正确的金额"];
         return;
     }
     [self.view endEditing:YES];
@@ -97,16 +112,24 @@
         if ([code isEqualToString:@"200"]) {
             NSDictionary *result = [dic objectForKey:@"result"];
             NSString *link = [result objectForKey:@"alipay_link"];
+
             
             [OpenShare AliPay:link Success:^(NSDictionary *message) {
                 DLog(@"支付宝支付成功:\n%@",message);
-                [self showHintInView:self.view hint:@"支付成功"];
+                
+                UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                [self showHintInView:self.view hint:@"支付成功" customView:imageView];
+                
                 [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"loadUserInfo" object:nil userInfo:nil]];
                 [self performBlock:^{
                     [self.navigationController popViewControllerAnimated:YES];
                 } afterDelay:1.5];
             } Fail:^(NSDictionary *message, NSError *error) {
                 DLog(@"支付宝支付失败:\n%@\n%@",message,error);
+                NSDictionary *memo = [message objectForKey:@"memo"];
+                NSString *memos = [memo objectForKey:@"memo"];
+                [self showHintInView:self.view hint:memos];
             }];
             
             
@@ -153,7 +176,11 @@
             
             [OpenShare WeixinPay:link Success:^(NSDictionary *message) {
                 DLog(@"微信支付成功:\n%@",message);
-                [self showHintInView:self.view hint:@"支付成功"];
+                
+                UIImage *image = [[UIImage imageNamed:@"Checkmark"] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
+                UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+                [self showHintInView:self.view hint:@"支付成功" customView:imageView];
+                
                  [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"loadUserInfo" object:nil userInfo:nil]];
                 [self performBlock:^{
                     [self.navigationController popViewControllerAnimated:YES];

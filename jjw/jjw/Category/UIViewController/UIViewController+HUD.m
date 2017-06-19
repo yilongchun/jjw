@@ -42,6 +42,18 @@ static const void *HttpRequestHUDKey = &HttpRequestHUDKey;
     [self setHUD:hud];
 }
 
+- (void)showHintInView:(UIView *)view hint:(NSString *)hint customView:(UIView *)customView{
+    MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:self.view];
+    hud.customView = customView;
+    hud.mode = MBProgressHUDModeCustomView;
+    hud.bezelView.color = [UIColor blackColor];
+    hud.contentColor = [UIColor whiteColor];
+    hud.label.text = hint;
+    [self.view addSubview:hud];
+    [hud showAnimated:YES];
+    [hud hideAnimated:YES afterDelay:1.5];
+}
+
 - (void)showHintInView:(UIView *)view hint:(NSString *)hint {
     //显示提示信息
     MBProgressHUD *hud = [[MBProgressHUD alloc] initWithView:view];
