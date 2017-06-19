@@ -845,11 +845,21 @@
     UILabel *yuanjiaLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(price.frame) + 20, maxY + 10, 0, 0)];
     yuanjiaLabel.font = SYSTEMFONT(12);
     yuanjiaLabel.textColor = RGB(102, 102, 102);
-    yuanjiaLabel.text = [NSString stringWithFormat:@"原价: %@",sourcePrice];
+    yuanjiaLabel.text = [NSString stringWithFormat:@"原价: "];
     [yuanjiaLabel sizeToFit];
     [_myScrollView addSubview:yuanjiaLabel];
+    
+    UILabel *priceValue = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yuanjiaLabel.frame), CGRectGetMinY(yuanjiaLabel.frame), 0, 0)];
+    priceValue.font = SYSTEMFONT(12);
+    priceValue.textColor = RGB(102, 102, 102);
+    [_myScrollView addSubview:priceValue];
+    NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:sourcePrice attributes:attribtDic];
+    priceValue.attributedText = attribtStr;
+    [priceValue sizeToFit];
+    
     //有效期
-    UILabel *youxiaoqiLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yuanjiaLabel.frame) + 20, maxY + 10, 0, 0)];
+    UILabel *youxiaoqiLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(priceValue.frame) + 20, maxY + 10, 0, 0)];
     youxiaoqiLabel.font = SYSTEMFONT(12);
     youxiaoqiLabel.textColor = RGB(102, 102, 102);
     youxiaoqiLabel.text = [NSString stringWithFormat:@"有效期: 180天"];

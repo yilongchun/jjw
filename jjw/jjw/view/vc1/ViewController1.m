@@ -98,6 +98,7 @@
     _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(nbtn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(nbtn2.frame) - 28, 28)];
     ViewRadius(_searchBar, 5);
     _searchBar.delegate = self;
+    _searchBar.placeholder = @"请输入搜索关键词";
     [navView addSubview:_searchBar];
     self.navigationItem.titleView = navView;
     
