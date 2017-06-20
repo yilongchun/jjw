@@ -76,6 +76,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchClass:) name:@"searchClass" object:nil];
     
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchClass:) name:@"load" object:nil];
+    
     dataSource = [NSMutableArray array];
     firstDataSource = [NSMutableArray array];
     secondDataSource = [NSMutableArray array];
@@ -639,6 +641,12 @@
            
             DLog(@"%@",responseObject);
         }else{
+            if ([code isEqualToString:@"401"]){
+                [dataSource removeAllObjects];
+                [_myCollectionView reloadData];
+                [self showHintInView:self.view hint:@"暂无法搜索到相关的课程"];
+            }
+            
             [_myCollectionView.mj_footer endRefreshing];
         }
         

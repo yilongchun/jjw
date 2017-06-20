@@ -243,9 +243,15 @@
         return;
     }
     
+    NSDictionary *course_info = [courseInfo objectForKey:@"course_info"];
+    NSString *currentPrice = [course_info objectForKey:@"CURRENT_PRICE"];
+    NSString *message = [NSString stringWithFormat:@"确认花费%@元购买本课程吗？",currentPrice];
+    
     if (btn.tag == 1) {//余额支付
         
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要购买吗?" preferredStyle:UIAlertControllerStyleAlert];
+        
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             [self payByYue];
         }];
@@ -261,7 +267,7 @@
 //        NSString *link=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         
         
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要购买吗?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             [self payByAlipay];
         }];
@@ -271,7 +277,7 @@
         [self presentViewController:alert animated:YES completion:nil];
         
     }else if (btn.tag == 3){//微信支付
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要购买吗?" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             [self weixinPay];
         }];
@@ -945,51 +951,69 @@
         
     }else{
         
-        CGFloat btnWidth = (Main_Screen_Width - 40)/3;
-        //余额支付
-        UIButton *yueBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
-        [yueBtn setTitle:@"余额支付" forState:UIControlStateNormal];
-        [yueBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        yueBtn.titleLabel.font = SYSTEMFONT(15);
-        [yueBtn setBackgroundImage:[UIImage imageWithColor:RGB(255, 153, 0) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-        ViewRadius(yueBtn, 5);
-        yueBtn.tag = 1;
-        [yueBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [_myScrollView addSubview:yueBtn];
+        if ([currentPrice floatValue] == 0) {
+            CGFloat btnWidth = (Main_Screen_Width - 40)/3;
+            //余额支付
+            UIButton *yueBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
+            [yueBtn setTitle:@"免费观看" forState:UIControlStateNormal];
+            [yueBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            yueBtn.titleLabel.font = SYSTEMFONT(15);
+            [yueBtn setBackgroundImage:[UIImage imageWithColor:RGB(255, 153, 0) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(yueBtn, 5);
+            yueBtn.tag = 1;
+            [yueBtn addTarget:self action:@selector(payByYue) forControlEvents:UIControlEventTouchUpInside];
+            [_myScrollView addSubview:yueBtn];
+            
+            maxY = CGRectGetMaxY(yueBtn.frame);
+        }else{
+            CGFloat btnWidth = (Main_Screen_Width - 40)/3;
+            //余额支付
+            UIButton *yueBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
+            [yueBtn setTitle:@"余额支付" forState:UIControlStateNormal];
+            [yueBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            yueBtn.titleLabel.font = SYSTEMFONT(15);
+            [yueBtn setBackgroundImage:[UIImage imageWithColor:RGB(255, 153, 0) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(yueBtn, 5);
+            yueBtn.tag = 1;
+            [yueBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [_myScrollView addSubview:yueBtn];
+            
+            //支付宝支付
+            UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
+            [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
+            [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            zhifubaoBtn.titleLabel.font = SYSTEMFONT(15);
+            [zhifubaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(zhifubaoBtn, 5);
+            zhifubaoBtn.tag = 2;
+            [zhifubaoBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [_myScrollView addSubview:zhifubaoBtn];
+            
+            //微信支付
+            UIButton *weixinBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
+            [weixinBtn setTitle:@"微信支付" forState:UIControlStateNormal];
+            [weixinBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            weixinBtn.titleLabel.font = SYSTEMFONT(15);
+            [weixinBtn setBackgroundImage:[UIImage imageWithColor:RGB(85, 183, 55) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(weixinBtn, 5);
+            weixinBtn.tag = 3;
+            [weixinBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+            [_myScrollView addSubview:weixinBtn];
+            
+            //加入购物车
+            UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
+            [addBtn setTitle:@"加入购物车" forState:UIControlStateNormal];
+            [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            addBtn.titleLabel.font = SYSTEMFONT(15);
+            [addBtn setBackgroundImage:[UIImage imageWithColor:RGB(150, 218, 255) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+            ViewRadius(addBtn, 5);
+            [addBtn addTarget:self action:@selector(addGoodToCard) forControlEvents:UIControlEventTouchUpInside];
+            [_myScrollView addSubview:addBtn];
+            
+            maxY = CGRectGetMaxY(weixinBtn.frame);
+        }
         
-        //支付宝支付
-        UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
-        [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
-        [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        zhifubaoBtn.titleLabel.font = SYSTEMFONT(15);
-        [zhifubaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-        ViewRadius(zhifubaoBtn, 5);
-        zhifubaoBtn.tag = 2;
-        [zhifubaoBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [_myScrollView addSubview:zhifubaoBtn];
         
-        //微信支付
-        UIButton *weixinBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
-        [weixinBtn setTitle:@"微信支付" forState:UIControlStateNormal];
-        [weixinBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        weixinBtn.titleLabel.font = SYSTEMFONT(15);
-        [weixinBtn setBackgroundImage:[UIImage imageWithColor:RGB(85, 183, 55) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-        ViewRadius(weixinBtn, 5);
-        weixinBtn.tag = 3;
-        [weixinBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-        [_myScrollView addSubview:weixinBtn];
-        
-        //加入购物车
-        UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
-        [addBtn setTitle:@"加入购物车" forState:UIControlStateNormal];
-        [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        addBtn.titleLabel.font = SYSTEMFONT(15);
-        [addBtn setBackgroundImage:[UIImage imageWithColor:RGB(150, 218, 255) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-        ViewRadius(addBtn, 5);
-        [addBtn addTarget:self action:@selector(addGoodToCard) forControlEvents:UIControlEventTouchUpInside];
-        [_myScrollView addSubview:addBtn];
-        
-        maxY = CGRectGetMaxY(weixinBtn.frame);
         
     }
     
@@ -1127,26 +1151,33 @@
         NSString *teacher_name = [like objectForKey:@"teacher_name"];
         NSString *look_num = [like objectForKey:@"look_num"];
         NSString *name = [like objectForKey:@"name"];
+        
+        UIView *cview = [[UIView alloc] initWithFrame:CGRectMake(0, maxY + 10, Main_Screen_Width, imageHeight2)];
          
-        UIImageView *imageview1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, maxY + 10, imgWidth2, imageHeight2)];
+        UIImageView *imageview1 = [[UIImageView alloc] initWithFrame:CGRectMake(10, 0, imgWidth2, imageHeight2)];
         [imageview1 setImageWithURL:[NSURL URLWithString:image]];
         ViewRadius(imageview1, 5);
-        [v1 addSubview:imageview1];
+        [cview addSubview:imageview1];
         
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview1.frame) + 10, CGRectGetMinY(imageview1.frame)+5, 0, 0)];
         titleLabel.text = name;
         titleLabel.font = SYSTEMFONT(14);
         titleLabel.textColor = RGB(51, 51, 51);
         [titleLabel sizeToFit];
-        [v1 addSubview:titleLabel];
+        [cview addSubview:titleLabel];
         
         UILabel *detailLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview1.frame) + 10, CGRectGetMaxY(titleLabel.frame) + 5, 0, 0)];
         detailLabel.text = [NSString stringWithFormat:@"讲师：%@  浏览：%@人",teacher_name,look_num];
         detailLabel.font = SYSTEMFONT(12);
         detailLabel.textColor = RGB(102, 102, 102);
         [detailLabel sizeToFit];
-        [v1 addSubview:detailLabel];
-        maxY = CGRectGetMaxY(imageview1.frame);
+        [cview addSubview:detailLabel];
+        cview.userInteractionEnabled = YES;
+        cview.tag = i;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapLike:)];
+        [cview addGestureRecognizer:tap];
+        [v1 addSubview:cview];
+        maxY = CGRectGetMaxY(cview.frame);
     }
     
     CGRect v1Rect = v1.frame;
@@ -1154,6 +1185,15 @@
     [v1 setFrame:v1Rect];
     
     return v1Rect.size.height;
+}
+
+-(void)tapLike:(UITapGestureRecognizer *)recog{
+    
+    NSString *courseId = [[likeList objectAtIndex:recog.view.tag] objectForKey:@"id"];
+    
+    ClassDetailViewController *vc = [[ClassDetailViewController alloc] init];
+    vc.courseId = courseId;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)setV2{

@@ -45,6 +45,7 @@
     NSArray *courseList;//课程排名
     NSArray *teacherList;//教师排名
     
+    UIButton *nbtn1;
     UIButton *nbtn2;
     
     UIView *popView;
@@ -78,21 +79,30 @@
     
     UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
     
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(2, 6, 60, 28)];
-    [btn1 setTitle:@"高中" forState:UIControlStateNormal];
-    [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn1.titleLabel.font = SYSTEMFONT(13);
-    [btn1 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
-    ViewBorderRadius(btn1, 5, 0, [UIColor whiteColor]);
-    [navView addSubview:btn1];
+    nbtn1 = [[UIButton alloc] initWithFrame:CGRectMake(2, 6, 60, 28)];
+    [nbtn1 setTitle:@"高中" forState:UIControlStateNormal];
+    [nbtn1 setImage:[UIImage imageNamed:@"down2"] forState:UIControlStateNormal];
+    [nbtn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    nbtn1.titleLabel.font = SYSTEMFONT(13);
+    [nbtn1 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+    ViewBorderRadius(nbtn1, 5, 0, [UIColor whiteColor]);
+    UIImage *imgArrow = [UIImage imageNamed:@"down2"];
+    [nbtn1 setTitleEdgeInsets:UIEdgeInsetsMake(0, -imgArrow.size.width, 0, imgArrow.size.width)];
+    [nbtn1 setImageEdgeInsets:UIEdgeInsetsMake(0, 30, 0, -30)];
+    [nbtn1 addTarget:self action:@selector(chooseType1:) forControlEvents:UIControlEventTouchUpInside];
+    [navView addSubview:nbtn1];
     
-    nbtn2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 6, 60, 28)];
+    nbtn2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(nbtn1.frame) + 10, 6, 60, 28)];
     [nbtn2 setTitle:@"课程" forState:UIControlStateNormal];
+    [nbtn2 setImage:[UIImage imageNamed:@"down2"] forState:UIControlStateNormal];
     [nbtn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     nbtn2.titleLabel.font = SYSTEMFONT(13);
     [nbtn2 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     ViewBorderRadius(nbtn2, 5, 0, [UIColor whiteColor]);
     [nbtn2 addTarget:self action:@selector(chooseType2:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [nbtn2 setTitleEdgeInsets:UIEdgeInsetsMake(0, -imgArrow.size.width, 0, imgArrow.size.width)];
+    [nbtn2 setImageEdgeInsets:UIEdgeInsetsMake(0, 30, 0, -30)];
     [navView addSubview:nbtn2];
     
     _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(nbtn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(nbtn2.frame) - 28, 28)];
@@ -254,8 +264,72 @@
 }
 
 -(void)action1:(UIButton *)btn{
+    
+    if (btn.tag > 1) {
+        [self showHintInView:self.view hint:@"初中、小学部分即将推出"];
+    }else{
+        [nbtn1 setTitle:btn.currentTitle forState:UIControlStateNormal];
+    }
+    
+    [self hidePopView:nil];
+}
+
+-(void)action2:(UIButton *)btn{
     [nbtn2 setTitle:btn.currentTitle forState:UIControlStateNormal];
     [self hidePopView:nil];
+}
+
+-(void)chooseType1:(UIButton *)sender{
+    
+    if (popView == nil) {
+        popView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 122)];
+        popView.backgroundColor = RGB(255, 255, 255);
+        
+        UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
+        btn1.tag = 1;
+        btn1.titleLabel.font = SYSTEMFONT(14);
+        [btn1 setTitle:@"高中" forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [btn1 addTarget:self action:@selector(action1:) forControlEvents:UIControlEventTouchUpInside];
+        [popView addSubview:btn1];
+        UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(btn1.frame), Main_Screen_Width, 1)];
+        line.backgroundColor = RGB(210, 210, 210);
+        [popView addSubview:line];
+        
+        UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, 40)];
+        btn2.tag = 2;
+        btn2.titleLabel.font = SYSTEMFONT(14);
+        [btn2 setTitle:@"初中" forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [btn2 addTarget:self action:@selector(action1:) forControlEvents:UIControlEventTouchUpInside];
+        [popView addSubview:btn2];
+        line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(btn2.frame), Main_Screen_Width, 1)];
+        line.backgroundColor = RGB(210, 210, 210);
+        [popView addSubview:line];
+        
+        UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, 40)];
+        btn3.tag = 3;
+        btn3.titleLabel.font = SYSTEMFONT(14);
+        [btn3 setTitle:@"小学" forState:UIControlStateNormal];
+        [btn3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn3 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [btn3 addTarget:self action:@selector(action1:) forControlEvents:UIControlEventTouchUpInside];
+        [popView addSubview:btn3];
+        
+        ViewBorderRadius(popView, 0, 0.5, RGB(160, 160, 160));
+    }
+    if (maskView == nil) {
+        maskView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
+        maskView.backgroundColor = RGBA(0, 0, 0, 0.1);
+        maskView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidePopView:)];
+        [maskView addGestureRecognizer:tap];
+    }
+    
+    [self.navigationController.view addSubview:maskView];
+    [self.navigationController.view addSubview:popView];
 }
 
 -(void)chooseType2:(UIButton *)sender{
@@ -269,7 +343,7 @@
         [btn1 setTitle:@"课程" forState:UIControlStateNormal];
         [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [btn1 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-        [btn1 addTarget:self action:@selector(action1:) forControlEvents:UIControlEventTouchUpInside];
+        [btn1 addTarget:self action:@selector(action2:) forControlEvents:UIControlEventTouchUpInside];
         [popView addSubview:btn1];
         UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(btn1.frame), Main_Screen_Width, 1)];
         line.backgroundColor = RGB(210, 210, 210);
@@ -281,7 +355,7 @@
         [btn2 setTitle:@"名师" forState:UIControlStateNormal];
         [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [btn2 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-        [btn2 addTarget:self action:@selector(action1:) forControlEvents:UIControlEventTouchUpInside];
+        [btn2 addTarget:self action:@selector(action2:) forControlEvents:UIControlEventTouchUpInside];
         [popView addSubview:btn2];
         line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(btn2.frame), Main_Screen_Width, 1)];
         line.backgroundColor = RGB(210, 210, 210);
@@ -293,7 +367,7 @@
         [btn3 setTitle:@"题目" forState:UIControlStateNormal];
         [btn3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         [btn3 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-        [btn3 addTarget:self action:@selector(action1:) forControlEvents:UIControlEventTouchUpInside];
+        [btn3 addTarget:self action:@selector(action2:) forControlEvents:UIControlEventTouchUpInside];
         [popView addSubview:btn3];
         
         ViewBorderRadius(popView, 0, 0.5, RGB(160, 160, 160));
@@ -318,6 +392,8 @@
     if (popView) {
         [popView removeFromSuperview];
     }
+    maskView = nil;
+    popView = nil;
     
 }
 
@@ -768,7 +844,7 @@
     ViewBorderRadius(view1, 0, 1, BORDER_COLOR);
     [content addSubview:view1];
     
-    label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, (Main_Screen_Width - 10)/3, 34)];
+    label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 10, (Main_Screen_Width - 10)/2, 34)];
     label1.font = SYSTEMFONT(18);
     label1.textColor = RGB(0, 150, 230);
     label1.textAlignment = NSTextAlignmentCenter;
@@ -779,7 +855,7 @@
     label1.userInteractionEnabled = YES;
     [label1 addGestureRecognizer:tap1];
     
-    label2 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label1.frame), 10, (Main_Screen_Width - 10)/3, 34)];
+    label2 = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label1.frame), 10, (Main_Screen_Width - 10)/2, 34)];
     label2.font = SYSTEMFONT(18);
     label2.textColor = RGB(51, 51, 51);
     label2.textAlignment = NSTextAlignmentCenter;

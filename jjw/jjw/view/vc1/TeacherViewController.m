@@ -131,6 +131,8 @@
 -(void)loadData{
     page = 1;
     
+    [_myCollectionView setContentOffset:CGPointMake(0, 0) animated:YES];
+    
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
     [manager.responseSerializer setAcceptableContentTypes:set];
@@ -309,9 +311,15 @@
 
 - (void)menu:(LrdSuperMenu *)menu didSelectRowAtIndexPath:(LrdIndexPath *)indexPath {
     if (indexPath.column == 0) {
-        NSDictionary *dic3 = [typeOneDataSource objectAtIndex:indexPath.row];
-        NSString *name3 = [dic3 objectForKey:@"SUBJECT_ID"];
-        type_one = name3;
+        if (indexPath.row > 0) {
+            [self showHintInView:self.view hint:@"初中、小学部分即将推出"];
+        }else{
+            NSDictionary *dic3 = [typeOneDataSource objectAtIndex:indexPath.row];
+            NSString *name3 = [dic3 objectForKey:@"SUBJECT_ID"];
+            type_one = name3;
+        }
+        
+        
     }
     if (indexPath.column == 1) {
         NSDictionary *dic4 = [typeTwoDataSource objectAtIndex:indexPath.row];
