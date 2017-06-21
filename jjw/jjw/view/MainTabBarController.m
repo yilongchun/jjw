@@ -75,7 +75,7 @@
         NSNotification *notification =[NSNotification notificationWithName:@"bixiuClick" object:nil userInfo:@{@"param":param}];
         [self performBlock:^{
             [[NSNotificationCenter defaultCenter] postNotification:notification];
-        } afterDelay:0.5];
+        } afterDelay:1];
     }
 }
 
