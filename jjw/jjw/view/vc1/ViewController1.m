@@ -1095,6 +1095,7 @@
         [paragraphStyle setAlignment:NSTextAlignmentCenter];
         [noteStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [btnStr length])];
         btn.titleLabel.attributedText = noteStr;
+        btn.tag = i;
         [btn addTarget:self action:@selector(bixiuClick:) forControlEvents:UIControlEventTouchUpInside];
         [bixiuScrollView addSubview:btn];
         
@@ -1140,7 +1141,23 @@
 
 //必修点击
 -(void)bixiuClick:(UIButton *)btn{
-    NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"1"}];
+    
+    NSDictionary *dic = [secondDataSource objectAtIndex:secondIndex];
+    NSString *subjectId = [dic objectForKey:@"SUBJECT_ID"];
+//    DLog(@"%@",dic);
+    
+    
+    NSDictionary *info = [thirdDataSource objectAtIndex:btn.tag];
+    NSString *bixiuSubjectId = [info objectForKey:@"SUBJECT_ID"];
+//    DLog(@"%@",info);
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:subjectId forKey:@"kemu"];
+    [param setObject:[NSNumber numberWithInteger:secondIndex+1] forKey:@"kemuIndex"];
+    [param setObject:bixiuSubjectId forKey:@"bixiu"];
+    [param setObject:[NSNumber numberWithInteger:btn.tag] forKey:@"bixiuIndex"];
+    
+    NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"1",@"param":param}];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 

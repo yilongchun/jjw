@@ -25,6 +25,7 @@
     NSString *osid;//一级分类：高中、初中、小学
     NSMutableArray *firstDataSource;//一级分类
     
+    NSInteger tsidIndex;
     NSString *tsid;//二级分类：语文，数学，外语，政治，等
     NSMutableArray *secondDataSource;//二级分类
     
@@ -76,7 +77,9 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchClass:) name:@"searchClass" object:nil];
     
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(searchClass:) name:@"load" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bixiuClick:) name:@"bixiuClick" object:nil];
+    
+    tsidIndex = 1;
     
     dataSource = [NSMutableArray array];
     firstDataSource = [NSMutableArray array];
@@ -126,6 +129,24 @@
 //    [_myCollectionView.mj_header beginRefreshing];
     
     [self loadTest];
+}
+
+-(void)bixiuClick:(NSNotification *)text{
+    NSDictionary *param = [text.userInfo objectForKey:@"param"];
+    
+    tsid = [param objectForKey:@"kemu"];
+    ttsid = [param objectForKey:@"bixiu"];
+    
+    tsidIndex = [[param objectForKey:@"kemuIndex"] integerValue];
+    self.sigment.defaultIndex = tsidIndex;
+    
+    NSInteger ttsidIndex = [[param objectForKey:@"bixiuIndex"] integerValue];
+    
+    LrdIndexPath *index = [LrdIndexPath indexPathWithColumn:0 row:ttsidIndex];
+    [_menu selectIndexPath:index];
+    
+//    [self loadData];
+    DLog(@"%@",param);
 }
 
 -(void)searchClass:(NSNotification *)text{
@@ -404,7 +425,7 @@
                 
                 //    self.sigment.bottomLineColor = [UIColor yellowColor];
                 self.sigment.titleLineColor = [UIColor grayColor];
-                self.sigment.defaultIndex = 1;
+                self.sigment.defaultIndex = tsidIndex;
                 [self.view addSubview:self.sigment];
                 
                 UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(self.sigment.frame), Main_Screen_Width, 0.5)];
@@ -921,7 +942,7 @@
 #pragma mark - HZSigmentViewDelegate
 
 -(void)segment:(HZSigmentView *)sengment didSelectColumnIndex:(NSInteger)index {
-    
+    tsidIndex = index;
     NSDictionary *dic = [secondDataSource objectAtIndex:index - 1];
     NSString *subjectId = [dic objectForKey:@"SUBJECT_ID"];
     tsid = subjectId;
