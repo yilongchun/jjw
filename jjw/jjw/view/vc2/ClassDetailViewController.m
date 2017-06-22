@@ -20,6 +20,7 @@
     NSDictionary *courseInfo;
     NSMutableArray *likeList;
     NSMutableArray *pinglunList;
+    UITextView *commentTx;
     
 }
 
@@ -47,6 +48,9 @@
     self.jz_navigationBarBackgroundHidden = NO;
     self.title = @"课程详情";
     
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"收藏" style:UIBarButtonItemStyleDone target:self action:@selector(collection)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+    
     likeList = [NSMutableArray array];
     pinglunList = [NSMutableArray array];
     
@@ -55,6 +59,44 @@
     
     [self loadData];
     [self loadPinglun];
+}
+
+//收藏
+-(void)collection{
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:_courseId forKey:@"id"];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    if (userInfo) {
+        [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    }
+    
+    //    [param setObject:@"1" forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/add_course_favorite"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
 }
 
 
@@ -169,6 +211,57 @@
         [self hideHud];
         DLog(@"%@",error.description);
     }];
+}
+
+//评论
+-(void)addComment{
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/add_course_comment"];
+    
+    NSMutableDictionary *parameters  = [NSMutableDictionary dictionary];
+    [parameters setValue:_courseId forKey:@"id"];
+    [parameters setValue:commentTx.text forKey:@"content"];
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    if (userInfo) {
+        [parameters setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    }else{
+        [self showHintInView:self.view hint:@"请先登录"];
+        return;
+    }
+    
+    if ([commentTx.text isEqualToString:@""]) {
+        [self showHintInView:self.view hint:@"请填写内容"];
+        return;
+    }
+    [self.view endEditing:YES];
+    
+    [self showHudInView:self.view];
+    
+    [manager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        DLog(@"%@",dic);
+        if ([code isEqualToString:@"200"]) {
+//            NSDictionary *result = [dic objectForKey:@"result"];
+            
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        [self showHintInView:self.view hint:error.description];
+    }];
+    
 }
 
 //猜你喜欢
@@ -1201,17 +1294,18 @@
 }
 
 -(void)setV3{
-    UITextView *tv1 = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, Main_Screen_Width - 20, 60)];
-    ViewBorderRadius(tv1, 5, 1, RGB(223, 223, 223));
-    [v3 addSubview:tv1];
+    commentTx = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, Main_Screen_Width - 20, 60)];
+    ViewBorderRadius(commentTx, 5, 1, RGB(223, 223, 223));
+    [v3 addSubview:commentTx];
     
     CGFloat btnWidth = Main_Screen_Width*0.6;
-    UIButton *tijiaoBtn = [[UIButton alloc] initWithFrame:CGRectMake((Main_Screen_Width - btnWidth)/2, CGRectGetMaxY(tv1.frame) + 10, btnWidth, 32)];
+    UIButton *tijiaoBtn = [[UIButton alloc] initWithFrame:CGRectMake((Main_Screen_Width - btnWidth)/2, CGRectGetMaxY(commentTx.frame) + 10, btnWidth, 32)];
     [tijiaoBtn setTitle:@"提交" forState:UIControlStateNormal];
     [tijiaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     tijiaoBtn.titleLabel.font = SYSTEMFONT(15);
     [tijiaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
     ViewRadius(tijiaoBtn, 5);
+    [tijiaoBtn addTarget:self action:@selector(addComment) forControlEvents:UIControlEventTouchUpInside];
     [v3 addSubview:tijiaoBtn];
 }
 

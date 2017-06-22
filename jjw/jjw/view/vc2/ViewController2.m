@@ -731,6 +731,8 @@
     
 }
 
+
+
 -(void)initUI{
     UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
     
