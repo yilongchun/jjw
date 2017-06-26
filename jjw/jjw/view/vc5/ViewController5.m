@@ -144,14 +144,8 @@
     passwordField.leftViewMode = UITextFieldViewModeAlways;
     [loginContentView addSubview:passwordField];
     
-    UIButton *regBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordField.frame), CGRectGetMaxY(passwordLabel.frame) + 20, 50, 20)];
-    [regBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [regBtn setTitle:@"注册" forState:UIControlStateNormal];
-    regBtn.titleLabel.font = SYSTEMFONT(15);
-    [regBtn addTarget:self action:@selector(registerUser) forControlEvents:UIControlEventTouchUpInside];
-    [loginContentView addSubview:regBtn];
     
-    UIButton *loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel.frame), CGRectGetMaxY(regBtn.frame) + 20, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(passwordLabel.frame) * 2, 35)];
+    UIButton *loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel.frame), CGRectGetMaxY(passwordLabel.frame) + 20, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(passwordLabel.frame) * 2, 35)];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     loginBtn.titleLabel.font = SYSTEMFONT(15);
@@ -159,6 +153,13 @@
     ViewBorderRadius(loginBtn, 5, 0, [UIColor whiteColor]);
     [loginBtn addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [loginContentView addSubview:loginBtn];
+    
+    UIButton *regBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(loginBtn.frame), CGRectGetMaxY(loginBtn.frame) + 20, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(loginBtn.frame)*2, 20)];
+    [regBtn setTitleColor:RGB(0, 149, 229) forState:UIControlStateNormal];
+    [regBtn setTitle:@"新用户，点击马上注册！" forState:UIControlStateNormal];
+    regBtn.titleLabel.font = SYSTEMFONT(15);
+    [regBtn addTarget:self action:@selector(registerUser) forControlEvents:UIControlEventTouchUpInside];
+    [loginContentView addSubview:regBtn];
     
 //    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(loginBtn.frame) + 15, CGRectGetWidth(loginContentView.frame), 15)];
 //    label2.text = @"第三方快捷登录";

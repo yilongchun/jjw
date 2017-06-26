@@ -56,7 +56,7 @@
     
     UILabel *accountTips = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(accountLabel.frame) + 30, Main_Screen_Width - 10 - 60, 0)];
     accountTips.font = SYSTEMFONT(15);
-    accountTips.text = @"请使用真实邮箱，用于找回登录密码 ";
+    accountTips.text = @"请输入注册邮箱号 ";
     [accountTips sizeToFit];
     [loginContentView addSubview:accountTips];
     

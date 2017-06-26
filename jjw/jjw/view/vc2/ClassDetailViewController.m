@@ -58,7 +58,7 @@
     
     
     [self loadData];
-    [self loadPinglun];
+//    [self loadPinglun];
 }
 
 //收藏
@@ -289,7 +289,7 @@
         }else{
 //            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
-        [self initUI];
+        [self loadPinglun];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
         DLog(@"%@",error.description);
@@ -313,14 +313,14 @@
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
             NSDictionary *result = [dic objectForKey:@"result"];
-            
+            [pinglunList removeAllObjects];
             NSArray *array = [result objectForKey:@"data_list"];
             [pinglunList addObjectsFromArray:array];
             
         }else{
 //            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
-        
+        [self initUI];
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         
         DLog(@"%@",error.description);
@@ -1294,6 +1294,11 @@
 }
 
 -(void)setV3{
+    [v3.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
+    }];
+    
+    
     commentTx = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, Main_Screen_Width - 20, 60)];
     ViewBorderRadius(commentTx, 5, 1, RGB(223, 223, 223));
     [v3 addSubview:commentTx];
@@ -1307,6 +1312,78 @@
     ViewRadius(tijiaoBtn, 5);
     [tijiaoBtn addTarget:self action:@selector(addComment) forControlEvents:UIControlEventTouchUpInside];
     [v3 addSubview:tijiaoBtn];
+    
+    CGFloat maxY = CGRectGetMaxY(tijiaoBtn.frame) + 10;
+    
+    UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, maxY, Main_Screen_Width, 1)];
+    line.backgroundColor = RGB(223, 223, 223);
+    [v3 addSubview:line];
+    
+    for (int i = 0; i < pinglunList.count; i++) {
+        NSDictionary *pinglun = [pinglunList objectAtIndex:i];
+        NSString *userAvatar = [pinglun objectForKey:@"user_avatar"];
+        NSString *name = [pinglun objectForKey:@"user_name"];
+        NSString *content = [pinglun objectForKey:@"CONTENT"];
+        NSString *addtime = [pinglun objectForKey:@"ADDTIME"];
+        
+        UIView *commentView = [[UIView alloc] initWithFrame:CGRectMake(0, maxY, Main_Screen_Width, 60)];
+//        commentView.backgroundColor = [UIColor grayColor];
+        
+        UIImageView *headimage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
+        [headimage setImageWithURL:[NSURL URLWithString:userAvatar]];
+        ViewRadius(headimage, 20);
+        
+        UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 10, 0, 0)];
+        nameLabel.font = SYSTEMFONT(14);
+        nameLabel.textColor = RGB(51, 51, 51);
+        nameLabel.text = name;
+        [nameLabel sizeToFit];
+        
+        UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        dateLabel.text = addtime;
+        dateLabel.font = SYSTEMFONT(12);
+        dateLabel.textColor = RGB(102, 102, 102);
+        [dateLabel sizeToFit];
+        [dateLabel setFrame:CGRectMake(Main_Screen_Width - CGRectGetWidth(dateLabel.frame) - 10, 5, CGRectGetWidth(dateLabel.frame), CGRectGetHeight(dateLabel.frame))];
+        
+        UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, CGRectGetMaxY(nameLabel.frame) + 5, Main_Screen_Width - 70, 0)];
+        contentLabel.numberOfLines = 0;
+        contentLabel.font = SYSTEMFONT(14);
+        contentLabel.textColor = RGB(51, 51, 51);
+        contentLabel.text = content;
+        [contentLabel sizeToFit];
+        [commentView addSubview:contentLabel];
+        
+        [commentView addSubview:dateLabel];
+        [commentView addSubview:headimage];
+        [commentView addSubview:nameLabel];
+        
+        
+        
+        
+        CGRect rect = commentView.frame;
+        rect.size.height = CGRectGetMaxY(contentLabel.frame) + 10;
+        if (rect.size.height > 60) {
+            [commentView setFrame:rect];
+            maxY = CGRectGetMaxY(commentView.frame);
+        }else{
+            maxY = CGRectGetMaxY(commentView.frame);
+        }
+        
+        line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetHeight(commentView.frame) -1, Main_Screen_Width, 1)];
+        line.backgroundColor = RGB(223, 223, 223);
+        [commentView addSubview:line];
+        
+        [v3 addSubview:commentView];
+        
+//        CGRect rect3 = v3.frame;
+//        rect3.size.height = maxY;
+//        [v3 setFrame:rect3];
+    }
+    
+    
+    
+    
 }
 
 -(void)toTeacherHome{
