@@ -12,6 +12,7 @@
 #import "NSObject+Blocks.h"
 
 @interface RegisterViewController (){
+    UITextField *nickNameTextField;
     UITextField *accountTextField;
     UITextField *passwordField;
     UITextField *passwordField2;
@@ -38,19 +39,35 @@
     ViewBorderRadius(loginContentView, 0, 1, BORDER_COLOR);
     [self.view addSubview:loginContentView];
     
-    UILabel *accountLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 20, 0, 0)];
+    UILabel *nickNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 20, 0, 0)];
+    nickNameLabel.text = @"昵称:";
+    nickNameLabel.font = SYSTEMFONT(15);
+    [nickNameLabel sizeToFit];
+    [loginContentView addSubview:nickNameLabel];
+    
+    nickNameTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(nickNameLabel.frame) + 50, CGRectGetMinY(nickNameLabel.frame) - 8, CGRectGetWidth(loginContentView.frame) - CGRectGetMaxX(nickNameLabel.frame) - 50-30, CGRectGetHeight(nickNameLabel.frame) + 18)];
+    ViewBorderRadius(nickNameTextField, 5, 1, BORDER_COLOR);
+    nickNameTextField.font = SYSTEMFONT(15);
+    nickNameTextField.backgroundColor = RGB(251, 251, 251);
+    UIView *leftAView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
+    nickNameTextField.leftView = leftAView;
+    nickNameTextField.leftViewMode = UITextFieldViewModeAlways;
+    [loginContentView addSubview:nickNameTextField];
+    
+    
+    
+    UILabel *accountLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(nickNameLabel.frame) + 30, 0, 0)];
     accountLabel.text = @"邮箱:";
     accountLabel.font = SYSTEMFONT(15);
     [accountLabel sizeToFit];
-    
     [loginContentView addSubview:accountLabel];
     
     accountTextField = [[UITextField alloc] initWithFrame:CGRectMake(CGRectGetMaxX(accountLabel.frame) + 20, CGRectGetMinY(accountLabel.frame) - 8, CGRectGetWidth(loginContentView.frame) - CGRectGetMaxX(accountLabel.frame) - 50, CGRectGetHeight(accountLabel.frame) + 18)];
     ViewBorderRadius(accountTextField, 5, 1, BORDER_COLOR);
     accountTextField.font = SYSTEMFONT(15);
     accountTextField.backgroundColor = RGB(251, 251, 251);
-    UIView *leftAView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
-    accountTextField.leftView = leftAView;
+    UIView *leftAView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
+    accountTextField.leftView = leftAView2;
     accountTextField.leftViewMode = UITextFieldViewModeAlways;
     [loginContentView addSubview:accountTextField];
     
@@ -116,6 +133,11 @@
 
 -(void)login{
     [self.view endEditing:YES];
+    
+    if ([nickNameTextField.text isEqualToString:@""]) {
+        [self showHintInView:self.view hint:@"请输入昵称"];
+        return;
+    }
     if (![self validateEmail:accountTextField.text]) {
         [self showHintInView:self.view hint:@"邮箱格式不正确"];
         return;
@@ -136,6 +158,7 @@
     [manager.responseSerializer setAcceptableContentTypes:set];
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:nickNameTextField.text forKey:@"nick_name"];
     [param setObject:accountTextField.text forKey:@"email"];
     [param setObject:passwordField.text forKey:@"pwd"];
     [param setObject:passwordField2.text forKey:@"pwd2"];

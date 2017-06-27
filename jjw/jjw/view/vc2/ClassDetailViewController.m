@@ -380,22 +380,36 @@
         [self presentViewController:alert animated:YES completion:nil];
     }else if (btn.tag == 99){//打包购买
         
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"支付方式" preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self alipayPayByPackage];
+        
+        NSString *pack_price = [course_info objectForKey:@"pack_price"];
+        message = [NSString stringWithFormat:@"确认花费%@元购买本课程吗？",pack_price];
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择支付方式" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self alipayPayByPackage];
+            }];
+            UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self weixinPayByPackage];
+            }];
+            UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"余额" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self yuePayByPackage];
+            }];
+            UIAlertAction *action4 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+            [alert addAction:action1];
+            [alert addAction:action2];
+            [alert addAction:action3];
+            [alert addAction:action4];
+            [self presentViewController:alert animated:YES completion:nil];
         }];
-        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self weixinPayByPackage];
-        }];
-        UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"余额" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self yuePayByPackage];
-        }];
-        UIAlertAction *action4 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [alert addAction:action1];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         [alert addAction:action2];
-        [alert addAction:action3];
-        [alert addAction:action4];
+        [alert addAction:action1];
         [self presentViewController:alert animated:YES completion:nil];
+        
+        
+        
     }
 }
 
@@ -1375,7 +1389,7 @@
         [commentView addSubview:line];
         
         [v3 addSubview:commentView];
-        
+         
 //        CGRect rect3 = v3.frame;
 //        rect3.size.height = maxY;
 //        [v3 setFrame:rect3];

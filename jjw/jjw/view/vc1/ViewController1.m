@@ -1362,23 +1362,37 @@
     NSString *SUBJECT_ID = [package objectForKey:@"SUBJECT_ID"];
     
     NSString *title = [NSString stringWithFormat:@"确认花费%@元打包购买%@吗?",price,SUBJECT_NAME];
+
     
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self alipayPayByPackage:SUBJECT_ID];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:title preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择支付方式" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self alipayPayByPackage:SUBJECT_ID];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self weixinPayByPackage:SUBJECT_ID];
+        }];
+        UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"余额" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self yuePayByPackage:SUBJECT_ID];
+        }];
+        UIAlertAction *action4 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        [alert addAction:action1];
+        [alert addAction:action2];
+        [alert addAction:action3];
+        [alert addAction:action4];
+        [self presentViewController:alert animated:YES completion:nil];
+        
     }];
-    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self weixinPayByPackage:SUBJECT_ID];
-    }];
-    UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"余额" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self yuePayByPackage:SUBJECT_ID];
-    }];
-    UIAlertAction *action4 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-    [alert addAction:action1];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     [alert addAction:action2];
-    [alert addAction:action3];
-    [alert addAction:action4];
+    [alert addAction:action1];
     [self presentViewController:alert animated:YES completion:nil];
+    
+    
+    
+    
 }
 
 -(void)yuePayByPackage:(NSString *)subjectId{
