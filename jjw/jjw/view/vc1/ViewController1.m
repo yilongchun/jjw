@@ -731,7 +731,7 @@
         for (int i = 0; i < recommendTeacherArray.count; i++) {
             NSDictionary *dic = recommendTeacherArray[i];
             NSString *type = [dic objectForKey:@"TYPE"];
-//            NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
+            NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
             NSString *teacherName = [dic objectForKey:@"TEACHER_NAME"];
             NSString *img = [dic objectForKey:@"IMG"];
             NSString *studyNum = [dic objectForKey:@"STUDY_NUM"];
@@ -745,19 +745,30 @@
             
             kLabel.font = SYSTEMFONT(12);
             kLabel.textColor = [UIColor whiteColor];
-            kLabel.text = type;
-            if (i == 1 || i ==2) {
-                kLabel.backgroundColor = RGB(39, 68, 179);
-                
+            kLabel.text = [NSString stringWithFormat:@"%@%@",type,subjectName];
+            
+            
+            
+            if ([kLabel.text isEqualToString:@"高中数学"]) {
+                kLabel.backgroundColor = RGB(245, 123, 40);
+            }else if ([kLabel.text isEqualToString:@"高中英语"]) {
+                kLabel.backgroundColor = RGB(223, 10, 200);
+            }else if ([kLabel.text isEqualToString:@"高中物理"]) {
+                kLabel.backgroundColor = RGB(34, 60, 170);
+            }else if ([kLabel.text isEqualToString:@"高中化学"]) {
+                kLabel.backgroundColor = RGB(48, 177, 136);
+            }else if ([kLabel.text isEqualToString:@"高中生物"]) {
+                kLabel.backgroundColor = RGB(154, 103, 37);
+            }else if ([kLabel.text isEqualToString:@"高中政治"]) {
+                kLabel.backgroundColor = RGB(133, 195, 6);
+            }else if ([kLabel.text isEqualToString:@"高中历史"]) {
+                kLabel.backgroundColor = RGB(234, 154, 39);
+            }else if ([kLabel.text isEqualToString:@"高中地理"]) {
+                kLabel.backgroundColor = RGB(160, 6, 16);
+            }else{
+                kLabel.backgroundColor = RGB(160, 6, 16);
             }
-            if (i == 0) {
-                kLabel.backgroundColor = RGB(242, 120, 120);
-                
-            }
-            if (i == 3) {
-                kLabel.backgroundColor = RGB(164, 114, 41);
-                
-            }
+            
             kLabel.textAlignment = NSTextAlignmentCenter;
             [cellView addSubview:kLabel];
             UIRectCorner corners = UIRectCornerTopRight | UIRectCornerBottomRight;
