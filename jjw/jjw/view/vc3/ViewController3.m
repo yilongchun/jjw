@@ -11,7 +11,7 @@
 #import "UIImage+Color.h"
 #import "NSObject+Blocks.h"
 
-@interface ViewController3 ()<UIPickerViewDelegate,UIPickerViewDataSource>
+@interface ViewController3 ()<UIPickerViewDelegate,UIPickerViewDataSource,UISearchBarDelegate>
 
 @end
 
@@ -45,6 +45,11 @@
     UIView *contentView;
     
     UISearchBar *_searchBar;
+    
+    UIButton *nbtn2;
+    UIView *popView2;
+    UIView *maskView2;
+    
 }
 
 - (void)viewDidLoad {
@@ -65,16 +70,25 @@
     
     CGFloat barContentHeight = self.navigationController.navigationBar.frame.size.height - 20;
     
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(10, 8, 60, barContentHeight + 4)];
-    [btn1 setTitle:@"课程" forState:UIControlStateNormal];
-    [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn1.titleLabel.font = SYSTEMFONT(13);
-    [btn1 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
-    ViewBorderRadius(btn1, 5, 0, [UIColor whiteColor]);
-    [self.navigationController.navigationBar addSubview:btn1];
     
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 10, Main_Screen_Width - CGRectGetMaxX(btn1.frame) - 20, barContentHeight)];
+    
+    nbtn2 = [[UIButton alloc] initWithFrame:CGRectMake(10, 8, 60, barContentHeight + 4)];
+    [nbtn2 setTitle:@"课程" forState:UIControlStateNormal];
+    [nbtn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    nbtn2.titleLabel.font = SYSTEMFONT(13);
+    [nbtn2 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+    [nbtn2 setImage:[UIImage imageNamed:@"down2"] forState:UIControlStateNormal];
+    UIImage *imgArrow = [UIImage imageNamed:@"down2"];
+    [nbtn2 setTitleEdgeInsets:UIEdgeInsetsMake(0, -imgArrow.size.width, 0, imgArrow.size.width)];
+    [nbtn2 setImageEdgeInsets:UIEdgeInsetsMake(0, 30, 0, -30)];
+    ViewBorderRadius(nbtn2, 5, 0, [UIColor whiteColor]);
+     [nbtn2 setTitleEdgeInsets:UIEdgeInsetsMake(0, -imgArrow.size.width, 0, imgArrow.size.width)];
+    [nbtn2 addTarget:self action:@selector(chooseType2:) forControlEvents:UIControlEventTouchUpInside];
+    [self.navigationController.navigationBar addSubview:nbtn2];
+    
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(nbtn2.frame) + 10, 10, Main_Screen_Width - CGRectGetMaxX(nbtn2.frame) - 20, barContentHeight)];
     _searchBar.delegate = self;
+    _searchBar.placeholder = @"请输入搜索关键词";
     [self.navigationController.navigationBar addSubview:_searchBar];
 
     UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 42)];
@@ -597,6 +611,80 @@
         [self hideHud];
         [self initUI];
     }
+}
+
+
+
+-(void)action2:(UIButton *)btn{
+    [nbtn2 setTitle:btn.currentTitle forState:UIControlStateNormal];
+    [self hidePopView2:nil];
+}
+
+
+
+-(void)chooseType2:(UIButton *)sender{
+    if (popView2 == nil) {
+        popView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 122)];
+        popView2.backgroundColor = RGB(255, 255, 255);
+        
+        UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
+        btn1.tag = 1;
+        btn1.titleLabel.font = SYSTEMFONT(14);
+        [btn1 setTitle:@"课程" forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn1 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [btn1 addTarget:self action:@selector(action2:) forControlEvents:UIControlEventTouchUpInside];
+        [popView2 addSubview:btn1];
+        UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(btn1.frame), Main_Screen_Width, 1)];
+        line.backgroundColor = RGB(210, 210, 210);
+        [popView2 addSubview:line];
+        
+        UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, 40)];
+        btn2.tag = 2;
+        btn2.titleLabel.font = SYSTEMFONT(14);
+        [btn2 setTitle:@"名师" forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn2 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [btn2 addTarget:self action:@selector(action2:) forControlEvents:UIControlEventTouchUpInside];
+        [popView2 addSubview:btn2];
+        line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(btn2.frame), Main_Screen_Width, 1)];
+        line.backgroundColor = RGB(210, 210, 210);
+        [popView2 addSubview:line];
+        
+        UIButton *btn3 = [[UIButton alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(line.frame), Main_Screen_Width, 40)];
+        btn3.tag = 3;
+        btn3.titleLabel.font = SYSTEMFONT(14);
+        [btn3 setTitle:@"题目" forState:UIControlStateNormal];
+        [btn3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [btn3 setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+        [btn3 addTarget:self action:@selector(action2:) forControlEvents:UIControlEventTouchUpInside];
+        [popView2 addSubview:btn3];
+        
+        ViewBorderRadius(popView2, 0, 0.5, RGB(160, 160, 160));
+    }
+    if (maskView2 == nil) {
+        maskView2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
+        maskView2.backgroundColor = RGBA(0, 0, 0, 0.1);
+        maskView2.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hidePopView2:)];
+        [maskView2 addGestureRecognizer:tap];
+    }
+    
+    [self.navigationController.view addSubview:maskView2];
+    [self.navigationController.view addSubview:popView2];
+}
+
+-(void)hidePopView2:(UIGestureRecognizer *)sender{
+    
+    if (maskView2) {
+        [maskView2 removeFromSuperview];
+    }
+    if (popView2) {
+        [popView2 removeFromSuperview];
+    }
+    maskView2 = nil;
+    popView2 = nil;
+    
 }
 
 - (void)didReceiveMemoryWarning {
