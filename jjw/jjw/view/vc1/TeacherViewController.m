@@ -363,14 +363,14 @@
     NSString *img = [info objectForKey:@"PIC_PATH"];
     NSString *teacher_name = [info objectForKey:@"NAME"];
     NSString *f_type = [info objectForKey:@"f_type"];
-    NSString *subject_name = [info objectForKey:@"subject_name"];
+//    NSString *subject_name = [info objectForKey:@"subject_name"];
     NSString *course_num = [info objectForKey:@"course_num"];
     NSString *study_num = [info objectForKey:@"study_num"];
     NSString *des = [info objectForKey:@"CAREER"];
     
     [cell.headImageView setImageWithURL:[NSURL URLWithString:img]];
     cell.name.text = teacher_name;
-    cell.education.text = [NSString stringWithFormat:@"%@%@",f_type,subject_name];
+    cell.education.text = [NSString stringWithFormat:@"%@",f_type];
     
     if ([cell.education.text isEqualToString:@"高中数学"]) {
         cell.education.backgroundColor = RGB(245, 123, 40);

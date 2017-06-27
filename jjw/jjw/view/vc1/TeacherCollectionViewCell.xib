@@ -19,11 +19,11 @@
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="高中物理" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WRT-Ug-uoP">
-                        <rect key="frame" x="0.0" y="10" width="60" height="26"/>
+                        <rect key="frame" x="0.0" y="10" width="65" height="26"/>
                         <color key="backgroundColor" red="0.11764705882352941" green="0.23529411764705882" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="26" id="Fs5-ol-rwE"/>
-                            <constraint firstAttribute="width" constant="60" id="TP6-ea-Ijp"/>
+                            <constraint firstAttribute="width" constant="65" id="TP6-ea-Ijp"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
