@@ -9,6 +9,7 @@
 #import "ViewController4.h"
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
+#import "TeacherViewController.h"
 
 @interface ViewController4 ()<UISearchBarDelegate>{
     UISearchBar *_searchBar;
@@ -16,6 +17,8 @@
     UIButton *nbtn2;
     UIView *popView;
     UIView *maskView;
+    
+    int action2Tag;
 }
 
 @end
@@ -88,6 +91,7 @@
 }
 
 -(void)action2:(UIButton *)btn{
+    action2Tag = (int)btn.tag-1;
     [nbtn2 setTitle:btn.currentTitle forState:UIControlStateNormal];
     [self hidePopView:nil];
 }
@@ -233,8 +237,15 @@
 #pragma mark - UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
-    NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_searchBar.text,@"a":@"1"}];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    if (action2Tag == 1) {
+        TeacherViewController *vc = [[TeacherViewController alloc] init];
+        vc.top_search_key = _searchBar.text;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_searchBar.text,@"a":@"1"}];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
 }
 
 @end

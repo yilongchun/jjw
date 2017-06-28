@@ -51,6 +51,8 @@
     UIView *popView;
     UIView *maskView;
     
+    int action2Tag;
+    
     UILabel *label1;
     UILabel *label2;
     UILabel *line1;
@@ -275,6 +277,7 @@
 }
 
 -(void)action2:(UIButton *)btn{
+    action2Tag = (int)btn.tag-1;
     [nbtn2 setTitle:btn.currentTitle forState:UIControlStateNormal];
     [self hidePopView:nil];
 }
@@ -1625,8 +1628,17 @@
 #pragma mark - UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
-    NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_searchBar.text,@"a":@"1"}];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    if (action2Tag == 1) {
+        TeacherViewController *vc = [[TeacherViewController alloc] init];
+        vc.top_search_key = _searchBar.text;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_searchBar.text,@"a":@"1"}];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
+    
+    
 }
 
 #pragma mark - HZSigmentViewDelegate

@@ -13,7 +13,7 @@
 #import "ClassDetailViewController.h"
 #import "MJRefresh.h"
 #import "UIImageView+AFNetworking.h"
-
+#import "TeacherViewController.h"
 #import "HZSigmentView.h"
 
 #import "LrdSuperMenu.h"
@@ -52,6 +52,8 @@
     UIButton *nbtn2;
     UIView *popView;
     UIView *maskView;
+    
+    int action2Tag;
 }
 
 @property (nonatomic, strong) HZSigmentView * sigment;//横向滑动二级
@@ -787,6 +789,7 @@
 }
 
 -(void)action2:(UIButton *)btn{
+    action2Tag = (int)btn.tag-1;
     [nbtn2 setTitle:btn.currentTitle forState:UIControlStateNormal];
     [self hidePopView:nil];
 }
@@ -917,7 +920,15 @@
 #pragma mark - UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
-    [self loadData];
+    if (action2Tag == 1) {
+        TeacherViewController *vc = [[TeacherViewController alloc] init];
+        vc.top_search_key = _searchBar.text;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        [self loadData];
+    }
+    
 }
 
 #pragma mark - LrdSuperMenuDataSource

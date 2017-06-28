@@ -10,6 +10,7 @@
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
 #import "NSObject+Blocks.h"
+#import "TeacherViewController.h"
 
 @interface ViewController3 ()<UIPickerViewDelegate,UIPickerViewDataSource,UISearchBarDelegate>
 
@@ -50,6 +51,8 @@
     UIView *popView2;
     UIView *maskView2;
     
+    int action2Tag;
+    
 }
 
 - (void)viewDidLoad {
@@ -68,11 +71,13 @@
 
 -(void)initUI{
     
+    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
+    
     CGFloat barContentHeight = self.navigationController.navigationBar.frame.size.height - 20;
     
     
     
-    nbtn2 = [[UIButton alloc] initWithFrame:CGRectMake(10, 8, 60, barContentHeight + 4)];
+    nbtn2 = [[UIButton alloc] initWithFrame:CGRectMake(2, 6, 60, barContentHeight + 4)];
     [nbtn2 setTitle:@"课程" forState:UIControlStateNormal];
     [nbtn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     nbtn2.titleLabel.font = SYSTEMFONT(13);
@@ -84,12 +89,15 @@
     ViewBorderRadius(nbtn2, 5, 0, [UIColor whiteColor]);
      [nbtn2 setTitleEdgeInsets:UIEdgeInsetsMake(0, -imgArrow.size.width, 0, imgArrow.size.width)];
     [nbtn2 addTarget:self action:@selector(chooseType2:) forControlEvents:UIControlEventTouchUpInside];
-    [self.navigationController.navigationBar addSubview:nbtn2];
+    [navView addSubview:nbtn2];
     
-    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(nbtn2.frame) + 10, 10, Main_Screen_Width - CGRectGetMaxX(nbtn2.frame) - 20, barContentHeight)];
+    _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(nbtn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(nbtn2.frame) - 28, 28)];
+    ViewRadius(_searchBar, 5);
     _searchBar.delegate = self;
     _searchBar.placeholder = @"请输入搜索关键词";
-    [self.navigationController.navigationBar addSubview:_searchBar];
+    [navView addSubview:_searchBar];
+    
+    self.navigationItem.titleView = navView;
 
     UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 42)];
     topLabel.backgroundColor = [UIColor whiteColor];
@@ -616,6 +624,7 @@
 
 
 -(void)action2:(UIButton *)btn{
+    action2Tag = (int)btn.tag-1;
     [nbtn2 setTitle:btn.currentTitle forState:UIControlStateNormal];
     [self hidePopView2:nil];
 }
@@ -705,8 +714,15 @@
 #pragma mark - UISearchBarDelegate
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     [searchBar resignFirstResponder];
-    NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_searchBar.text,@"a":@"1"}];
-    [[NSNotificationCenter defaultCenter] postNotification:notification];
+    if (action2Tag == 1) {
+        TeacherViewController *vc = [[TeacherViewController alloc] init];
+        vc.top_search_key = _searchBar.text;
+        vc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_searchBar.text,@"a":@"1"}];
+        [[NSNotificationCenter defaultCenter] postNotification:notification];
+    }
 }
 
 #pragma mark - UIPickerViewDelegate

@@ -142,6 +142,9 @@
     [param setObject:type_one forKey:@"type_one"];
     [param setObject:type_two forKey:@"type_two"];
     [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];//当前第几页
+    if (_top_search_key) {
+        [param setObject:_top_search_key forKey:@"top_search_key"];
+    }
     
     DLog(@"%@",param);
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
@@ -188,7 +191,9 @@
     [param setObject:type_one forKey:@"type_one"];
     [param setObject:type_two forKey:@"type_two"];
     [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];//当前第几页
-    
+    if (_top_search_key) {
+        [param setObject:_top_search_key forKey:@"top_search_key"];
+    }
     
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         
