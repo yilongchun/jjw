@@ -116,6 +116,14 @@
     
     if (!userInfo) {
         [self showHintInView:self.view hint:@"请先登录"];
+        
+        
+        [self performBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1.5];
+        
         return;
     }
     NSDictionary *course_info = [courseInfo objectForKey:@"course_info"];
@@ -146,7 +154,7 @@
                 NSArray *mp4Arr = [responseObject objectForKey:@"mp4"];
                 if (mp4Arr.count > 0) {
                     NSString *mp4 = [mp4Arr objectAtIndex:0];
-                    UIView *playerView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 200)];
+                    UIView *playerView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 230)];
                     [self.view addSubview:playerView];
                     _videoPlayer = [SRVideoPlayer playerWithVideoURL:[NSURL URLWithString:mp4] playerView:playerView playerSuperView:playerView.superview];
                     _videoPlayer.videoName = [course_info objectForKey:@"TITLE"];
@@ -333,6 +341,11 @@
     
     if (!userInfo) {
         [self showHintInView:self.view hint:@"请先登录"];
+        [self performBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1.5];
         return;
     }
     
@@ -419,6 +432,11 @@
     
     if (!userInfo) {
         [self showHintInView:self.view hint:@"请先登录"];
+        [self performBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1.5];
         return;
     }
     [self showHudInView:self.view];
@@ -472,6 +490,11 @@
     
     if (!userInfo) {
         [self showHintInView:self.view hint:@"请先登录"];
+        [self performBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1.5];
         return;
     }
     [self showHudInView:self.view];
@@ -541,6 +564,11 @@
     
     if (!userInfo) {
         [self showHintInView:self.view hint:@"请先登录"];
+        [self performBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1.5];
         return;
     }
     [self showHudInView:self.view];
@@ -613,6 +641,11 @@
     
     if (!userInfo) {
         [self showHintInView:self.view hint:@"请先登录"];
+        [self performBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1.5];
         return;
     }
     [self showHudInView:self.view];
@@ -674,6 +707,11 @@
     
     if (!userInfo) {
         [self showHintInView:self.view hint:@"请先登录"];
+        [self performBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1.5];
         return;
     }
     [self showHudInView:self.view];
@@ -739,6 +777,11 @@
     
     if (!userInfo) {
         [self showHintInView:self.view hint:@"请先登录"];
+        [self performBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1.5];
         return;
     }
     
@@ -787,6 +830,11 @@
     
     if (!userInfo) {
         [self showHintInView:self.view hint:@"请先登录"];
+        [self performBlock:^{
+            [self.navigationController popToRootViewControllerAnimated:NO];
+            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1.5];
         return;
     }
     

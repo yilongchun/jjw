@@ -146,16 +146,16 @@
     _myTableView.tableHeaderView = tableHeaderView;
     _myTableView.tableFooterView = [[UIView alloc] init];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
-    label.font = SYSTEMFONT(20);
-    label.text = @"讲师个人主页";
-    [label sizeToFit];
-    [tableHeaderView addSubview:label];
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
+//    label.font = SYSTEMFONT(20);
+//    label.text = @"讲师个人主页";
+//    [label sizeToFit];
+//    [tableHeaderView addSubview:label];
     
     
     NSString *PIC_PATH = [teacherInfo objectForKey:@"PIC_PATH"];
     CGFloat imageWidth = (Main_Screen_Width - 20) * 0.4;
-    UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(label.frame) + 10, imageWidth, imageWidth)];
+    UIImageView *headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, imageWidth, imageWidth)];
     [headImageView setImageWithURL:[NSURL URLWithString:PIC_PATH]];
     ViewRadius(headImageView, imageWidth/2);
     [tableHeaderView addSubview:headImageView];

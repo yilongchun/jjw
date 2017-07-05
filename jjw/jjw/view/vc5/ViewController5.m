@@ -49,11 +49,22 @@
     [self.navigationController.navigationBar setTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor],NSForegroundColorAttributeName,nil]];
     
     
+    self.jz_navigationBarTintColor = RGB(69, 179, 230);
+    self.jz_navigationBarBackgroundAlpha = 1;
+    
     //    self.automaticallyAdjustsScrollViewInsets = NO;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadUserInfo) name:@"loadUserInfo" object:nil];
     
+    
+    UILabel *titleText = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 0, 0)];
+    titleText.backgroundColor = [UIColor clearColor];
+    titleText.textColor=[UIColor whiteColor];
+    [titleText setFont:[UIFont boldSystemFontOfSize:17.0]];
+    [titleText setText:@"个人中心"];
+    [titleText sizeToFit];
+    self.navigationItem.titleView=titleText;
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     userInfo = [ud objectForKey:LOGINED_USER];
@@ -69,44 +80,49 @@
 }
 
 -(void)initUI{
-    self.jz_navigationBarBackgroundAlpha = 1;
-    self.jz_navigationBarTintColor = RGB(69, 179, 230);
+//    self.jz_navigationBarBackgroundAlpha = 1;
+//    self.jz_navigationBarTintColor = RGB(69, 179, 230);
     
     _loginView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, Main_Screen_Height)];
     _loginView.backgroundColor = RGB(245, 245, 245);
     
-    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
+    self.navigationItem.rightBarButtonItem = nil;
     
-    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(2, 6, 60, 28)];
-    [btn1 setTitle:@"高中" forState:UIControlStateNormal];
-    [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn1.titleLabel.font = SYSTEMFONT(13);
-    [btn1 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
-    ViewBorderRadius(btn1, 5, 0, [UIColor whiteColor]);
-    [navView addSubview:btn1];
+//    UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
+//    
+//    UIButton *btn1 = [[UIButton alloc] initWithFrame:CGRectMake(2, 6, 60, 28)];
+//    [btn1 setTitle:@"高中" forState:UIControlStateNormal];
+//    [btn1 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    btn1.titleLabel.font = SYSTEMFONT(13);
+//    [btn1 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+//    ViewBorderRadius(btn1, 5, 0, [UIColor whiteColor]);
+//    [navView addSubview:btn1];
+//    
+//    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 6, 60, 28)];
+//    [btn2 setTitle:@"课程" forState:UIControlStateNormal];
+//    [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+//    btn2.titleLabel.font = SYSTEMFONT(13);
+//    [btn2 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+//    ViewBorderRadius(btn2, 5, 0, [UIColor whiteColor]);
+//    [navView addSubview:btn2];
+//    
+//    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 28, 28)];
+//    ViewRadius(searchBar, 5);
+//    [navView addSubview:searchBar];
+//    self.navigationItem.titleView = navView;
     
-    UIButton *btn2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn1.frame) + 10, 6, 60, 28)];
-    [btn2 setTitle:@"课程" forState:UIControlStateNormal];
-    [btn2 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    btn2.titleLabel.font = SYSTEMFONT(13);
-    [btn2 setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
-    ViewBorderRadius(btn2, 5, 0, [UIColor whiteColor]);
-    [navView addSubview:btn2];
     
-    UISearchBar *searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn2.frame) + 10, 6, Main_Screen_Width - CGRectGetMaxX(btn2.frame) - 28, 28)];
-    ViewRadius(searchBar, 5);
-    [navView addSubview:searchBar];
-    self.navigationItem.titleView = navView;
     
-    UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 42)];
-    topLabel.backgroundColor = [UIColor whiteColor];
-    topLabel.font = SYSTEMFONT(17);
-    topLabel.textColor = [UIColor blackColor];
-    topLabel.text = @"  用户登录";
-    ViewBorderRadius(topLabel, 0, 1, RGB(223, 223, 223));
-    [_loginView addSubview:topLabel];
     
-    UIView *loginContentView = [[UIView alloc] initWithFrame:CGRectMake(5, CGRectGetMaxY(topLabel.frame) + 5, Main_Screen_Width - 10, 350)];
+//    UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 42)];
+//    topLabel.backgroundColor = [UIColor whiteColor];
+//    topLabel.font = SYSTEMFONT(17);
+//    topLabel.textColor = [UIColor blackColor];
+//    topLabel.text = @"  用户登录";
+//    ViewBorderRadius(topLabel, 0, 1, RGB(223, 223, 223));
+//    [_loginView addSubview:topLabel];
+    
+    UIView *loginContentView = [[UIView alloc] initWithFrame:CGRectMake(5, 64+ 5, Main_Screen_Width - 10, 350)];
     loginContentView.backgroundColor = [UIColor whiteColor];
     ViewBorderRadius(loginContentView, 0, 1, BORDER_COLOR);
     [_loginView addSubview:loginContentView];
@@ -124,6 +140,7 @@
     accountTextField.backgroundColor = RGB(251, 251, 251);
     UIView *leftAView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
     accountTextField.leftView = leftAView;
+    accountTextField.placeholder = @"请输入注册时的邮箱号";
     accountTextField.leftViewMode = UITextFieldViewModeAlways;
     [loginContentView addSubview:accountTextField];
     
@@ -141,6 +158,7 @@
     passwordField.backgroundColor = RGB(251, 251, 251);
     UIView *leftBView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
     passwordField.leftView = leftBView;
+    passwordField.placeholder = @"请输入密码";
     passwordField.leftViewMode = UITextFieldViewModeAlways;
     [loginContentView addSubview:passwordField];
     
@@ -186,10 +204,10 @@
     
     self.view = _loginView;
     
-    if (DEBUG) {
-        accountTextField.text = @"zy@92yc.com";
-        passwordField.text = @"123456";
-    }
+//    if (DEBUG) {
+//        accountTextField.text = @"zy@92yc.com";
+//        passwordField.text = @"123456";
+//    }
     
     
 }
@@ -235,8 +253,13 @@
             DLog(@"%@",result);
             [self setTableHeaderView];
             self.view = _userCenterView;
-            self.navigationItem.titleView = nil;
-            self.jz_navigationBarBackgroundAlpha = 0;
+//            self.navigationItem.titleView = nil;
+//            self.jz_navigationBarBackgroundAlpha = 1;
+            
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStyleDone target:self action:@selector(logout)];
+            [rightItem setTintColor:[UIColor whiteColor]];
+            self.navigationItem.rightBarButtonItem = rightItem;
+            
         }else{
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
@@ -252,9 +275,20 @@
 }
 
 -(void)logout{
-    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-    [ud removeObjectForKey:LOGINED_USER];
-    [self initUI];
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确认要退出登录吗?" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+        [ud removeObjectForKey:LOGINED_USER];
+        [self initUI];
+    }];
+    UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alert addAction:action1];
+    [alert addAction:action2];
+    [self presentViewController:alert animated:YES completion:nil];
+    
 
 }
 
@@ -289,8 +323,12 @@
             
             [self setTableHeaderView];
             self.view = _userCenterView;
-            self.navigationItem.titleView = nil;
-            self.jz_navigationBarBackgroundAlpha = 0;
+//            self.navigationItem.titleView = nil;
+//            self.jz_navigationBarBackgroundAlpha = 1;
+            
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStyleDone target:self action:@selector(logout)];
+            [rightItem setTintColor:[UIColor whiteColor]];
+            self.navigationItem.rightBarButtonItem = rightItem;
             
         }else{
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
@@ -320,14 +358,14 @@
 
 -(void)setTableHeaderView{
     CGFloat headImageWidth = Main_Screen_Width * 0.25;
-    UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 20 +headImageWidth + 20 + 45 + 40)];
-    tableHeaderView.backgroundColor = RGB(60, 170, 226);
+    UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 10 +headImageWidth + 10 + 45 + 40)];
+    tableHeaderView.backgroundColor = RGB(69, 179, 230);
     _myTableView.tableHeaderView = tableHeaderView;
     
-    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 20 + headImageWidth +20)];
+    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 10 + headImageWidth +10)];
     
     NSString *pic = [userInfo objectForKey:@"PIC_IMG"];
-    headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(Main_Screen_Width*0.25, 20+10, headImageWidth, headImageWidth)];
+    headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(Main_Screen_Width*0.25, 10, headImageWidth, headImageWidth)];
     [headImageView setImageWithURL:[NSURL URLWithString:pic] placeholderImage:[UIImage imageNamed:@"default_avatar.jpeg"]];
     ViewRadius(headImageView, headImageWidth/2);
     [view1 addSubview:headImageView];
@@ -345,14 +383,14 @@
     [nameLabel sizeToFit];
     [view1 addSubview:nameLabel];
     
-    UILabel *logoutLabel = [[UILabel alloc] initWithFrame:CGRectMake(nameLabel.frame.origin.x, CGRectGetMaxY(nameLabel.frame) + 10, 0, 0)];
-    logoutLabel.textColor = [UIColor whiteColor];
-    logoutLabel.text = @"退出登录";
-    [logoutLabel sizeToFit];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logout)];
-    logoutLabel.userInteractionEnabled = YES;
-    [logoutLabel addGestureRecognizer:tap];
-    [view1 addSubview:logoutLabel];
+//    UILabel *logoutLabel = [[UILabel alloc] initWithFrame:CGRectMake(nameLabel.frame.origin.x, CGRectGetMaxY(nameLabel.frame) + 10, 0, 0)];
+//    logoutLabel.textColor = [UIColor whiteColor];
+//    logoutLabel.text = @"退出登录";
+//    [logoutLabel sizeToFit];
+//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(logout)];
+//    logoutLabel.userInteractionEnabled = YES;
+//    [logoutLabel addGestureRecognizer:tap];
+//    [view1 addSubview:logoutLabel];
     
     [tableHeaderView addSubview:view1];
     

@@ -674,7 +674,7 @@
     moreBtn.titleLabel.font = SYSTEMFONT(15);
     [moreBtn setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     ViewBorderRadius(moreBtn, 5, 0.5, BORDER_COLOR);
-    [moreBtn addTarget:self action:@selector(bixiuClick:) forControlEvents:UIControlEventTouchUpInside];
+    [moreBtn addTarget:self action:@selector(showFreeCourse:) forControlEvents:UIControlEventTouchUpInside];
     [mftyView addSubview:moreBtn];
     
     
@@ -1005,7 +1005,7 @@
         [cell addSubview:courseNumLabel3];
         
         UILabel *subjectNameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(courseNumLabel3.frame) + 30, 40, 0, 0)];
-        subjectNameLabel.text = [NSString stringWithFormat:@"%@%@",type,subjectName];
+        subjectNameLabel.text = [NSString stringWithFormat:@"%@",type];
         subjectNameLabel.textColor = RGB(101, 101, 101);
         subjectNameLabel.font = SYSTEMFONT(12);
         [subjectNameLabel sizeToFit];
@@ -1151,6 +1151,13 @@
     [bixiuScrollView setContentSize:CGSizeMake(x, CGRectGetHeight(bixiuScrollView.frame))];
     rect.origin.x -= 5;
     [bixiuScrollView scrollRectToVisible:rect animated:YES];
+}
+
+-(void)showFreeCourse:(UIButton *)btn{
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:@"price_asc" forKey:@"oby"];
+    NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"1",@"param2":param}];
+    [[NSNotificationCenter defaultCenter] postNotification:notification];
 }
 
 //必修点击

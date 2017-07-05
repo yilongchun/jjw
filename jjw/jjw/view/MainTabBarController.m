@@ -77,6 +77,13 @@
             [[NSNotificationCenter defaultCenter] postNotification:notification];
         } afterDelay:1];
     }
+    NSDictionary *param2 = [info objectForKey:@"param2"];
+    if (param2 != nil) {
+        NSNotification *notification =[NSNotification notificationWithName:@"bixiuClick" object:nil userInfo:@{@"param2":param2}];
+        [self performBlock:^{
+            [[NSNotificationCenter defaultCenter] postNotification:notification];
+        } afterDelay:1];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

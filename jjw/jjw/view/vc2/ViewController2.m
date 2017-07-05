@@ -140,19 +140,35 @@
 -(void)bixiuClick:(NSNotification *)text{
     NSDictionary *param = [text.userInfo objectForKey:@"param"];
     
-    tsid = [param objectForKey:@"kemu"];
-    ttsid = [param objectForKey:@"bixiu"];
+    if (param) {
+        tsid = [param objectForKey:@"kemu"];
+        ttsid = [param objectForKey:@"bixiu"];
+        
+        tsidIndex = [[param objectForKey:@"kemuIndex"] integerValue];
+        self.sigment.defaultIndex = tsidIndex;
+        
+        NSInteger ttsidIndex = [[param objectForKey:@"bixiuIndex"] integerValue];
+        
+        LrdIndexPath *index = [LrdIndexPath indexPathWithColumn:0 row:ttsidIndex];
+        [_menu selectIndexPath:index];
+        
+        //    [self loadData];
+        DLog(@"%@",param);
+    }
     
-    tsidIndex = [[param objectForKey:@"kemuIndex"] integerValue];
-    self.sigment.defaultIndex = tsidIndex;
+    NSDictionary *param2 = [text.userInfo objectForKey:@"param2"];
     
-    NSInteger ttsidIndex = [[param objectForKey:@"bixiuIndex"] integerValue];
+    if (param2) {
+        oby = [param2 objectForKey:@"oby"];
+        
+        LrdIndexPath *index = [LrdIndexPath indexPathWithColumn:3 row:4];
+        [_menu selectIndexPath:index];
+    }
     
-    LrdIndexPath *index = [LrdIndexPath indexPathWithColumn:0 row:ttsidIndex];
-    [_menu selectIndexPath:index];
     
-//    [self loadData];
-    DLog(@"%@",param);
+    
+    
+    
 }
 
 -(void)searchClass:(NSNotification *)text{
