@@ -52,10 +52,12 @@
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     self.jz_navigationBarBackgroundAlpha = 1;
     
-    //    self.automaticallyAdjustsScrollViewInsets = NO;
+//        self.automaticallyAdjustsScrollViewInsets = NO;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadUserInfo) name:@"loadUserInfo" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rlogin:) name:@"rlogin" object:nil];
     
     
     UILabel *titleText = [[UILabel alloc] initWithFrame: CGRectMake(0, 0, 0, 0)];
@@ -212,6 +214,67 @@
     
 }
 
+-(void)rlogin:(NSNotification *)text{
+    accountTextField.text = [text.userInfo objectForKey:@"username"];
+    passwordField.text = [text.userInfo objectForKey:@"password"];
+    
+    
+    [self.view endEditing:YES];
+    
+//    sleep(3);
+//    
+    [self showHudInView:self.view];
+    
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:accountTextField.text forKey:@"email"];
+    [param setObject:passwordField.text forKey:@"pwd"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_login/login_do"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        [self hideHud];
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            
+            userInfo = [[result objectForKey:@"data_list"] cleanNull];
+            
+            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+            [ud setObject:userInfo forKey:LOGINED_USER];
+            
+            
+            DLog(@"%@",result);
+            [self setTableHeaderView];
+            [_userCenterView setFrame:CGRectMake(0, 64, Main_Screen_Width, self.view.frame.size.height-64-49)];
+            [_userCenterView removeFromSuperview];
+            [self.view addSubview:_userCenterView];
+            //            self.navigationItem.titleView = nil;
+            //            self.jz_navigationBarBackgroundAlpha = 1;
+            
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStyleDone target:self action:@selector(logout)];
+            [rightItem setTintColor:[UIColor whiteColor]];
+            self.navigationItem.rightBarButtonItem = rightItem;
+            
+            
+            [self showHintInView:self.view hint:@"请完善信息"];
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+    }];
+    
+}
+
 //登录
 -(void)login{
     
@@ -249,16 +312,17 @@
             NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
             [ud setObject:userInfo forKey:LOGINED_USER];
             
-            
-            DLog(@"%@",result);
-            [self setTableHeaderView];
-            self.view = _userCenterView;
-//            self.navigationItem.titleView = nil;
-//            self.jz_navigationBarBackgroundAlpha = 1;
-            
-            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStyleDone target:self action:@selector(logout)];
-            [rightItem setTintColor:[UIColor whiteColor]];
-            self.navigationItem.rightBarButtonItem = rightItem;
+            [self loadUserInfo];
+//            DLog(@"%@",result);
+//            [self setTableHeaderView];
+//            self.view = _userCenterView;
+//            
+////            self.navigationItem.titleView = nil;
+////            self.jz_navigationBarBackgroundAlpha = 1;
+//            
+//            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStyleDone target:self action:@selector(logout)];
+//            [rightItem setTintColor:[UIColor whiteColor]];
+//            self.navigationItem.rightBarButtonItem = rightItem;
             
         }else{
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
@@ -322,7 +386,9 @@
             [ud setObject:userInfo forKey:LOGINED_USER];
             
             [self setTableHeaderView];
-            self.view = _userCenterView;
+            [_userCenterView setFrame:CGRectMake(0, 64, Main_Screen_Width, self.view.frame.size.height-64-49)];
+            [_userCenterView removeFromSuperview];
+            [self.view addSubview:_userCenterView];
 //            self.navigationItem.titleView = nil;
 //            self.jz_navigationBarBackgroundAlpha = 1;
             
@@ -354,6 +420,9 @@
     RegisterViewController *vc = [[RegisterViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+    
+//    UINavigationController *nc = [[UINavigationController alloc] initWithRootViewController:vc];
+//    [self presentViewController:nc animated:YES completion:nil];
 }
 
 -(void)setTableHeaderView{

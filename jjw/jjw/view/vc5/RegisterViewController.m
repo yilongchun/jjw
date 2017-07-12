@@ -10,6 +10,7 @@
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
 #import "NSObject+Blocks.h"
+#import "WebViewController.h"
 
 @interface RegisterViewController (){
     UITextField *nickNameTextField;
@@ -121,7 +122,17 @@
     [passwordField setFrame:c2];
     
     
-    UIButton *loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel2.frame), CGRectGetMaxY(passwordLabel2.frame) + 30, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(passwordLabel.frame) * 2, 35)];
+    UILabel *xieyi = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(passwordLabel2.frame) + 30, 0, 0)];
+    xieyi.text = @"我同意《微课堂视频视频网站使用协议》";
+    xieyi.font = SYSTEMFONT(13);
+    xieyi.textColor = RGB(0, 150, 230);
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showXieyi)];
+    xieyi.userInteractionEnabled = YES;
+    [xieyi addGestureRecognizer:tap];
+    [xieyi sizeToFit];
+    [loginContentView addSubview:xieyi];
+    
+    UIButton *loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel2.frame), CGRectGetMaxY(xieyi.frame) + 20, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(passwordLabel.frame) * 2, 35)];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [loginBtn setTitle:@"注册" forState:UIControlStateNormal];
     loginBtn.titleLabel.font = SYSTEMFONT(15);
@@ -129,6 +140,13 @@
     ViewBorderRadius(loginBtn, 5, 0, [UIColor whiteColor]);
     [loginBtn addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [loginContentView addSubview:loginBtn];
+}
+
+-(void)showXieyi{
+    WebViewController *vc = [[WebViewController alloc] init];
+    vc.url = @"http://m.jjw-school.com/about/webview/provision";
+    vc.title = @"用户协议";
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 -(void)login{
@@ -176,7 +194,12 @@
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
             
             [self performBlock:^{
-                [self.navigationController popViewControllerAnimated:YES];
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                
+                
+                NSNotification *notification =[NSNotification notificationWithName:@"rlogin" object:nil userInfo:@{@"username":accountTextField.text,@"password":passwordField.text}];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+                
             } afterDelay:1.5];
             
         }else{
