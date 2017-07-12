@@ -52,7 +52,7 @@
     self.jz_navigationBarTintColor = RGB(69, 179, 230);
     self.jz_navigationBarBackgroundAlpha = 1;
     
-//        self.automaticallyAdjustsScrollViewInsets = NO;
+    self.automaticallyAdjustsScrollViewInsets = NO;
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadUserInfo) name:@"loadUserInfo" object:nil];

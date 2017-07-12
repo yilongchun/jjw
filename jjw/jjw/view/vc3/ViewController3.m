@@ -125,7 +125,7 @@
     [label1 sizeToFit];
     [contentView addSubview:label1];
     
-    btn_1 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label1.frame) + 15, CGRectGetMinY(label1.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label1.frame) - 15 - 30, CGRectGetHeight(label1.frame) + 16)];
+    btn_1 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label1.frame) + 15, CGRectGetMinY(label1.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label1.frame) - 15 - 50, CGRectGetHeight(label1.frame) + 16)];
     NSDictionary *dic = gradeArray[0];
     NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
     [btn_1 setTitle:subjectName forState:UIControlStateNormal];
@@ -136,13 +136,20 @@
     ViewBorderRadius(btn_1, 5, 1, BORDER_COLOR);
     [contentView addSubview:btn_1];
     
+    UILabel *right1Label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn_1.frame) + 3, CGRectGetMinY(btn_1.frame)+ 10, 0, 0)];
+    right1Label.textColor = RGB(255, 101, 1);
+    right1Label.text = @"(*必选)";
+    right1Label.font = SYSTEMFONT(12);
+    [right1Label sizeToFit];
+    [contentView addSubview:right1Label];
+    
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(label1.frame) + 25, 0, 0)];
     label2.text = @"选择学科:";
     label2.font = SYSTEMFONT(15);
     [label2 sizeToFit];
     [contentView addSubview:label2];
     
-    btn_2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label2.frame) + 15, CGRectGetMinY(label2.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label2.frame) - 15 - 30, CGRectGetHeight(label2.frame) + 16)];
+    btn_2 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label2.frame) + 15, CGRectGetMinY(label2.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label2.frame) - 15 - 50, CGRectGetHeight(label2.frame) + 16)];
     NSDictionary *dic2 = subjectArray[0];
     NSString *subjectName2 = [dic2 objectForKey:@"SUBJECT_NAME"];
     [btn_2 setTitle:subjectName2 forState:UIControlStateNormal];
@@ -153,13 +160,20 @@
     ViewBorderRadius(btn_2, 5, 1, BORDER_COLOR);
     [contentView addSubview:btn_2];
     
+    UILabel *right2Label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(btn_2.frame) + 3, CGRectGetMinY(btn_2.frame)+ 10, 0, 0)];
+    right2Label.textColor = RGB(255, 101, 1);
+    right2Label.text = @"(*必选)";
+    right2Label.font = SYSTEMFONT(12);
+    [right2Label sizeToFit];
+    [contentView addSubview:right2Label];
+    
     UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(label2.frame) + 25, 0, 0)];
     label3.text = @"册数章节:";
     label3.font = SYSTEMFONT(15);
     [label3 sizeToFit];
     [contentView addSubview:label3];
     
-    btn_3 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label3.frame) + 15, CGRectGetMinY(label3.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label3.frame) - 15 - 30, CGRectGetHeight(label3.frame) + 16)];
+    btn_3 = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label3.frame) + 15, CGRectGetMinY(label3.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label3.frame) - 15 - 50, CGRectGetHeight(label3.frame) + 16)];
     [btn_3 setTitle:@"全部" forState:UIControlStateNormal];
     [btn_3 setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     btn_3.titleLabel.font = SYSTEMFONT(15);
@@ -174,9 +188,16 @@
     [label4 sizeToFit];
     [contentView addSubview:label4];
     
-    textView = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label4.frame) + 15, CGRectGetMinY(label4.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label4.frame) - 15 - 30, 100)];
+    textView = [[UITextView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label4.frame) + 15, CGRectGetMinY(label4.frame) - 8, CGRectGetWidth(contentView.frame) - CGRectGetMaxX(label4.frame) - 15 - 50, 100)];
     ViewBorderRadius(textView, 5, 1, BORDER_COLOR);
     [contentView addSubview:textView];
+    
+    UILabel *right3Label = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(textView.frame) + 3, CGRectGetMinY(textView.frame)+ 10, 0, 0)];
+    right3Label.textColor = RGB(255, 101, 1);
+    right3Label.text = @"(*必选)";
+    right3Label.font = SYSTEMFONT(12);
+    [right3Label sizeToFit];
+    [contentView addSubview:right3Label];
     
     UILabel *label5 =  [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(textView.frame) + 25, 0, 0)];
     label5.text = @"讲解老师:";

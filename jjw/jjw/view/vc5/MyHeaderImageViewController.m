@@ -10,6 +10,7 @@
 #import "JZNavigationExtension.h"
 #import "UIImage+Color.h"
 #import "NSObject+Blocks.h"
+#import "UIImageView+AFNetworking.h"
 
 @interface MyHeaderImageViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
     UIImageView *headImageView;
@@ -69,6 +70,16 @@
     CGRect frame = contentView.frame;
     frame.size.height = CGRectGetMaxY(submitBtn.frame) + 20;
     [contentView setFrame:frame];
+    
+    
+    
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    
+    
+    NSString *pic = [userInfo objectForKey:@"PIC_IMG"];
+    [headImageView setImageWithURL:[NSURL URLWithString:pic] placeholderImage:[UIImage imageNamed:@"default_avatar.jpeg"]];
 }
 
 -(void)chooseImage{
