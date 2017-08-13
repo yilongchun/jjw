@@ -18,6 +18,9 @@
 #import "TeacherViewController.h"
 #import "TeacherHomeViewController.h"
 #import "OpenShareHeader.h"
+#import "UIViewController+RegisterRandomAccount.h"
+#import "NSObject+Blocks.h"
+#import "Util.h"
 
 @interface ViewController1 ()<HZSigmentViewDelegate,UISearchBarDelegate>{
     UIScrollView *myScrollView;//主界面滚动视图
@@ -1125,8 +1128,8 @@
             [bixiuScrollView addSubview:btnLabel];
         }else if ([isPack intValue] == 1){
             UILabel *btnLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMinX(btn.frame), CGRectGetMaxY(btn.frame) + 12, CGRectGetWidth(btn.frame), 11)];
-            NSString *str = [NSString stringWithFormat:@"打包购买￥%@",price];
-//            btnLabel.text = [NSString stringWithFormat:@"打包购买￥%@",price];
+            NSString *str = [NSString stringWithFormat:@"打包购买%@",price];
+//            btnLabel.text = [NSString stringWithFormat:@"打包购买讲解点%@",price];
             btnLabel.textAlignment = NSTextAlignmentCenter;
             btnLabel.font = SYSTEMFONT(14);
             
@@ -1376,31 +1379,57 @@
 }
 
 -(void)buyPackage:(UIGestureRecognizer *)recog{
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    if (!userInfo) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"购买讲解点" message:@"游客登录购买系统为当前设备随机分配账号登录购买" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"登录购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self performBlock:^{
+                [self.navigationController popToRootViewControllerAnimated:NO];
+                NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            } afterDelay:1.5];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"游客登录购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSString *randomAccount = [Util generateRandomString];
+            DLog(@"%@",randomAccount);
+            [self registerRandomAccount:randomAccount];
+        }];
+        UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alert addAction:action1];
+        [alert addAction:action2];
+        [alert addAction:action3];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
+    
     NSDictionary *package = [thirdDataSource objectAtIndex:recog.view.tag];
     DLog(@"%@",package);
     NSString *price = [package objectForKey:@"price"];
     NSString *SUBJECT_NAME = [package objectForKey:@"SUBJECT_NAME"];
     NSString *SUBJECT_ID = [package objectForKey:@"SUBJECT_ID"];
     
-    NSString *title = [NSString stringWithFormat:@"确认花费%@元打包购买%@吗?",price,SUBJECT_NAME];
+    NSString *title = [NSString stringWithFormat:@"确认花费%@讲解点打包购买%@吗?",price,SUBJECT_NAME];
 
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:title preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择支付方式" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self alipayPayByPackage:SUBJECT_ID];
-        }];
-        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self weixinPayByPackage:SUBJECT_ID];
-        }];
+//        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [self alipayPayByPackage:SUBJECT_ID];
+//        }];
+//        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [self weixinPayByPackage:SUBJECT_ID];
+//        }];
         UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"余额" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self yuePayByPackage:SUBJECT_ID];
         }];
         UIAlertAction *action4 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-        [alert addAction:action1];
-        [alert addAction:action2];
+//        [alert addAction:action1];
+//        [alert addAction:action2];
         [alert addAction:action3];
         [alert addAction:action4];
         [self presentViewController:alert animated:YES completion:nil];
@@ -1420,10 +1449,7 @@
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     
-    if (!userInfo) {
-        [self showHintInView:self.view hint:@"请先登录"];
-        return;
-    }
+    
     [self showHudInView:self.view];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];

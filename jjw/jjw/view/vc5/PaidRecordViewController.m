@@ -200,7 +200,7 @@
         cell.payTypeLabel.textColor = RGB(0, 128, 0);
     }
     cell.statusLabel.text = [NSString stringWithFormat:@"%@：",payType];
-    cell.moneyLabel.text = [NSString stringWithFormat:@"￥%@",money];
+    cell.moneyLabel.text = [NSString stringWithFormat:@"讲解点%@",money];
     cell.timeLabel.text = time;
     
     

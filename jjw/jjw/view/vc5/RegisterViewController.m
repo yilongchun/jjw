@@ -210,7 +210,6 @@
         [self hideHud];
         DLog(@"%@",error.description);
     }];
-
 }
 
 - (void)didReceiveMemoryWarning {

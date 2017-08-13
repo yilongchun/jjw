@@ -15,6 +15,8 @@
 #import "SRVideoPlayer.h"
 #import "NSObject+Blocks.h"
 #import "OpenShareHeader.h"
+#import "Util.h"
+#import "UIViewController+RegisterRandomAccount.h"
 
 @interface ClassDetailViewController ()<SegmentDelegate>{
     NSDictionary *courseInfo;
@@ -154,7 +156,7 @@
                 NSArray *mp4Arr = [responseObject objectForKey:@"mp4"];
                 if (mp4Arr.count > 0) {
                     NSString *mp4 = [mp4Arr objectAtIndex:0];
-                    UIView *playerView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 230)];
+                    UIView *playerView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 250)];
                     [self.view addSubview:playerView];
                     _videoPlayer = [SRVideoPlayer playerWithVideoURL:[NSURL URLWithString:mp4] playerView:playerView playerSuperView:playerView.superview];
                     _videoPlayer.videoName = [course_info objectForKey:@"TITLE"];
@@ -340,18 +342,32 @@
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     
     if (!userInfo) {
-        [self showHintInView:self.view hint:@"请先登录"];
-        [self performBlock:^{
-            [self.navigationController popToRootViewControllerAnimated:NO];
-            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-        } afterDelay:1.5];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"购买讲解点" message:@"游客登录购买系统为当前设备随机分配账号登录购买" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"登录购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self performBlock:^{
+                [self.navigationController popToRootViewControllerAnimated:NO];
+                NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            } afterDelay:1.5];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"游客登录购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSString *randomAccount = [Util generateRandomString];
+            DLog(@"%@",randomAccount);
+            [self registerRandomAccount:randomAccount];
+        }];
+        UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alert addAction:action1];
+        [alert addAction:action2];
+        [alert addAction:action3];
+        [self presentViewController:alert animated:YES completion:nil];
         return;
     }
     
     NSDictionary *course_info = [courseInfo objectForKey:@"course_info"];
     NSString *currentPrice = [course_info objectForKey:@"CURRENT_PRICE"];
-    NSString *message = [NSString stringWithFormat:@"确认花费%@元购买本课程吗？",currentPrice];
+    NSString *message = [NSString stringWithFormat:@"确认花费%@讲解点购买本课程吗？",currentPrice];
     
     if (btn.tag == 1) {//余额支付
         
@@ -395,7 +411,7 @@
         
         
         NSString *pack_price = [course_info objectForKey:@"pack_price"];
-        message = [NSString stringWithFormat:@"确认花费%@元购买本课程吗？",pack_price];
+        message = [NSString stringWithFormat:@"确认花费%@讲解点购买本课程吗？",pack_price];
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
@@ -470,7 +486,7 @@
                 [obj removeFromSuperview];
             }];
             [self loadData];
-            [self loadPinglun];
+//            [self loadPinglun];
             
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
             
@@ -535,7 +551,7 @@
                     [obj removeFromSuperview];
                 }];
                 [self loadData];
-                [self loadPinglun];
+//                [self loadPinglun];
                 
                 
             } Fail:^(NSDictionary *message, NSError *error) {
@@ -609,7 +625,7 @@
                     [obj removeFromSuperview];
                 }];
                 [self loadData];
-                [self loadPinglun];
+//                [self loadPinglun];
                 
                 
             } Fail:^(NSDictionary *message, NSError *error) {
@@ -678,7 +694,7 @@
                     [obj removeFromSuperview];
                 }];
                 [self loadData];
-                [self loadPinglun];
+//                [self loadPinglun];
                 
                 
             } Fail:^(NSDictionary *message, NSError *error) {
@@ -744,7 +760,7 @@
                     [obj removeFromSuperview];
                 }];
                 [self loadData];
-                [self loadPinglun];
+//                [self loadPinglun];
                 
                 
             } Fail:^(NSDictionary *message, NSError *error) {
@@ -775,16 +791,8 @@
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     
-    if (!userInfo) {
-        [self showHintInView:self.view hint:@"请先登录"];
-        [self performBlock:^{
-            [self.navigationController popToRootViewControllerAnimated:NO];
-            NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
-            [[NSNotificationCenter defaultCenter] postNotification:notification];
-        } afterDelay:1.5];
-        return;
-    }
     
+
     [self showHudInView:self.view];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
@@ -809,7 +817,7 @@
                 [obj removeFromSuperview];
             }];
             [self loadData];
-            [self loadPinglun];
+//            [self loadPinglun];
             
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
             
@@ -929,7 +937,7 @@
                 [_myScrollView addSubview:packageBtn];
                 
                 UILabel *priceLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(packageBtn.frame), CGRectGetMinY(packageBtn.frame)+6, 0, 0)];
-                priceLabel.text = [NSString stringWithFormat:@"￥%@",price];
+                priceLabel.text = [NSString stringWithFormat:@"讲解点%@",price];
                 priceLabel.textColor = RGB(255, 153, 0);
                 priceLabel.font = BOLDSYSTEMFONT(14);
                 [priceLabel sizeToFit];
@@ -994,7 +1002,7 @@
     UILabel *price = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(priceLabel.frame) + 2, CGRectGetMinY(priceLabel.frame), 0, 0)];
     price.font = SYSTEMFONT(12);
     price.textColor = RGB(255, 153, 0);
-    price.text = [NSString stringWithFormat:@"￥%@",currentPrice];
+    price.text = [NSString stringWithFormat:@"讲解点%@",currentPrice];
     [price sizeToFit];
     [_myScrollView addSubview:price];
     
@@ -1066,7 +1074,7 @@
             maxY = CGRectGetMaxY(label.frame);
             [_myScrollView addSubview:label];
         }else{
-            CGFloat btnWidth = (Main_Screen_Width - 40)/3;
+            CGFloat btnWidth = (Main_Screen_Width - 20)/1;
             //余额支付
             UIButton *yueBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
             [yueBtn setTitle:@"余额支付" forState:UIControlStateNormal];
@@ -1078,7 +1086,7 @@
             [yueBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
             [_myScrollView addSubview:yueBtn];
             
-            //支付宝支付
+//            //支付宝支付
             UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
             [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
             [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -1087,10 +1095,12 @@
             ViewRadius(zhifubaoBtn, 5);
             zhifubaoBtn.tag = 2;
             [zhifubaoBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-            [_myScrollView addSubview:zhifubaoBtn];
+//            [_myScrollView addSubview:zhifubaoBtn];
+            
+            CGFloat btnWidth2 = (Main_Screen_Width - 40)/3;
             
             //加入购物车
-            UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
+            UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(Main_Screen_Width - 10 - btnWidth2, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth2, 32)];
             [addBtn setTitle:@"加入购物车" forState:UIControlStateNormal];
             [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             addBtn.titleLabel.font = SYSTEMFONT(15);
@@ -1121,7 +1131,7 @@
             
             maxY = CGRectGetMaxY(yueBtn.frame);
         }else{
-            CGFloat btnWidth = (Main_Screen_Width - 40)/3;
+            CGFloat btnWidth = (Main_Screen_Width - 20)/1;
             //余额支付
             UIButton *yueBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
             [yueBtn setTitle:@"余额支付" forState:UIControlStateNormal];
@@ -1133,30 +1143,30 @@
             [yueBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
             [_myScrollView addSubview:yueBtn];
             
-            //支付宝支付
-            UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
-            [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
-            [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            zhifubaoBtn.titleLabel.font = SYSTEMFONT(15);
-            [zhifubaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-            ViewRadius(zhifubaoBtn, 5);
-            zhifubaoBtn.tag = 2;
-            [zhifubaoBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-            [_myScrollView addSubview:zhifubaoBtn];
-            
-            //微信支付
-            UIButton *weixinBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
-            [weixinBtn setTitle:@"微信支付" forState:UIControlStateNormal];
-            [weixinBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            weixinBtn.titleLabel.font = SYSTEMFONT(15);
-            [weixinBtn setBackgroundImage:[UIImage imageWithColor:RGB(85, 183, 55) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-            ViewRadius(weixinBtn, 5);
-            weixinBtn.tag = 3;
-            [weixinBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-            [_myScrollView addSubview:weixinBtn];
-            
+//            //支付宝支付
+//            UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
+//            [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
+//            [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            zhifubaoBtn.titleLabel.font = SYSTEMFONT(15);
+//            [zhifubaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+//            ViewRadius(zhifubaoBtn, 5);
+//            zhifubaoBtn.tag = 2;
+//            [zhifubaoBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+//            [_myScrollView addSubview:zhifubaoBtn];
+//            
+//            //微信支付
+//            UIButton *weixinBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10 + 40, btnWidth, 32)];
+//            [weixinBtn setTitle:@"微信支付" forState:UIControlStateNormal];
+//            [weixinBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            weixinBtn.titleLabel.font = SYSTEMFONT(15);
+//            [weixinBtn setBackgroundImage:[UIImage imageWithColor:RGB(85, 183, 55) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+//            ViewRadius(weixinBtn, 5);
+//            weixinBtn.tag = 3;
+//            [weixinBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+//            [_myScrollView addSubview:weixinBtn];
+            CGFloat btnWidth2 = (Main_Screen_Width - 40)/3;
             //加入购物车
-            UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth, 32)];
+            UIButton *addBtn = [[UIButton alloc] initWithFrame:CGRectMake(Main_Screen_Width - 10 - btnWidth2, CGRectGetMaxY(playNumLabel.frame) + 10, btnWidth2, 32)];
             [addBtn setTitle:@"加入购物车" forState:UIControlStateNormal];
             [addBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             addBtn.titleLabel.font = SYSTEMFONT(15);
@@ -1165,7 +1175,7 @@
             [addBtn addTarget:self action:@selector(addGoodToCard) forControlEvents:UIControlEventTouchUpInside];
             [_myScrollView addSubview:addBtn];
             
-            maxY = CGRectGetMaxY(weixinBtn.frame);
+            maxY = CGRectGetMaxY(yueBtn.frame);
         }
         
         

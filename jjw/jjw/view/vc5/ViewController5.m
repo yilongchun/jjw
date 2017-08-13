@@ -24,6 +24,7 @@
 #import "UIImageView+AFNetworking.h"
 #import "RechargeViewController.h"
 #import "RegisterViewController.h"
+#import "ChongzhiViewController.h"
 
 @interface ViewController5 (){
     UIImageView *headImageView;
@@ -410,7 +411,8 @@
 }
 
 -(void)toPay{
-    RechargeViewController *vc = [[RechargeViewController alloc] init];
+//    RechargeViewController *vc = [[RechargeViewController alloc] init];
+    ChongzhiViewController *vc = [[ChongzhiViewController alloc] init];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }

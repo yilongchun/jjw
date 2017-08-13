@@ -127,7 +127,7 @@
     cell.label1.text = ORDER_NO;
     cell.label2.text = f_desc;
     cell.label3.text = CREATE_TIME;
-    cell.label4.text = [NSString stringWithFormat:@"￥%@",money];
+    cell.label4.text = [NSString stringWithFormat:@"讲解点%@",money];
     
     
     return cell;

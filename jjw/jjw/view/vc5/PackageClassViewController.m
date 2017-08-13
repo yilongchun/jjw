@@ -562,7 +562,7 @@
             cell.orderNo.text = f_order_sn;
             cell.desLabel.text = f_desc;
             cell.dateLabel.text = f_expire_time;
-            cell.priceLabel.text = [NSString stringWithFormat:@"￥%@",f_money];
+            cell.priceLabel.text = [NSString stringWithFormat:@"讲解点%@",f_money];
             return cell;
         }else{
             if ([expand isEqualToString:@"1"]){
@@ -609,7 +609,7 @@
             cell.orderNo.text = f_order_sn;
             cell.desLabel.text = f_desc;
             cell.dateLabel.text = f_expire_time;
-            cell.priceLabel.text = [NSString stringWithFormat:@"￥%@",f_money];
+            cell.priceLabel.text = [NSString stringWithFormat:@"讲解点%@",f_money];
             return cell;
         }else{
             if ([expand isEqualToString:@"1"]){
@@ -656,7 +656,7 @@
             cell.orderNo.text = f_order_sn;
             cell.desLabel.text = f_desc;
             cell.dateLabel.text = f_expire_time;
-            cell.priceLabel.text = [NSString stringWithFormat:@"￥%@",f_money];
+            cell.priceLabel.text = [NSString stringWithFormat:@"讲解点%@",f_money];
             return cell;
         }else{
             if ([expand isEqualToString:@"1"]){

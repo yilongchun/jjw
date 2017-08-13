@@ -73,10 +73,10 @@
             [tableFooterView addSubview:totalMoney];
             totalMoney.font = SYSTEMFONT(14);
             totalMoney.textColor = RGB(51, 51, 51);
-            totalMoney.text = [NSString stringWithFormat:@"总额:￥%@",[result objectForKey:@"total"]];
+            totalMoney.text = [NSString stringWithFormat:@"总额:讲解点%@",[result objectForKey:@"total"]];
             totalMoney.textAlignment = NSTextAlignmentCenter;
             
-            CGFloat btnWidth = (Main_Screen_Width - 60)/3;
+            CGFloat btnWidth = (Main_Screen_Width - 40)/1;
             //余额支付
             UIButton *yueBtn = [[UIButton alloc] initWithFrame:CGRectMake(10, 40, btnWidth, 32)];
             [yueBtn setTitle:@"余额支付" forState:UIControlStateNormal];
@@ -88,27 +88,27 @@
             [yueBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
             [tableFooterView addSubview:yueBtn];
             
-            //支付宝支付
-            UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueBtn.frame) + 10, 40, btnWidth, 32)];
-            [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
-            [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            zhifubaoBtn.titleLabel.font = SYSTEMFONT(15);
-            [zhifubaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-            ViewRadius(zhifubaoBtn, 5);
-            zhifubaoBtn.tag = 2;
-            [zhifubaoBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-            [tableFooterView addSubview:zhifubaoBtn];
-            
-            //微信支付
-            UIButton *weixinBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, 40, btnWidth, 32)];
-            [weixinBtn setTitle:@"微信支付" forState:UIControlStateNormal];
-            [weixinBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            weixinBtn.titleLabel.font = SYSTEMFONT(15);
-            [weixinBtn setBackgroundImage:[UIImage imageWithColor:RGB(85, 183, 55) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
-            ViewRadius(weixinBtn, 5);
-            weixinBtn.tag = 3;
-            [weixinBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-            [tableFooterView addSubview:weixinBtn];
+//            //支付宝支付
+//            UIButton *zhifubaoBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(yueBtn.frame) + 10, 40, btnWidth, 32)];
+//            [zhifubaoBtn setTitle:@"支付宝支付" forState:UIControlStateNormal];
+//            [zhifubaoBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            zhifubaoBtn.titleLabel.font = SYSTEMFONT(15);
+//            [zhifubaoBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+//            ViewRadius(zhifubaoBtn, 5);
+//            zhifubaoBtn.tag = 2;
+//            [zhifubaoBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+//            [tableFooterView addSubview:zhifubaoBtn];
+//            
+//            //微信支付
+//            UIButton *weixinBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMaxX(zhifubaoBtn.frame) + 10, 40, btnWidth, 32)];
+//            [weixinBtn setTitle:@"微信支付" forState:UIControlStateNormal];
+//            [weixinBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//            weixinBtn.titleLabel.font = SYSTEMFONT(15);
+//            [weixinBtn setBackgroundImage:[UIImage imageWithColor:RGB(85, 183, 55) size:CGSizeMake(1, 1)] forState:UIControlStateNormal];
+//            ViewRadius(weixinBtn, 5);
+//            weixinBtn.tag = 3;
+//            [weixinBtn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+//            [tableFooterView addSubview:weixinBtn];
             
             _myTableView.tableFooterView = tableFooterView;
             
@@ -379,7 +379,7 @@
     NSString *f_create_time = [info objectForKey:@"f_create_time"];
     
     cell.nameLabel.text = COURSE_NAME;
-    cell.priceLabel.text = [NSString stringWithFormat:@"￥%@",CURRENT_PRICE];
+    cell.priceLabel.text = [NSString stringWithFormat:@"讲解点%@",CURRENT_PRICE];
     cell.dateLabel.text = f_create_time;
     cell.delBtn.tag = indexPath.row;
     [cell.delBtn addTarget:self action:@selector(del:) forControlEvents:UIControlEventTouchUpInside];

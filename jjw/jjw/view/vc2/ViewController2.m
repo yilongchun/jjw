@@ -1163,7 +1163,7 @@
     cell.titleLabel.text = TITLE;
     cell.lessionNumLabel.text = LESSION_NUM;
     cell.playTimesLabel.text = play_times;
-    cell.priceLabel.text = [NSString stringWithFormat:@"￥%@",CURRENT_PRICE];
+    cell.priceLabel.text = [NSString stringWithFormat:@"讲解点%@",CURRENT_PRICE];
     return cell;
 }
 
