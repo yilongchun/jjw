@@ -143,7 +143,7 @@
     
     [self showHudInView:self.view];
     NSNumber *money = [dataSource objectAtIndex:index];
-    NSString *moneyId = [NSString stringWithFormat:@"yc.jjw.%d",[money intValue]];
+    NSString *moneyId = [NSString stringWithFormat:@"com.yc.jjw.%d",[money intValue]];
     
     // 7.这里的com.czchat.CZChat01就对应着苹果后台的商品ID,他们是通过这个ID进行联系的。
     NSArray *product = [[NSArray alloc] initWithObjects:moneyId,nil];
@@ -168,7 +168,7 @@
     }
     
     NSNumber *money = [dataSource objectAtIndex:index];
-    NSString *moneyId = [NSString stringWithFormat:@"yc.jjw.%d",[money intValue]];
+    NSString *moneyId = [NSString stringWithFormat:@"com.yc.jjw.%d",[money intValue]];
     
     SKProduct *requestProduct = nil;
     for (SKProduct *pro in product) {

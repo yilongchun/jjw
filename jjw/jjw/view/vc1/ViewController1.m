@@ -1476,7 +1476,7 @@
 //            }];
 //            [self loadData];
 //            [self loadPinglun];
-            
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"loadUserInfo" object:nil userInfo:nil]];
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
             
         }else{
