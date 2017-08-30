@@ -432,10 +432,10 @@
             [self showHintInView:self.view hint:@"请填写点播内容"];
             return;
         }
-//        if (selectedArray.count == 0) {
-//            [self showHintInView:self.view hint:@"请选择至少一个讲解老师"];
-//            return;
-//        }
+        if (selectedArray.count == 0) {
+            [self showHintInView:self.view hint:@"请选择至少一个讲解老师"];
+            return;
+        }
         
         NSMutableDictionary *param = [NSMutableDictionary dictionary];
         [param setObject:[user objectForKey:@"USER_ID"] forKey:@"uid"];
@@ -444,7 +444,7 @@
         [param setObject:[chapterArray[chapterSelect] objectForKey:@"SUBJECT_ID"] forKey:@"chapter"];
         [param setObject:textView.text forKey:@"content"];
         
-        if (selectedArray.count > 0) {
+       
             NSMutableArray *selectedTeacher = [NSMutableArray array];
             for (int i = 0 ;i < selectedArray.count; i++) {
                 NSDictionary *teacher = [selectedArray objectAtIndex:i];
@@ -452,9 +452,7 @@
                 [selectedTeacher addObject:teacherid];
             }
             [param setObject:[selectedTeacher componentsJoinedByString:@","] forKey:@"teacher_ids"];
-        }else{
-            [param setObject:@"" forKey:@"teacher_ids"];
-        }
+        
         
         DLog(@"%@",param);
         
