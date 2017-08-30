@@ -206,7 +206,7 @@
     NSString *courseName = [info objectForKey:@"COURSE_NAME"];
     NSString *date = [info objectForKey:@"ADD_TIME"];
     cell.label1.text = courseName;
-    cell.label2.text = [NSString stringWithFormat:@"%@收藏", date];
+    cell.label2.text = [NSString stringWithFormat:@"%@ 收藏", date];
     
     cell.btn.tag = indexPath.row;
     [cell.btn addTarget:self action:@selector(delFav:) forControlEvents:UIControlEventTouchUpInside];

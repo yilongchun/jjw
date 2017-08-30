@@ -123,7 +123,7 @@
     
     
     UILabel *xieyi = [[UILabel alloc] initWithFrame:CGRectMake(30, CGRectGetMaxY(passwordLabel2.frame) + 30, 0, 0)];
-    xieyi.text = @"我同意《微课堂视频视频网站使用协议》";
+    xieyi.text = @"我同意《讲解王用户注册协议》";
     xieyi.font = SYSTEMFONT(13);
     xieyi.textColor = RGB(0, 150, 230);
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(showXieyi)];

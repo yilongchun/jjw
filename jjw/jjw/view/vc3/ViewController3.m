@@ -205,7 +205,7 @@
     [label5 sizeToFit];
     [contentView addSubview:label5];
     
-    selectedTeacherView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label5.frame) + 10, CGRectGetMinY(label5.frame), Main_Screen_Width - CGRectGetMaxX(label5.frame) - 20, CGRectGetHeight(label5.frame))];
+    selectedTeacherView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(label5.frame) + 10, CGRectGetMinY(label5.frame), Main_Screen_Width - CGRectGetMaxX(label5.frame) - 40, CGRectGetHeight(label5.frame))];
 //    selectedTeacherView.backgroundColor = [UIColor grayColor];
     [contentView addSubview:selectedTeacherView];
     
@@ -388,11 +388,11 @@
             x = CGRectGetMaxX(teacherLabel.frame) + 10;
         }
     }else{
-        UILabel *teacherLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        UILabel *teacherLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(selectedTeacherView.frame), CGRectGetHeight(selectedTeacherView.frame))];
         teacherLabel.text = @"请选择标签，最多选3个标签哦~";
         teacherLabel.font = SYSTEMFONT(15);
         teacherLabel.textColor = RGB(170, 170, 170);
-        [teacherLabel sizeToFit];
+        teacherLabel.adjustsFontSizeToFitWidth = YES;
         [selectedTeacherView addSubview:teacherLabel];
     }
    
@@ -432,10 +432,10 @@
             [self showHintInView:self.view hint:@"请填写点播内容"];
             return;
         }
-        if (selectedArray.count == 0) {
-            [self showHintInView:self.view hint:@"请选择至少一个讲解老师"];
-            return;
-        }
+//        if (selectedArray.count == 0) {
+//            [self showHintInView:self.view hint:@"请选择至少一个讲解老师"];
+//            return;
+//        }
         
         NSMutableDictionary *param = [NSMutableDictionary dictionary];
         [param setObject:[user objectForKey:@"USER_ID"] forKey:@"uid"];
@@ -444,13 +444,18 @@
         [param setObject:[chapterArray[chapterSelect] objectForKey:@"SUBJECT_ID"] forKey:@"chapter"];
         [param setObject:textView.text forKey:@"content"];
         
-        NSMutableArray *selectedTeacher = [NSMutableArray array];
-        for (int i = 0 ;i < selectedArray.count; i++) {
-            NSDictionary *teacher = [selectedArray objectAtIndex:i];
-            NSString *teacherid = [teacher objectForKey:@"ID"];
-            [selectedTeacher addObject:teacherid];
+        if (selectedArray.count > 0) {
+            NSMutableArray *selectedTeacher = [NSMutableArray array];
+            for (int i = 0 ;i < selectedArray.count; i++) {
+                NSDictionary *teacher = [selectedArray objectAtIndex:i];
+                NSString *teacherid = [teacher objectForKey:@"ID"];
+                [selectedTeacher addObject:teacherid];
+            }
+            [param setObject:[selectedTeacher componentsJoinedByString:@","] forKey:@"teacher_ids"];
+        }else{
+            [param setObject:@"" forKey:@"teacher_ids"];
         }
-        [param setObject:[selectedTeacher componentsJoinedByString:@","] forKey:@"teacher_ids"];
+        
         DLog(@"%@",param);
         
         [self showHudInView:self.view];
@@ -600,7 +605,7 @@
             CGFloat x = 0,y = 0;
             for (int i = 0; i < teacherArray.count; i++) {
                 
-                x = 30 + (width + 15) * (i%3);
+                x = 30 + (width + 10) * (i%3);
                 
                 if (i!= 0 && i%3 == 0) {
                     x = 30;

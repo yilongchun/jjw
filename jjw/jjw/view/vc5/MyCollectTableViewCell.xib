@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="99.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="100"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lg1-JT-UL6">
@@ -51,6 +51,7 @@
                     <constraint firstItem="QTR-Qr-LWe" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="eDK-tP-Qlh"/>
                     <constraint firstItem="Shg-DH-VgW" firstAttribute="top" secondItem="eBK-9u-i7G" secondAttribute="bottom" constant="8" id="u8g-uQ-qvB"/>
                     <constraint firstItem="Shg-DH-VgW" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="uXK-fM-z1a"/>
+                    <constraint firstItem="QTR-Qr-LWe" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Lg1-JT-UL6" secondAttribute="trailing" constant="10" id="wTF-V4-AdV"/>
                     <constraint firstItem="eBK-9u-i7G" firstAttribute="top" secondItem="Lg1-JT-UL6" secondAttribute="bottom" constant="8" id="zVU-Jj-tDn"/>
                 </constraints>
             </tableViewCellContentView>
