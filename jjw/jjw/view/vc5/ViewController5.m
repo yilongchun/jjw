@@ -288,6 +288,8 @@
         return;
     }
     
+    [self.view endEditing:YES];
+    
     [self showHudInView:self.view];
     
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
