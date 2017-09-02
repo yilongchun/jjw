@@ -146,14 +146,17 @@
         
         tsidIndex = [[param objectForKey:@"kemuIndex"] integerValue];
         self.sigment.defaultIndex = tsidIndex;
-        
+
         NSInteger ttsidIndex = [[param objectForKey:@"bixiuIndex"] integerValue];
         
+        DLog(@"bixiuClick %@",param);
+        
+        [self loadThreeClass:tsid index:(int)ttsidIndex];
         LrdIndexPath *index = [LrdIndexPath indexPathWithColumn:0 row:ttsidIndex];
         [_menu selectIndexPath:index];
         
-        //    [self loadData];
-        DLog(@"%@",param);
+//            [self loadData];
+        
     }
     
     NSDictionary *param2 = [text.userInfo objectForKey:@"param2"];
@@ -542,7 +545,7 @@
                     
                 }
                 loadFourthSubCount = 0;
-                [self showHudInView:self.view];
+//                [self showHudInView:self.view];
                 for (int i = 0; i < fourthDataSource.count; i++) {
                     NSMutableDictionary *dic = fourthDataSource[i];
                     NSString *subjectId = [dic objectForKey:@"SUBJECT_ID"];
@@ -662,7 +665,7 @@
     [param setObject:_searchBar.text forKey:@"search_key"];//搜索关键词
     [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];//当前第几页
     
-    
+    DLog(@"loadData %@",param);
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         [_myCollectionView.mj_header endRefreshing];
         NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
@@ -682,7 +685,7 @@
             }
             
            
-            DLog(@"%@",responseObject);
+//            DLog(@"%@",responseObject);
         }else{
             if ([code isEqualToString:@"401"]){
                 [dataSource removeAllObjects];

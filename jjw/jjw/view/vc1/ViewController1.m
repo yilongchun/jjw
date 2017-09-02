@@ -1379,10 +1379,47 @@
 }
 
 -(void)buyPackage:(UIGestureRecognizer *)recog{
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_open"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSNumber *code = [result objectForKey:@"code"];
+            if ([code boolValue]) {
+                [self buyPackage2:recog flag:[code boolValue]];
+            }else{
+                [self buyPackage2:recog flag:[code boolValue]];
+            }
+        }else{
+            [self buyPackage2:recog flag:YES];
+        }
+        DLog(@"%@",dic);
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+        [self buyPackage2:recog flag:YES];
+    }];
+}
+
+-(void)buyPackage2:(UIGestureRecognizer *)recog flag:(BOOL)flag{
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     if (!userInfo) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"购买讲解点" message:@"游客登录购买系统为当前设备随机分配账号登录购买" preferredStyle:UIAlertControllerStyleAlert];
+        NSString *message = @"";
+        if (flag) {
+            message = @"游客登录购买系统为当前设备随机分配账号登录购买";
+        }else{
+            message = @"需要登录购买讲解点";
+        }
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"购买讲解点" message:message preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"登录购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self performBlock:^{
                 [self.navigationController popToRootViewControllerAnimated:NO];
@@ -1399,7 +1436,10 @@
             
         }];
         [alert addAction:action1];
-        [alert addAction:action2];
+        if (flag) {
+            [alert addAction:action2];
+        }
+        
         [alert addAction:action3];
         [self presentViewController:alert animated:YES completion:nil];
         return;
@@ -1412,24 +1452,24 @@
     NSString *SUBJECT_ID = [package objectForKey:@"SUBJECT_ID"];
     
     NSString *title = [NSString stringWithFormat:@"确认花费%@讲解点打包购买%@吗?",price,SUBJECT_NAME];
-
+    
     
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:title preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择支付方式" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-//        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            [self alipayPayByPackage:SUBJECT_ID];
-//        }];
-//        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            [self weixinPayByPackage:SUBJECT_ID];
-//        }];
+        //        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //            [self alipayPayByPackage:SUBJECT_ID];
+        //        }];
+        //        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //            [self weixinPayByPackage:SUBJECT_ID];
+        //        }];
         UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"余额" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self yuePayByPackage:SUBJECT_ID];
         }];
         UIAlertAction *action4 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-//        [alert addAction:action1];
-//        [alert addAction:action2];
+        //        [alert addAction:action1];
+        //        [alert addAction:action2];
         [alert addAction:action3];
         [alert addAction:action4];
         [self presentViewController:alert animated:YES completion:nil];
@@ -1439,10 +1479,6 @@
     [alert addAction:action2];
     [alert addAction:action1];
     [self presentViewController:alert animated:YES completion:nil];
-    
-    
-    
-    
 }
 
 -(void)yuePayByPackage:(NSString *)subjectId{

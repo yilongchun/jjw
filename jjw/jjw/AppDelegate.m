@@ -11,6 +11,16 @@
 #import "IQKeyboardManager.h"
 #import "OpenShareHeader.h"
 
+#import <ShareSDK/ShareSDK.h>
+#import <ShareSDKConnector/ShareSDKConnector.h>
+//腾讯开放平台（对应QQ和QQ空间）SDK头文件
+#import <TencentOpenAPI/TencentOAuth.h>
+#import <TencentOpenAPI/QQApiInterface.h>
+//微信SDK头文件
+#import "WXApi.h"
+//新浪微博SDK需要在项目Build Settings中的Other Linker Flags添加”-ObjC”
+
+
 @interface AppDelegate ()
 
 @end
@@ -31,6 +41,8 @@
     manager.enableAutoToolbar = NO;
     
     
+    [self registerShareSDK];
+    
     MainTabBarController *vc = [[MainTabBarController alloc] init];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -38,6 +50,46 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+-(void)registerShareSDK{
+    [ShareSDK registerActivePlatforms:@[
+                                        @(SSDKPlatformTypeCopy),
+                                        @(SSDKPlatformTypeWechat),
+                                        @(SSDKPlatformTypeQQ)
+                                        ]
+                             onImport:^(SSDKPlatformType platformType)
+     {
+         switch (platformType)
+         {
+             case SSDKPlatformTypeWechat:
+                 [ShareSDKConnector connectWeChat:[WXApi class]];
+                 break;
+             case SSDKPlatformTypeQQ:
+                 [ShareSDKConnector connectQQ:[QQApiInterface class] tencentOAuthClass:[TencentOAuth class]];
+                 break;
+             default:
+                 break;
+         }
+     }
+                      onConfiguration:^(SSDKPlatformType platformType, NSMutableDictionary *appInfo)
+     {
+         switch (platformType)
+         {
+             
+             case SSDKPlatformTypeWechat:
+                 [appInfo SSDKSetupWeChatByAppId:@"wxc01e48ca5fe9c5c5"
+                                       appSecret:@"bacea975d1aa133842c82c482f3fc3df"];
+                 break;
+             case SSDKPlatformTypeQQ:
+                 [appInfo SSDKSetupQQByAppId:@"1106383012"
+                                      appKey:@"2bNw8yAw8QJhy0NR"
+                                    authType:SSDKAuthTypeBoth];
+                 break;
+             default:
+                   break;
+                   }
+                   }];
 }
 
 -(BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation{

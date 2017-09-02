@@ -111,6 +111,37 @@
     
 }
 
+//添加学习记录
+-(void)addStudyLog:(NSString *)uid course_id:(NSString *)course_id{
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:uid forKey:@"uid"];
+    [param setObject:course_id forKey:@"course_id"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/course/add_study_log"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        
+        
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        DLog(@"%@",dic);
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+//            NSDictionary *result = [dic objectForKey:@"result"];
+            
+            
+        }else{
+            
+        }
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+//        DLog(@"%@",error.localizedDescription);
+    }];
+}
+
 - (void)showVideoPlayer {
     
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
@@ -131,6 +162,8 @@
     NSDictionary *course_info = [courseInfo objectForKey:@"course_info"];
     NSNumber *isBuy = [courseInfo objectForKey:@"is_buy"];
     NSString *expire_time = [courseInfo objectForKey:@"expire_time"];
+    
+    
     
     
     
@@ -163,6 +196,12 @@
                     _videoPlayer.playerEndAction = SRVideoPlayerEndActionLoop;
                     
                     [_videoPlayer play];
+                    
+                    
+                    NSString *uid = [userInfo objectForKey:@"USER_ID"];
+                    [self addStudyLog:uid course_id:_courseId];
+                    
+                    
                 }else{
                     [self showHintInView:self.view hint:@"获取视频失败"];
                 }
@@ -338,11 +377,50 @@
 }
 
 -(void)btnClick:(UIButton *)btn{
+    
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_open"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSNumber *code = [result objectForKey:@"code"];
+            if ([code boolValue]) {
+                [self btnClick2:btn flag:[code boolValue]];
+            }else{
+                [self btnClick2:btn flag:[code boolValue]];
+            }
+        }else{
+            [self btnClick2:btn flag:YES];
+        }
+        DLog(@"%@",dic);
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+        [self btnClick2:btn flag:YES];
+    }];
+}
+
+-(void)btnClick2:(UIButton *)btn flag:(BOOL)flag{
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     
     if (!userInfo) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"购买讲解点" message:@"游客登录购买系统为当前设备随机分配账号登录购买" preferredStyle:UIAlertControllerStyleAlert];
+        NSString *message = @"";
+        if (flag) {
+            message = @"游客登录购买系统为当前设备随机分配账号登录购买";
+        }else{
+            message = @"需要登录购买讲解点";
+        }
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"购买讲解点" message:message preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"登录购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self performBlock:^{
                 [self.navigationController popToRootViewControllerAnimated:NO];
@@ -359,7 +437,10 @@
             
         }];
         [alert addAction:action1];
-        [alert addAction:action2];
+        if (flag) {
+            [alert addAction:action2];
+        }
+        
         [alert addAction:action3];
         [self presentViewController:alert animated:YES completion:nil];
         return;
@@ -383,10 +464,10 @@
         [self presentViewController:alert animated:YES completion:nil];
         
     }else if (btn.tag == 2){//支付宝支付
-//        NSString *apiUrl = @"";
-//        //网络请求不要阻塞UI，仅限Demo
-//        NSData *data=[NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:apiUrl]] returningResponse:nil error:nil];
-//        NSString *link=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
+        //        NSString *apiUrl = @"";
+        //        //网络请求不要阻塞UI，仅限Demo
+        //        NSData *data=[NSURLConnection sendSynchronousRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:apiUrl]] returningResponse:nil error:nil];
+        //        NSString *link=[[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
         
         
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
@@ -436,9 +517,6 @@
         [alert addAction:action2];
         [alert addAction:action1];
         [self presentViewController:alert animated:YES completion:nil];
-        
-        
-        
     }
 }
 
@@ -788,11 +866,73 @@
 
 //余额支付
 -(void)payByYue{
+    
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_open"];
+    [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSNumber *code = [result objectForKey:@"code"];
+            if ([code boolValue]) {
+                [self payByYue2:[code boolValue]];
+            }else{
+                [self payByYue2:[code boolValue]];
+            }
+        }else{
+            [self payByYue2:YES];
+        }
+        DLog(@"%@",dic);
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [self hideHud];
+        DLog(@"%@",error.description);
+        [self payByYue2:YES];
+    }];
+}
+
+-(void)payByYue2:(BOOL)flag{
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     
+    if (!userInfo) {
+        NSString *message = @"";
+        if (flag) {
+            message = @"游客登录购买系统为当前设备随机分配账号登录购买";
+        }else{
+            message = @"需要登录购买讲解点";
+        }
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"购买讲解点" message:message preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"登录购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self performBlock:^{
+                [self.navigationController popToRootViewControllerAnimated:NO];
+                NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"a":@"4"}];
+                [[NSNotificationCenter defaultCenter] postNotification:notification];
+            } afterDelay:1.5];
+        }];
+        UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"游客登录购买" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSString *randomAccount = [Util generateRandomString];
+            DLog(@"%@",randomAccount);
+            [self registerRandomAccount:randomAccount];
+        }];
+        UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alert addAction:action1];
+        if (flag) {
+            [alert addAction:action2];
+        }
+        [alert addAction:action3];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+    }
     
-
     [self showHudInView:self.view];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
@@ -817,7 +957,7 @@
                 [obj removeFromSuperview];
             }];
             [self loadData];
-//            [self loadPinglun];
+            //            [self loadPinglun];
             [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"loadUserInfo" object:nil userInfo:nil]];
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
             
