@@ -1092,26 +1092,27 @@
         NSString *subjectName = [dic objectForKey:@"SUBJECT_NAME"];
         NSNumber *isPack = [dic objectForKey:@"is_pack"];
         NSString *price = [dic objectForKey:@"price"];
-        NSNumber *course_num = [dic objectForKey:@"course_num"];
+//        NSNumber *course_num = [dic objectForKey:@"course_num"];
         DLog(@"%@",dic);
         
         UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(x + 5, 10, 130, 80)];
-        [btn setTitle:[NSString stringWithFormat:@"%@%@\n共%d节",name,subjectName,[course_num intValue]] forState:UIControlStateNormal];
-        btn.titleLabel.numberOfLines = 0;
+        [btn setTitle:[NSString stringWithFormat:@"%@%@",name,subjectName] forState:UIControlStateNormal];
+//        [btn setTitle:[NSString stringWithFormat:@"%@%@\n共%d节",name,subjectName,[course_num intValue]] forState:UIControlStateNormal];
+        btn.titleLabel.numberOfLines = 1;
         [btn setBackgroundImage:[UIImage imageWithColor:RGB(86, 189, 238) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
         ViewBorderRadius(btn, 10, 0, [UIColor whiteColor]);
-        NSString *btnStr = btn.titleLabel.text;
-        NSRange range = [btnStr rangeOfString:@"\n"];
+//        NSString *btnStr = btn.titleLabel.text;
+//        NSRange range = [btnStr rangeOfString:@"\n"];
         //字体
-        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc]initWithString:btnStr];
-        [noteStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17] range:NSMakeRange(0, range.location)];
-        [noteStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(range.location, btnStr.length - range.location)];
-        //行间距
-        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-        [paragraphStyle setLineSpacing:5];//调整行间距
-        [paragraphStyle setAlignment:NSTextAlignmentCenter];
-        [noteStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [btnStr length])];
-        btn.titleLabel.attributedText = noteStr;
+//        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc]initWithString:btnStr];
+//        [noteStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:17] range:NSMakeRange(0, range.location)];
+//        [noteStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:14] range:NSMakeRange(range.location, btnStr.length - range.location)];
+//        //行间距
+//        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+//        [paragraphStyle setLineSpacing:5];//调整行间距
+//        [paragraphStyle setAlignment:NSTextAlignmentCenter];
+//        [noteStr addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [btnStr length])];
+//        btn.titleLabel.attributedText = noteStr;
         btn.tag = i;
         [btn addTarget:self action:@selector(bixiuClick:) forControlEvents:UIControlEventTouchUpInside];
         [bixiuScrollView addSubview:btn];

@@ -497,18 +497,18 @@
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:message preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"购买" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择支付方式" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self alipayPayByPackage];
-            }];
-            UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self weixinPayByPackage];
-            }];
+//            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"支付宝" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                [self alipayPayByPackage];
+//            }];
+//            UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"微信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//                [self weixinPayByPackage];
+//            }];
             UIAlertAction *action3 = [UIAlertAction actionWithTitle:@"余额" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [self yuePayByPackage];
             }];
             UIAlertAction *action4 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            [alert addAction:action1];
-            [alert addAction:action2];
+//            [alert addAction:action1];
+//            [alert addAction:action2];
             [alert addAction:action3];
             [alert addAction:action4];
             [self presentViewController:alert animated:YES completion:nil];
@@ -1206,9 +1206,10 @@
         NSDate *expireDate = [dateFormatter dateFromString:expire_time];
         
         if ([expireDate compare:[NSDate date]] > 0) {
-            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 20, 0, 0)];
+            UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(playNumLabel.frame) + 20, Main_Screen_Width - 20, 0)];
             label.font = SYSTEMFONT(20);
             label.textColor = [UIColor redColor];
+            label.numberOfLines = 0;
             label.text = [NSString stringWithFormat:@"观看到期时间：%@",expire_time];
             [label sizeToFit];
             maxY = CGRectGetMaxY(label.frame);
@@ -1464,8 +1465,9 @@
         ViewRadius(imageview1, 5);
         [cview addSubview:imageview1];
         
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview1.frame) + 10, CGRectGetMinY(imageview1.frame)+5, 0, 0)];
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(imageview1.frame) + 10, CGRectGetMinY(imageview1.frame)+5, Main_Screen_Width - CGRectGetMaxX(imageview1.frame) - 20, 0)];
         titleLabel.text = name;
+        titleLabel.numberOfLines = 2;
         titleLabel.font = SYSTEMFONT(14);
         titleLabel.textColor = RGB(51, 51, 51);
         [titleLabel sizeToFit];
