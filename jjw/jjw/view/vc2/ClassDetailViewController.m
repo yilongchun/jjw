@@ -1171,7 +1171,7 @@
     UILabel *youxiaoqiLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(priceValue.frame) + 20, maxY + 10, 0, 0)];
     youxiaoqiLabel.font = SYSTEMFONT(12);
     youxiaoqiLabel.textColor = RGB(102, 102, 102);
-    youxiaoqiLabel.text = [NSString stringWithFormat:@"有效期: 180天"];
+    youxiaoqiLabel.text = [NSString stringWithFormat:@"有效期: %d天",[[course_info objectForKey:@"admin_days"] intValue]];
     [youxiaoqiLabel sizeToFit];
     [_myScrollView addSubview:youxiaoqiLabel];
     

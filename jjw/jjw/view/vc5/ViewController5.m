@@ -25,6 +25,8 @@
 #import "RechargeViewController.h"
 #import "RegisterViewController.h"
 #import "ChongzhiViewController.h"
+#import "Util.h"
+#import "UIViewController+RegisterRandomAccount.h"
 
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
@@ -80,7 +82,35 @@
     if (userInfo) {
         [self loadUserInfo];
     }else{
-        [self initUI];
+        
+        [self showHudInView:self.view];
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSSet *set = [NSSet setWithObject:@"text/html"];
+        [manager.responseSerializer setAcceptableContentTypes:set];
+        
+        NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_open"];
+        [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+            [self hideHud];
+            NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+            NSString *code = [dic objectForKey:@"code"];
+            if ([code isEqualToString:@"200"]) {
+                NSDictionary *result = [dic objectForKey:@"result"];
+                NSNumber *code = [result objectForKey:@"code"];
+                if ([code boolValue]) {
+                    [self initUI:[code boolValue]];
+                }else{
+                    [self initUI:[code boolValue]];
+                }
+            }else{
+                [self initUI:YES];
+            }
+            DLog(@"%@",dic);
+            
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            [self hideHud];
+            DLog(@"%@",error.description);
+            [self initUI:YES];
+        }];
     }
     
     
@@ -88,7 +118,7 @@
     
 }
 
--(void)initUI{
+-(void)initUI:(BOOL)flag{
 //    self.jz_navigationBarBackgroundAlpha = 1;
 //    self.jz_navigationBarTintColor = RGB(69, 179, 230);
     
@@ -181,6 +211,17 @@
     [loginBtn addTarget:self action:@selector(login) forControlEvents:UIControlEventTouchUpInside];
     [loginContentView addSubview:loginBtn];
     
+    if (flag) {//游客登录
+        loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel.frame), CGRectGetMaxY(loginBtn.frame) + 10, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(passwordLabel.frame) * 2, 35)];
+        [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        [loginBtn setTitle:@"游客登录" forState:UIControlStateNormal];
+        loginBtn.titleLabel.font = SYSTEMFONT(15);
+        [loginBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+        ViewBorderRadius(loginBtn, 5, 0, [UIColor whiteColor]);
+        [loginBtn addTarget:self action:@selector(youkelogin) forControlEvents:UIControlEventTouchUpInside];
+        [loginContentView addSubview:loginBtn];
+    }
+    
     UIButton *regBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(loginBtn.frame), CGRectGetMaxY(loginBtn.frame) + 20, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(loginBtn.frame)*2, 20)];
     [regBtn setTitleColor:RGB(0, 149, 229) forState:UIControlStateNormal];
     [regBtn setTitle:@"新用户，点击马上注册！" forState:UIControlStateNormal];
@@ -221,6 +262,11 @@
 //    }
     
     
+}
+
+-(void)youkelogin{
+    NSString *randomAccount = [Util generateRandomString];
+    [self registerRandomAccount:randomAccount];
 }
 
 -(void)thirdPartLogin:(SSDKUser *)user type:(NSString *)type{
@@ -433,7 +479,34 @@
     UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"退出" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
         NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
         [ud removeObjectForKey:LOGINED_USER];
-        [self initUI];
+        [self showHudInView:self.view];
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        NSSet *set = [NSSet setWithObject:@"text/html"];
+        [manager.responseSerializer setAcceptableContentTypes:set];
+        
+        NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/welcome/get_open"];
+        [manager POST:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+            [self hideHud];
+            NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+            NSString *code = [dic objectForKey:@"code"];
+            if ([code isEqualToString:@"200"]) {
+                NSDictionary *result = [dic objectForKey:@"result"];
+                NSNumber *code = [result objectForKey:@"code"];
+                if ([code boolValue]) {
+                    [self initUI:[code boolValue]];
+                }else{
+                    [self initUI:[code boolValue]];
+                }
+            }else{
+                [self initUI:YES];
+            }
+            DLog(@"%@",dic);
+            
+        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+            [self hideHud];
+            DLog(@"%@",error.description);
+            [self initUI:YES];
+        }];
     }];
     UIAlertAction *action2 = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
