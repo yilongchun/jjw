@@ -13,6 +13,9 @@
 #import "ViewController4.h"
 #import "ViewController5.h"
 #import "NSObject+Blocks.h"
+#import "DetailViewController.h"
+#import "ClassDetailViewController.h"
+#import "MyNavigationController.h"
 
 @interface MainTabBarController ()
 
@@ -27,7 +30,7 @@
     ViewController1 *vc1 = [ViewController1 new];
     UITabBarItem *item1 = [[UITabBarItem alloc] initWithTitle:@"首页" image:[[UIImage imageNamed:@"b_ico_01"] imageWithRenderingMode:UIImageRenderingModeAutomatic] tag:1];
     vc1.tabBarItem = item1;
-    UINavigationController *nc1 = [[UINavigationController alloc] initWithRootViewController:vc1];
+    MyNavigationController *nc1 = [[MyNavigationController alloc] initWithRootViewController:vc1];
     
     
     ViewController2 *vc2 = [ViewController2 new];
@@ -38,17 +41,17 @@
     ViewController3 *vc3 = [ViewController3 new];
     UITabBarItem *item3 = [[UITabBarItem alloc] initWithTitle:@"点播" image:[[UIImage imageNamed:@"b_ico_03"] imageWithRenderingMode:UIImageRenderingModeAutomatic]tag:3];
     vc3.tabBarItem = item3;
-    UINavigationController *nc3 = [[UINavigationController alloc] initWithRootViewController:vc3];
+    MyNavigationController *nc3 = [[MyNavigationController alloc] initWithRootViewController:vc3];
     
     ViewController4 *vc4 = [ViewController4 new];
     UITabBarItem *item4 = [[UITabBarItem alloc] initWithTitle:@"搜题" image:[[UIImage imageNamed:@"b_ico_04"] imageWithRenderingMode:UIImageRenderingModeAutomatic]tag:4];
     vc4.tabBarItem = item4;
-    UINavigationController *nc4 = [[UINavigationController alloc] initWithRootViewController:vc4];
+    MyNavigationController *nc4 = [[MyNavigationController alloc] initWithRootViewController:vc4];
     
     ViewController5 *vc5 = [ViewController5 new];
     UITabBarItem *item5 = [[UITabBarItem alloc] initWithTitle:@"我的" image:[[UIImage imageNamed:@"b_ico_05"] imageWithRenderingMode:UIImageRenderingModeAutomatic]tag:5];
     vc5.tabBarItem = item5;
-    UINavigationController *nc5 = [[UINavigationController alloc] initWithRootViewController:vc5];
+    MyNavigationController *nc5 = [[MyNavigationController alloc] initWithRootViewController:vc5];
     
     self.viewControllers = @[nc1,nc2,nc3,nc4,nc5];
 //    self.tabBar.backgroundColor = [UIColor redColor];
@@ -91,14 +94,42 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
+//- (BOOL)shouldAutorotate{
+//    return self.selectedViewController.shouldAutorotate;
+//}
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+// 哪些页面支持自动转屏
+- (BOOL)shouldAutorotate{
+    UIViewController *vc = self.viewControllers[self.selectedIndex];
+    if ([vc isMemberOfClass:[UINavigationController class]]) {
+        UIViewController *topVC = ((UINavigationController *)vc).topViewController;
+        if ([topVC isMemberOfClass:[DetailViewController class]] || [topVC isMemberOfClass:[ClassDetailViewController class]]) {
+            
+            BOOL isPresented = ((ClassDetailViewController *)topVC).isPresented;
+            
+            DLog(@"yes %d",isPresented);
+            return isPresented;
+        }
+    }
+    DLog(@"no");
+    return NO;
 }
-*/
+
+// 支持哪些转屏方向
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations{
+    UIViewController *vc = self.viewControllers[self.selectedIndex];
+    if ([vc isMemberOfClass:[UINavigationController class]]){
+        UINavigationController *nav = (UINavigationController *)vc;
+        if ([nav.topViewController isMemberOfClass:[DetailViewController class]] || [nav.topViewController isMemberOfClass:[ClassDetailViewController class]]) {
+            DLog(@"全屏");
+            return UIInterfaceOrientationMaskAllButUpsideDown;
+        }else { // 其他页面支持转屏方向
+            DLog(@"竖屏");
+            return UIInterfaceOrientationMaskPortrait;
+        }
+    }
+    DLog(@"竖屏");
+    return UIInterfaceOrientationMaskPortrait;
+}
 
 @end

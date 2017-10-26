@@ -42,6 +42,7 @@
     _myTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self loadMore];
     }];
+    _myTableView.mj_footer.automaticallyHidden = YES;
     
     [_myTableView.mj_header beginRefreshing];
     
@@ -143,7 +144,7 @@
 
 -(void)setHeaderView{
     UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 0)];
-    _myTableView.tableHeaderView = tableHeaderView;
+    
     _myTableView.tableFooterView = [[UIView alloc] init];
     
 //    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
@@ -209,7 +210,7 @@
     CGRect frame = tableHeaderView.frame;
     frame.size.height = CGRectGetMaxY(line.frame) + 10;
     [tableHeaderView setFrame:frame];
-    
+    _myTableView.tableHeaderView = tableHeaderView;
     [_myTableView reloadData];
 }
 

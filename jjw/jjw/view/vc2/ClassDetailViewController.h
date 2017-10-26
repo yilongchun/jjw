@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UIScrollView *myScrollView;
 @property (nonatomic, strong) NSString *courseId;
 
+@property (assign, nonatomic) BOOL isPresented;
+
 @end

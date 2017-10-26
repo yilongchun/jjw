@@ -18,6 +18,8 @@
 
 #import "LrdSuperMenu.h"
 
+#import "DetailViewController.h"
+
 @interface ViewController2 ()<HZSigmentViewDelegate,LrdSuperMenuDataSource, LrdSuperMenuDelegate,UISearchBarDelegate>{
     NSMutableArray *dataSource;
     int page;
@@ -131,7 +133,7 @@
     _myCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self loadMore];
     }];
-    
+    _myCollectionView.mj_footer.automaticallyHidden = YES;
 //    [_myCollectionView.mj_header beginRefreshing];
     
     [self loadTest];
@@ -698,7 +700,7 @@
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [_myCollectionView.mj_header endRefreshing];
-        [self showHintInView:self.view hint:error.description];
+        [self showHintInView:self.view hint:error.localizedDescription];
         DLog(@"%@",error.description);
     }];
     
@@ -1202,6 +1204,11 @@
     vc.courseId = [info objectForKey:@"COURSE_ID"];
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
+    
+    
+//    DetailViewController *vc = [[DetailViewController alloc] init];
+//    vc.hidesBottomBarWhenPushed = YES;
+//    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

@@ -45,7 +45,7 @@
         [self loadMore];
         
     }];
-    
+    _myTableView.mj_footer.automaticallyHidden = YES;
     
     [_myTableView.mj_header beginRefreshing];
 }
@@ -141,6 +141,8 @@
             [_myTableView.mj_footer endRefreshing];
             DLog(@"%@",error.description);
         }];
+    }else{
+        [_myTableView.mj_footer endRefreshingWithNoMoreData];
     }
     
 }
@@ -153,7 +155,17 @@
 #pragma mark - UITableViewDelegate
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 90;
+    
+    NSDictionary *data = [dataSource objectAtIndex:indexPath.row];
+    NSString *content = [data objectForKey:@"CONTENT"];
+    
+    CGSize titleSize = [content boundingRectWithSize:CGSizeMake(Main_Screen_Width - 16, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size;
+    
+    CGSize titleSize2 = [@"感谢使用点播功能，客服将尽快联系你，请注意关注你的个人主页！" boundingRectWithSize:CGSizeMake(Main_Screen_Width - 16, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12]} context:nil].size;
+    
+    
+    
+    return 8+titleSize.height + 8 + titleSize2.height + 8 + 15 + 8;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

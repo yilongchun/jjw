@@ -432,10 +432,10 @@
             [self showHintInView:self.view hint:@"请填写点播内容"];
             return;
         }
-        if (selectedArray.count == 0) {
-            [self showHintInView:self.view hint:@"请选择至少一个讲解老师"];
-            return;
-        }
+//        if (selectedArray.count == 0) {
+//            [self showHintInView:self.view hint:@"请选择至少一个讲解老师"];
+//            return;
+//        }
         
         NSMutableDictionary *param = [NSMutableDictionary dictionary];
         [param setObject:[user objectForKey:@"USER_ID"] forKey:@"uid"];

@@ -43,7 +43,7 @@
     _myTableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self loadMore];
     }];
-    
+    _myTableView.mj_footer.automaticallyHidden = YES;
     [_myTableView.mj_header beginRefreshing];
 }
 

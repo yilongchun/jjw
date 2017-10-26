@@ -357,7 +357,7 @@
         table1.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             [self loadMore1];
         }];
-        
+        table1.mj_footer.automaticallyHidden = YES;
         [table1.mj_header beginRefreshing];
     }
     [self.view bringSubviewToFront:table1];
@@ -380,7 +380,7 @@
         table2.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             [self loadMore2];
         }];
-        
+        table2.mj_footer.automaticallyHidden = YES;
         [table2.mj_header beginRefreshing];
     }
     [self.view bringSubviewToFront:table2];
@@ -402,7 +402,7 @@
         table3.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
             [self loadMore3];
         }];
-        
+        table3.mj_footer.automaticallyHidden = YES;
         [table3.mj_header beginRefreshing];
     }
     [self.view bringSubviewToFront:table3];

@@ -41,7 +41,7 @@
     _myCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self loadMore];
     }];
-    
+    _myCollectionView.mj_footer.automaticallyHidden = YES;
     [_myCollectionView.mj_header beginRefreshing];
 }
 

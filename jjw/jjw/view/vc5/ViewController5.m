@@ -27,6 +27,7 @@
 #import "ChongzhiViewController.h"
 #import "Util.h"
 #import "UIViewController+RegisterRandomAccount.h"
+#import "SysMsgViewController.h"
 
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKConnector/ShareSDKConnector.h>
@@ -765,6 +766,11 @@
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
         }
+        if (indexPath.row == 9) {
+            SysMsgViewController *vc = [[SysMsgViewController alloc] init];
+            vc.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:vc animated:YES];
+        }
     }
     if (indexPath.section == 1) {
         if (indexPath.row == 0) {
@@ -793,7 +799,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (section == 0) {
-        return 9;
+        return 10;
     }
     return 3;
 }
@@ -835,6 +841,9 @@
                 break;
             case 8:
                 cell.textLabel.text = @"点播问答";
+                break;
+            case 9:
+                cell.textLabel.text = @"系统消息";
                 break;
             default:
                 break;

@@ -53,8 +53,14 @@
     type_one = @"";
     type_two = @"";
     
-    [self getOneType];
-    [self getTwoType];
+    if (!_top_search_key) {
+        [self getOneType];
+        [self getTwoType];
+    }else{
+        _collectionviewTop.constant = 64;
+    }
+    
+    
     
     _myCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [self loadData];
@@ -63,7 +69,7 @@
     _myCollectionView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
         [self loadMore];
     }];
-    
+    _myCollectionView.mj_footer.automaticallyHidden = YES;
     [_myCollectionView.mj_header beginRefreshing];
 }
 

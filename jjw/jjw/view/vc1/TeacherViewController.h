@@ -12,5 +12,6 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *myCollectionView;
 @property (strong, nonatomic) NSString *top_search_key;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *collectionviewTop;
 
 @end

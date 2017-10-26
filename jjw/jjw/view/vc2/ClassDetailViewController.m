@@ -12,11 +12,13 @@
 #import "LGSegment.h"
 #import "TeacherHomeViewController.h"
 #import "UIImageView+AFNetworking.h"
-#import "SRVideoPlayer.h"
+//#import "SRVideoPlayer.h"
 #import "NSObject+Blocks.h"
 #import "OpenShareHeader.h"
 #import "Util.h"
 #import "UIViewController+RegisterRandomAccount.h"
+#import "SkinVideoViewController.h"
+#import "NSDictionary+Category.h"
 
 @interface ClassDetailViewController ()<SegmentDelegate>{
     NSDictionary *courseInfo;
@@ -24,9 +26,13 @@
     NSMutableArray *pinglunList;
     UITextView *commentTx;
     
+    
+    
 }
 
-@property (nonatomic, strong) SRVideoPlayer *videoPlayer;
+@property (nonatomic, strong) SkinVideoViewController *videoPlayer;
+
+//@property (nonatomic, strong) SRVideoPlayer *videoPlayer;
 
 @property(nonatomic,strong)NSMutableArray *buttonList;
 @property (nonatomic, weak) LGSegment *segment;
@@ -38,11 +44,19 @@
     UIView *v1;
     UIView *v2;
     UIView *v3;
+    
+//    BOOL _barShow;
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    
+    
+    
+    self.edgesForExtendedLayout=UIRectEdgeNone;
+    
     
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -57,6 +71,59 @@
     pinglunList = [NSMutableArray array];
     
     _myScrollView.bounces = NO;
+    
+    
+    
+    
+    
+    
+    
+    
+//    CGFloat width = self.view.bounds.size.width;
+//    if (!self.videoPlayer) {
+//        self.videoPlayer = [[SkinVideoViewController alloc] initWithFrame:CGRectMake(0, 0, width, width*(9.0/16.0))];
+//    }
+//    [self.view addSubview:self.videoPlayer.view];
+//    
+//    __weak typeof(self) weakSelf = self;
+//    [self.videoPlayer setFullscreenBlock:^{
+//        NSLog(@"全屏了");
+//        [weakSelf.navigationController setNavigationBarHidden:YES animated:NO];
+//    }];
+//    [self.videoPlayer setShrinkscreenBlock:^{
+//        NSLog(@"小屏");
+//        [weakSelf.navigationController setNavigationBarHidden:NO animated:NO];
+//    }];
+//    [self.videoPlayer setVid:@"92b7ec4bd0970baa1614073eea0cbd90_9"];
+    
+    
+    
+    if (!self.videoPlayer) {
+        CGFloat width = [UIScreen mainScreen].bounds.size.width;
+        self.videoPlayer = [[SkinVideoViewController alloc] initWithFrame:CGRectMake(0, 44, width, width*(9.0/16.0))];
+        [self.videoPlayer setEnableDanmuDisplay:NO];
+        [self.videoPlayer enableDanmu:NO];
+        __weak typeof(self)weakSelf = self;
+        [self.videoPlayer setDimissCompleteBlock:^{
+            [weakSelf.videoPlayer stop];
+            weakSelf.isPresented = NO;
+//            weakSelf.videoPlayer = nil;
+        }];
+        [self.videoPlayer setFullscreenBlock:^{
+            NSLog(@"全屏了");
+            [weakSelf.navigationController setNavigationBarHidden:YES animated:NO];
+            weakSelf.videoPlayer.videoControl.closeButton.hidden = YES;
+        }];
+        [self.videoPlayer setShrinkscreenBlock:^{
+            NSLog(@"小屏");
+            [weakSelf.navigationController setNavigationBarHidden:NO animated:NO];
+            weakSelf.videoPlayer.videoControl.closeButton.hidden = NO;
+        }];
+        [self.videoPlayer setWatchCompletedBlock:^{
+            NSLog(@"观看结束");
+        }];
+        
+    }
     
     
     [self loadData];
@@ -102,14 +169,7 @@
 }
 
 
-- (void)viewDidDisappear:(BOOL)animated {
-    
-    [super viewWillDisappear:animated];
-    if (_videoPlayer) {
-        [_videoPlayer destroyPlayer];
-    }
-    
-}
+
 
 //添加学习记录
 -(void)addStudyLog:(NSString *)uid course_id:(NSString *)course_id{
@@ -174,42 +234,80 @@
         NSDate *expireDate = [dateFormatter dateFromString:expire_time];
         
         if ([expireDate compare:[NSDate date]] > 0) {
-            NSString *vid = [course_info objectForKey:@"video_url2"];
+            NSString *vid = [course_info objectForKey:@"VIDEO_URL"];
             
-            [self showHudInView:self.view];
-            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-            NSMutableSet *set = [NSMutableSet setWithObjects:@"application/x-javascript",@"text/javascript", nil];
-            [manager.responseSerializer setAcceptableContentTypes:set];
+//            [self.view addSubview:self.videoPlayer.view];
+//            [self.videoPlayer setVid:vid];
+            
+        
             
             
-            NSString *url = [NSString stringWithFormat:@"http://player.polyv.net/videojson/%@.js",vid];
-            [manager GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
-                [self hideHud];
-                //        DLog(@"%@",responseObject);
-                NSArray *mp4Arr = [responseObject objectForKey:@"mp4"];
-                if (mp4Arr.count > 0) {
-                    NSString *mp4 = [mp4Arr objectAtIndex:0];
-                    UIView *playerView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 250)];
-                    [self.view addSubview:playerView];
-                    _videoPlayer = [SRVideoPlayer playerWithVideoURL:[NSURL URLWithString:mp4] playerView:playerView playerSuperView:playerView.superview];
-                    _videoPlayer.videoName = [course_info objectForKey:@"TITLE"];
-                    _videoPlayer.playerEndAction = SRVideoPlayerEndActionLoop;
-                    
-                    [_videoPlayer play];
-                    
-                    
-                    NSString *uid = [userInfo objectForKey:@"USER_ID"];
-                    [self addStudyLog:uid course_id:_courseId];
-                    
-                    
-                }else{
-                    [self showHintInView:self.view hint:@"获取视频失败"];
-                }
-            } failure:^(NSURLSessionDataTask *task, NSError *error) {
-                [self hideHud];
-                DLog(@"%@",error.description);
-                [self showHintInView:self.view hint:error.localizedDescription];
-            }];
+////            [self.videoPlayer setHeadTitle:[course_info objectForKey:@"TITLE"]];
+            [self.videoPlayer showInWindow];
+//            NSLog(@"vid:%@",vid);
+            [self.videoPlayer setVid:vid];
+            self.isPresented = YES;
+            
+//            self.edgesForExtendedLayout=UIRectEdgeNone;
+            
+//            CGFloat width = self.view.bounds.size.width;
+//            if (!self.videoPlayer) {
+//                self.videoPlayer = [[SkinVideoViewController alloc] initWithFrame:CGRectMake(0, 0, width, width*(9.0/16.0))];
+//            }
+//            [self.videoPlayer setHeadTitle:[course_info objectForKey:@"TITLE"]];
+//            UIImage*logo = [UIImage imageNamed:@"pvlogo.png"];
+//            [self.videoPlayer setLogo:logo location:PvLogoLocationBottomRight size:CGSizeMake(70,30) alpha:0.8];
+//            
+//            [self.view addSubview:self.videoPlayer.view];
+//            //	CGSize playerSize = self.videoPlayer.frame.size;
+//            //	UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, playerSize.width, playerSize.height + 20)];
+//            //	[self.view addSubview:contentView];
+//            //	contentView.backgroundColor = [UIColor blackColor];
+//            //	[contentView addSubview:self.videoPlayer.view];
+//            [self.videoPlayer setParentViewController:self];
+//            [self.videoPlayer setNavigationController:self.navigationController];
+//            //    [self.videoPlayer setVid:self.video.vid];
+//            [self.videoPlayer setVid:vid];
+//            //直接跳到上一次播放位置
+//            //[self.videoPlayer setWatchStartTime:30];
+//            
+//            [self.videoPlayer rollInfo:@"info" font:[UIFont systemFontOfSize:10] color:[UIColor whiteColor] withDuration:3.0];
+            
+            
+//            [self showHudInView:self.view];
+//            AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//            NSMutableSet *set = [NSMutableSet setWithObjects:@"application/x-javascript",@"text/javascript", nil];
+//            [manager.responseSerializer setAcceptableContentTypes:set];
+//            
+//            
+//            NSString *url = [NSString stringWithFormat:@"http://player.polyv.net/videojson/%@.js",vid];
+//            [manager GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+//                [self hideHud];
+//                //        DLog(@"%@",responseObject);
+//                NSArray *mp4Arr = [responseObject objectForKey:@"mp4"];
+//                if (mp4Arr.count > 0) {
+//                    NSString *mp4 = [mp4Arr objectAtIndex:0];
+//                    UIView *playerView = [[UIView alloc] initWithFrame:CGRectMake(0, 64, Main_Screen_Width, 250)];
+//                    [self.view addSubview:playerView];
+//                    _videoPlayer = [SRVideoPlayer playerWithVideoURL:[NSURL URLWithString:mp4] playerView:playerView playerSuperView:playerView.superview];
+//                    _videoPlayer.videoName = [course_info objectForKey:@"TITLE"];
+//                    _videoPlayer.playerEndAction = SRVideoPlayerEndActionLoop;
+//                    
+//                    [_videoPlayer play];
+//                    
+//                    
+//                    NSString *uid = [userInfo objectForKey:@"USER_ID"];
+//                    [self addStudyLog:uid course_id:_courseId];
+//                    
+//                    
+//                }else{
+//                    [self showHintInView:self.view hint:@"获取视频失败"];
+//                }
+//            } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//                [self hideHud];
+//                DLog(@"%@",error.description);
+//                [self showHintInView:self.view hint:error.localizedDescription];
+//            }];
         }else{
             [self showHintInView:self.view hint:@"需要购买才能观看"];
             return;
@@ -1534,7 +1632,7 @@
     [v3 addSubview:line];
     
     for (int i = 0; i < pinglunList.count; i++) {
-        NSDictionary *pinglun = [pinglunList objectAtIndex:i];
+        NSDictionary *pinglun = [[pinglunList objectAtIndex:i] cleanNull];
         NSString *userAvatar = [pinglun objectForKey:@"user_avatar"];
         NSString *name = [pinglun objectForKey:@"user_name"];
         NSString *content = [pinglun objectForKey:@"CONTENT"];
@@ -1627,5 +1725,54 @@
         [_myScrollView bringSubviewToFront:v3];
     }
 }
+
+#pragma mark - player
+
+-(void)viewDidDisappear:(BOOL)animated {
+//    self.isPresented = YES;
+    self.videoPlayer.contentURL = nil;
+    [self.videoPlayer stop];
+    [self.videoPlayer cancel];
+    //[self.videoPlayer cancelObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [super viewDidDisappear:animated];
+    [self.videoPlayer dismiss];
+}
+
+- (void)viewWillDisappear:(BOOL)animated{
+//    [self setStatusBarBackgroundColor:[UIColor clearColor]];
+    [super viewWillDisappear:animated];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [self.videoPlayer configObserver];
+    
+//    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:YES];
+//    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+//    [self setStatusBarBackgroundColor:[UIColor blackColor]];
+    [super viewWillAppear:animated];
+}
+
+////设置状态栏颜色
+//- (void)setStatusBarBackgroundColor:(UIColor *)color {
+//    UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+//    if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+//        statusBar.backgroundColor = color;
+//    }
+//}
+
+//- (BOOL)prefersStatusBarHidden{
+//    if (!_barShow) {
+//        _barShow = !_barShow;
+//        return _barShow;
+//    }else{
+//        _barShow = !_barShow;
+//        return NO;
+//    }
+//}
+//
+//- (UIStatusBarStyle)preferredStatusBarStyle{
+//    return UIStatusBarStyleLightContent;
+//}
 
 @end

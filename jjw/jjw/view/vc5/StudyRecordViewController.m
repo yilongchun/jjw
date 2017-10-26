@@ -14,6 +14,7 @@
 
 @interface StudyRecordViewController (){
     NSMutableArray *dataSource;
+    int page;
 }
 
 @end
@@ -36,11 +37,15 @@
         [self loadData];
     }];
     _myTableView.tableFooterView = [[UIView alloc] init];
+    _myTableView.mj_footer = [MJRefreshAutoFooter footerWithRefreshingBlock:^{
+        [self loadMore];
+    }];
+    _myTableView.mj_footer.automaticallyHidden = YES;
     [_myTableView.mj_header beginRefreshing];
 }
 
 -(void)loadData{
-    
+    page = 1;
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     NSSet *set = [NSSet setWithObject:@"text/html"];
     [manager.responseSerializer setAcceptableContentTypes:set];
@@ -48,7 +53,7 @@
     NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
-    [param setObject:@"1" forKey:@"page"];
+    [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];
     NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_center/user_study"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         [_myTableView.mj_header endRefreshing];
@@ -68,7 +73,45 @@
         }
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
         [_myTableView.mj_header endRefreshing];
-        [self showHintInView:self.view hint:error.description];
+        [self showHintInView:self.view hint:error.localizedDescription];
+        DLog(@"%@",error.description);
+    }];
+}
+
+-(void)loadMore{
+    page ++;
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    NSDictionary *userInfo = [ud objectForKey:LOGINED_USER];
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    [param setObject:[NSNumber numberWithInt:page] forKey:@"page"];
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_center/user_study"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [_myTableView.mj_footer endRefreshing];
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            NSArray *array = [result objectForKey:@"data_list"];
+            if (array.count > 0) {
+                [dataSource addObjectsFromArray:array];
+                [_myTableView reloadData];
+            }else{
+                [_myTableView.mj_footer endRefreshingWithNoMoreData];
+            }
+            
+            
+            DLog(@"%@",result);
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        [_myTableView.mj_footer endRefreshing];
+        [self showHintInView:self.view hint:error.localizedDescription];
         DLog(@"%@",error.description);
     }];
 }

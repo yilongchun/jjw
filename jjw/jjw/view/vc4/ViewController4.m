@@ -217,6 +217,7 @@
 -(void)search{
     NSNotification *notification =[NSNotification notificationWithName:@"setTab" object:nil userInfo:@{@"searchValue":_keyWordTextField.text,@"a":@"1"}];
     [[NSNotificationCenter defaultCenter] postNotification:notification];
+    _keyWordTextField.text = @"";
 }
 
 - (void)didReceiveMemoryWarning {

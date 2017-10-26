@@ -21,6 +21,7 @@
 #import "UIViewController+RegisterRandomAccount.h"
 #import "NSObject+Blocks.h"
 #import "Util.h"
+#import "Class2ViewController.h"
 
 @interface ViewController1 ()<HZSigmentViewDelegate,UISearchBarDelegate>{
     UIScrollView *myScrollView;//主界面滚动视图
@@ -83,6 +84,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
     UIView *navView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 40)];
+    
     
     nbtn1 = [[UIButton alloc] initWithFrame:CGRectMake(2, 6, 60, 28)];
     [nbtn1 setTitle:@"高中" forState:UIControlStateNormal];
@@ -227,7 +229,7 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self showHintInView:self.view hint:error.description];
+        [self showHintInView:self.view hint:error.localizedDescription];
     }];
 }
 
@@ -264,7 +266,7 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self showHintInView:self.view hint:error.description];
+        [self showHintInView:self.view hint:error.localizedDescription];
     }];
 }
 
@@ -416,6 +418,20 @@
     }
 }
 
+-(void)jingpinClick{
+    Class2ViewController *vc = [[Class2ViewController alloc] init];
+    vc.action = @"/course/recommend_course";
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+-(void)freeClick{
+    Class2ViewController *vc = [[Class2ViewController alloc] init];
+    vc.action = @"/course/course_no_money";
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 -(void)initUI{
     
@@ -430,19 +446,19 @@
     
 //    //广告图片
     CGFloat imageViewHeight = Main_Screen_Width * 296 / 640;
-//    UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, Main_Screen_Width, imageViewHeight)];
-//    
-//    if (adImagesArray.count > 0) {
-//        NSDictionary *dic = adImagesArray[0];
-//        NSString *imageUrl = [dic objectForKey:@"IMAGE_URL"];
-//        [imageview setImageWithURL:[NSURL URLWithString:imageUrl]];
-//    }
-//    
-////    imageview.image = [UIImage imageNamed:@"1484533496_919.jpg"];
-//    [myScrollView addSubview:imageview];
+    UIImageView *imageview = [[UIImageView alloc] initWithFrame:CGRectMake(0, 40, Main_Screen_Width, imageViewHeight)];
+    
+    if (adImagesArray.count > 0) {
+        NSDictionary *dic = adImagesArray[0];
+        NSString *imageUrl = [dic objectForKey:@"IMAGE_URL"];
+        [imageview setImageWithURL:[NSURL URLWithString:imageUrl]];
+    }
+    
+//    imageview.image = [UIImage imageNamed:@"1484533496_919.jpg"];
+    [myScrollView addSubview:imageview];
     
     //必修
-    bixiuScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 40, Main_Screen_Width, 125)];
+    bixiuScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(imageview.frame) + 10, Main_Screen_Width, 125)];
     bixiuScrollView.showsHorizontalScrollIndicator = NO;
     [myScrollView addSubview:bixiuScrollView];
     UILabel *line = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(bixiuScrollView.frame), Main_Screen_Width, 0.5)];
@@ -596,7 +612,7 @@
     moreBtn.titleLabel.font = SYSTEMFONT(15);
     [moreBtn setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     ViewBorderRadius(moreBtn, 5, 0.5, BORDER_COLOR);
-    [moreBtn addTarget:self action:@selector(bixiuClick:) forControlEvents:UIControlEventTouchUpInside];
+    [moreBtn addTarget:self action:@selector(jingpinClick) forControlEvents:UIControlEventTouchUpInside];
     [jptjView addSubview:moreBtn];
     
     [myScrollView addSubview:jptjView];
@@ -677,7 +693,7 @@
     moreBtn.titleLabel.font = SYSTEMFONT(15);
     [moreBtn setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
     ViewBorderRadius(moreBtn, 5, 0.5, BORDER_COLOR);
-    [moreBtn addTarget:self action:@selector(showFreeCourse:) forControlEvents:UIControlEventTouchUpInside];
+    [moreBtn addTarget:self action:@selector(freeClick) forControlEvents:UIControlEventTouchUpInside];
     [mftyView addSubview:moreBtn];
     
     
@@ -1207,7 +1223,7 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        DLog(@"%@",error.description);
+        DLog(@"%@",error.localizedDescription);
     }];
 }
 
@@ -1231,7 +1247,7 @@
         }
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        DLog(@"%@",error.description);
+        DLog(@"%@",error.localizedDescription);
     }];
 }
 

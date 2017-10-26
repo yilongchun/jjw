@@ -20,6 +20,9 @@
 #import "WXApi.h"
 //新浪微博SDK需要在项目Build Settings中的Other Linker Flags添加”-ObjC”
 
+#import "PolyvSettings.h"
+#import "PolyvUtil.h"
+
 
 @interface AppDelegate ()
 
@@ -40,7 +43,7 @@
     manager.shouldToolbarUsesTextFieldTintColor = YES;
     manager.enableAutoToolbar = NO;
     
-    
+    [self registerPolyvSDK];
     [self registerShareSDK];
     
     MainTabBarController *vc = [[MainTabBarController alloc] init];
@@ -50,6 +53,34 @@
     [self.window makeKeyAndVisible];
     
     return YES;
+}
+
+-(void)registerPolyvSDK{
+    // 配置下载目录
+    [PolyvSettings.sharedInstance setDownloadDir:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/plvideo/a"]];
+    // 配置日志等级
+    [PolyvSettings.sharedInstance setLogLevel:PLVLogLevelAll];
+    // 开启 HttpDNS 功能
+    [PolyvSettings.sharedInstance setHttpDNSEnable:YES];
+    
+    // 配置sdk加密串
+    // NSString *appKey = @"你的SDK加密串";
+    NSString *appKey = @"eA/RHzHpIWtF8lhXn4FlylGDfBipwgmTN4gytUxK2zDoBXVeqah2WJXvucD1PitlnS4plLfG+OHJFEnRb30CC1wMcPC59FEz0RhIag9e5//Y0F4vkxehFK2O4JrCsmU+14qSWAq8Y/xA3/mKNFjc6g==";
+    // 使用默认加密秘钥和加密向量解密 SDK加密串
+    NSArray *config = [PolyvUtil decryptUserConfig:[appKey dataUsingEncoding:NSUTF8StringEncoding]];
+    [[PolyvSettings sharedInstance] initVideoSettings:[config objectAtIndex:1] Readtoken:[config objectAtIndex:2] Writetoken:[config objectAtIndex:3] UserId:[config objectAtIndex:0]];
+    
+    // 配置sdk加密串示例(使用网络接口)
+    /*
+     NSData* data = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://demo.polyv.net/demo/appkey.php"]];
+     NSArray*config =[PolyvUtil decryptUserConfig:data];
+     if ([config count]!=4) {
+     NSLog(@"加载token失败");
+     }else{
+     [[PolyvSettings sharedInstance] setDownloadDir:[NSHomeDirectory() stringByAppendingPathComponent:@"Documents/plvideo/a"]];
+     [[PolyvSettings sharedInstance] initVideoSettings:[config objectAtIndex:1] Readtoken:[config objectAtIndex:2] Writetoken:[config objectAtIndex:3] UserId:[config objectAtIndex:0]];
+     }
+     */
 }
 
 -(void)registerShareSDK{
@@ -121,8 +152,9 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    //重载设置
+    [[PolyvSettings sharedInstance]  reloadSettings];
 }
-
 
 - (void)applicationWillTerminate:(UIApplication *)application {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
