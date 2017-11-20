@@ -161,6 +161,7 @@
     
     CGSize titleSize = [content boundingRectWithSize:CGSizeMake(Main_Screen_Width - 16, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15]} context:nil].size;
     
+    
     CGSize titleSize2 = [@"感谢使用点播功能，客服将尽快联系你，请注意关注你的个人主页！" boundingRectWithSize:CGSizeMake(Main_Screen_Width - 16, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:12]} context:nil].size;
     
     
