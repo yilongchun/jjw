@@ -24,32 +24,41 @@
 }
 
 -(void)loadData{
-    [self showHudInView:self.view];
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    NSSet *set = [NSSet setWithObject:@"text/html"];
-    [manager.responseSerializer setAcceptableContentTypes:set];
-    NSMutableDictionary *parameters  = [NSMutableDictionary dictionary];
-    [parameters setValue:_newsId forKey:@"id"];
-    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/news/news_info"];
-    [manager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
-        [self hideHud];
-        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
-        NSDictionary *result = [dic objectForKey:@"result"];
-        NSString *code = [dic objectForKey:@"code"];
-        if ([code isEqualToString:@"200"]) {
-            NSDictionary *dataInfo = [result objectForKey:@"data_info"];
-            NSString *content = [dataInfo objectForKey:@"CONTENT"];
-            [_myWebView loadHTMLString:content baseURL:nil];
-            DLog(@"%@",responseObject);
-        }else{
-            
-        }
-        
-    } failure:^(NSURLSessionDataTask *task, NSError *error) {
-        [self hideHud];
-        [self showHintInView:self.view hint:error.localizedDescription];
-        DLog(@"%@",error.description);
-    }];
+    
+    
+    [_myWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://m.jjw-school.com/news/news_view/%@",_newsId]]]];
+     
+     
+     
+     
+     
+//    [self showHudInView:self.view];
+//    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+//    NSSet *set = [NSSet setWithObject:@"text/html"];
+//    [manager.responseSerializer setAcceptableContentTypes:set];
+//    NSMutableDictionary *parameters  = [NSMutableDictionary dictionary];
+//    [parameters setValue:_newsId forKey:@"id"];
+//    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/news/news_info"];
+//    [manager POST:url parameters:parameters success:^(NSURLSessionDataTask *task, id responseObject) {
+//        [self hideHud];
+//        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+//        NSDictionary *result = [dic objectForKey:@"result"];
+//        NSString *code = [dic objectForKey:@"code"];
+//        if ([code isEqualToString:@"200"]) {
+//            NSDictionary *dataInfo = [result objectForKey:@"data_info"];
+//            NSString *content = [dataInfo objectForKey:@"CONTENT"];
+//            content = [NSString stringWithFormat:@"<head></head>%@",content];
+//            [_myWebView loadHTMLString:content baseURL:nil];
+//            DLog(@"%@",responseObject);
+//        }else{
+//
+//        }
+//
+//    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//        [self hideHud];
+//        [self showHintInView:self.view hint:error.localizedDescription];
+//        DLog(@"%@",error.description);
+//    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,7 +96,7 @@
 //     "tagMeta.setAttribute(\"name\", \"viewport\");"
 //     "var tagHeadAdd = tagHead.appendChild(tagMeta);"];
     
-//    //修改图片大小
+    //修改图片大小
 //    [webView stringByEvaluatingJavaScriptFromString:
 //     @"var script = document.createElement('script');"
 //     "script.type = 'text/javascript';"
@@ -123,8 +132,8 @@
     
     
     
-    NSString *str = @"document.getElementsByTagName('body')[0].style.padding = '20px 3%'";
-    [webView stringByEvaluatingJavaScriptFromString:str];
+//    NSString *str = @"document.getElementsByTagName('body')[0].style.padding = '20px 3%'";
+//    [webView stringByEvaluatingJavaScriptFromString:str];
     
     
     
