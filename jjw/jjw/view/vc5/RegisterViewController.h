@@ -10,4 +10,7 @@
 
 @interface RegisterViewController : UIViewController
 
+@property(strong, nonatomic) NSNumber *other_id;
+@property(strong, nonatomic) NSString *nickName;
+
 @end

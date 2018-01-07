@@ -111,8 +111,11 @@
         }];
         [self.videoPlayer setFullscreenBlock:^{
             NSLog(@"全屏了");
-            [weakSelf.navigationController setNavigationBarHidden:YES animated:NO];
-            weakSelf.videoPlayer.videoControl.closeButton.hidden = YES;
+            if (weakSelf.isPresented) {
+                [weakSelf.navigationController setNavigationBarHidden:YES animated:NO];
+                weakSelf.videoPlayer.videoControl.closeButton.hidden = YES;
+            }
+            
         }];
         [self.videoPlayer setShrinkscreenBlock:^{
             NSLog(@"小屏");
@@ -120,6 +123,7 @@
             weakSelf.videoPlayer.videoControl.closeButton.hidden = NO;
         }];
         [self.videoPlayer setWatchCompletedBlock:^{
+            weakSelf.isPresented = NO;
             NSLog(@"观看结束");
         }];
         
@@ -1729,7 +1733,7 @@
 #pragma mark - player
 
 -(void)viewDidDisappear:(BOOL)animated {
-//    self.isPresented = YES;
+    self.isPresented = NO;
     self.videoPlayer.contentURL = nil;
     [self.videoPlayer stop];
     [self.videoPlayer cancel];

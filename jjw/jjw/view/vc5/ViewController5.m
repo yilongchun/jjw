@@ -20,6 +20,7 @@
 #import "BasicInfoViewController.h"
 #import "MyHeaderImageViewController.h"
 #import "PasswordSettingViewController.h"
+#import "PasswordSettingViewController2.h"
 #import "NSDictionary+Category.h"
 #import "UIImageView+AFNetworking.h"
 #import "RechargeViewController.h"
@@ -162,7 +163,7 @@
 //    ViewBorderRadius(topLabel, 0, 1, RGB(223, 223, 223));
 //    [_loginView addSubview:topLabel];
     
-    UIView *loginContentView = [[UIView alloc] initWithFrame:CGRectMake(5, 64+ 5, Main_Screen_Width - 10, 350)];
+    UIView *loginContentView = [[UIView alloc] initWithFrame:CGRectMake(5, 64+ 5, Main_Screen_Width - 10, 400)];
     loginContentView.backgroundColor = [UIColor whiteColor];
     ViewBorderRadius(loginContentView, 0, 1, BORDER_COLOR);
     [_loginView addSubview:loginContentView];
@@ -180,7 +181,7 @@
     accountTextField.backgroundColor = RGB(251, 251, 251);
     UIView *leftAView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 10, 1)];
     accountTextField.leftView = leftAView;
-    accountTextField.placeholder = @"请输入注册时的邮箱号";
+    accountTextField.placeholder = @"请输入账号";
     accountTextField.leftViewMode = UITextFieldViewModeAlways;
     [loginContentView addSubview:accountTextField];
     
@@ -223,12 +224,23 @@
         [loginContentView addSubview:loginBtn];
     }
     
-    UIButton *regBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(loginBtn.frame), CGRectGetMaxY(loginBtn.frame) + 20, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(loginBtn.frame)*2, 20)];
+    UIButton *regBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel.frame), CGRectGetMaxY(loginBtn.frame) + 20, 0, 0)];
     [regBtn setTitleColor:RGB(0, 149, 229) forState:UIControlStateNormal];
-    [regBtn setTitle:@"新用户，点击马上注册！" forState:UIControlStateNormal];
+    [regBtn setTitle:@"用户注册" forState:UIControlStateNormal];
     regBtn.titleLabel.font = SYSTEMFONT(15);
     [regBtn addTarget:self action:@selector(registerUser) forControlEvents:UIControlEventTouchUpInside];
+    [regBtn sizeToFit];
     [loginContentView addSubview:regBtn];
+    
+    UIButton *forgetPwdBtn = [[UIButton alloc] init];
+    [forgetPwdBtn setTitleColor:RGB(0, 149, 229) forState:UIControlStateNormal];
+    [forgetPwdBtn setTitle:@"忘记密码" forState:UIControlStateNormal];
+    forgetPwdBtn.titleLabel.font = SYSTEMFONT(15);
+    [forgetPwdBtn addTarget:self action:@selector(forgetPwd) forControlEvents:UIControlEventTouchUpInside];
+    [forgetPwdBtn sizeToFit];
+    forgetPwdBtn.frame = CGRectMake(CGRectGetWidth(loginContentView.frame) - CGRectGetWidth(forgetPwdBtn.frame) - 30, CGRectGetMaxY(loginBtn.frame) + 20, CGRectGetWidth(forgetPwdBtn.frame), CGRectGetHeight(forgetPwdBtn.frame));
+//    [forgetPwdBtn setFrame:CGRectMake(CGRectGetWidth(loginContentView.frame) - CGRectGetWidth(forgetPwdBtn.frame), CGRectGetMaxY(loginBtn.frame) + 20, CGRectGetWidth(forgetPwdBtn.frame), CGRectGetHeight(forgetPwdBtn.frame)];
+    [loginContentView addSubview:forgetPwdBtn];
     
     UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(regBtn.frame) + 15, CGRectGetWidth(loginContentView.frame), 15)];
     label2.text = @"第三方快捷登录";
@@ -280,7 +292,7 @@
     [param setObject:type forKey:@"type"];
     [param setObject:user.nickname forKey:@"name"];
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_register/other_register"];
+    NSString *url = [NSString stringWithFormat:@"%@",@"http://testapi.jjw-school.com/sign/other_register"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         
         [self hideHud];
@@ -288,14 +300,33 @@
         
         NSString *code = [dic objectForKey:@"code"];
         if ([code isEqualToString:@"200"]) {
-            NSDictionary *result = [dic objectForKey:@"result"];
             
-            userInfo = [result cleanNull];
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
             
-            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
-            [ud setObject:userInfo forKey:LOGINED_USER];
             
-            [self loadUserInfo];
+            
+            NSDictionary *result = [[dic objectForKey:@"result"] cleanNull];
+            NSNumber *other_id = [result objectForKey:@"other_id"];
+            if (other_id != nil) {
+                RegisterViewController *vc = [[RegisterViewController alloc] init];
+                vc.other_id = other_id;
+                vc.nickName = user.nickname;
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+                
+                
+            }else{//绑定手机号码
+                
+                userInfo = [result cleanNull];
+                
+                NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+                [ud setObject:userInfo forKey:LOGINED_USER];
+                
+                [self loadUserInfo];
+                
+            }
+            
+            
         }else{
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }
@@ -430,10 +461,10 @@
     [manager.responseSerializer setAcceptableContentTypes:set];
     
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
-    [param setObject:accountTextField.text forKey:@"email"];
+    [param setObject:accountTextField.text forKey:@"account"];
     [param setObject:passwordField.text forKey:@"pwd"];
     
-    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user_login/login_do"];
+    NSString *url = [NSString stringWithFormat:@"%@",@"http://testapi.jjw-school.com/sign/login"];
     [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
         
         [self hideHud];
@@ -449,6 +480,8 @@
             [ud setObject:userInfo forKey:LOGINED_USER];
             
             [self loadUserInfo];
+            
+            
 //            DLog(@"%@",result);
 //            [self setTableHeaderView];
 //            self.view = _userCenterView;
@@ -530,6 +563,8 @@
     userInfo = [ud objectForKey:LOGINED_USER];
    
     
+    
+    
     NSMutableDictionary *param = [NSMutableDictionary dictionary];
     [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
     
@@ -547,6 +582,13 @@
             
             NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
             [ud setObject:userInfo forKey:LOGINED_USER];
+            
+            NSString *mobile = [userInfo objectForKey:@"MOBILE"];
+            if (mobile == nil || [mobile isEqualToString:@""]) {
+                BasicInfoViewController *vc = [[BasicInfoViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
             
             [self setTableHeaderView];
             [_userCenterView setFrame:CGRectMake(0, 64, Main_Screen_Width, self.view.frame.size.height-64-49)];
@@ -589,6 +631,13 @@
 //    [self presentViewController:nc animated:YES completion:nil];
 }
 
+//充值密码
+-(void)forgetPwd{
+    PasswordSettingViewController *vc = [[PasswordSettingViewController alloc] init];
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 -(void)setTableHeaderView{
     CGFloat headImageWidth = Main_Screen_Width * 0.25;
     UIView *tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, Main_Screen_Width, 10 +headImageWidth + 10 + 45 + 40)];
@@ -599,13 +648,25 @@
     
     NSString *pic = [userInfo objectForKey:@"PIC_IMG"];
     headImageView = [[UIImageView alloc] initWithFrame:CGRectMake(Main_Screen_Width*0.25, 10, headImageWidth, headImageWidth)];
-    [headImageView setImageWithURL:[NSURL URLWithString:pic] placeholderImage:[UIImage imageNamed:@"default_avatar.jpeg"]];
+    [headImageView setImageWithURL:[NSURL URLWithString:pic] placeholderImage:[UIImage imageNamed:@"default_avatar.jpg"]];
     ViewRadius(headImageView, headImageWidth/2);
     [view1 addSubview:headImageView];
     
-    nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImageView.frame) + 10, 20+20, 0, 0)];
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *user = [ud objectForKey:LOGINED_USER];
+    
+    NSString *MOBILE = [user objectForKey:@"MOBILE"];
+    UILabel *phoneLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImageView.frame) + 10, 20, 0, 0)];
+    if (MOBILE != nil) {
+        phoneLabel.text = MOBILE;
+    }
+    
+    phoneLabel.textColor = [UIColor whiteColor];
+    [phoneLabel sizeToFit];
+    [view1 addSubview:phoneLabel];
+    
+    nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(CGRectGetMaxX(headImageView.frame) + 10, 20+30, 0, 0)];
+    
     NSString *showName = [user objectForKey:@"SHOW_NAME"];
     if (showName == nil || [showName isEqualToString:@""]) {
         nameLabel.text = @"未设置";
@@ -784,7 +845,7 @@
             [self.navigationController pushViewController:vc animated:YES];
         }
         if (indexPath.row == 2) {
-            PasswordSettingViewController *vc = [[PasswordSettingViewController alloc] init];
+            PasswordSettingViewController2 *vc = [[PasswordSettingViewController2 alloc] init];
             vc.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:vc animated:YES];
         }

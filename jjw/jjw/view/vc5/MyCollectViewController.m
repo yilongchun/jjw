@@ -80,6 +80,11 @@
             }
             DLog(@"%@",result);
             
+        }else if([code isEqualToString:@"401"]){
+            [dataSource removeAllObjects];
+            [_myTableView reloadData];
+            [_myTableView.mj_header endRefreshing];
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
         }else{
             [_myTableView.mj_header endRefreshing];
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];

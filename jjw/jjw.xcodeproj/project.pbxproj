@@ -235,7 +235,6 @@
 		BC8C8E4C1ED1AD56005533C1 /* accessory_highlight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC8C8E481ED1AD56005533C1 /* accessory_highlight@2x.png */; };
 		BC8C8E4D1ED1AD56005533C1 /* accessory_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = BC8C8E491ED1AD56005533C1 /* accessory_normal@2x.png */; };
 		BC8C8E4E1ED1AD56005533C1 /* LrdSuperMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8C8E4B1ED1AD56005533C1 /* LrdSuperMenu.m */; };
-		BC8D01961EAE168200EC5CDE /* default_avatar.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */; };
 		BC8D019A1EAE220200EC5CDE /* PaidRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */; };
 		BC8D019B1EAE220200EC5CDE /* PaidRecordViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BC8D01991EAE220200EC5CDE /* PaidRecordViewController.xib */; };
 		BC8D019F1EAE238200EC5CDE /* ShoppingCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BC8D019D1EAE238200EC5CDE /* ShoppingCartViewController.m */; };
@@ -318,6 +317,8 @@
 		BCC08C2D1EE3B04200C3CD7B /* PackageClassTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCC08C2B1EE3B04200C3CD7B /* PackageClassTableViewCell.xib */; };
 		BCD7F8781EF6671500A00940 /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = BCD7F8761EF6671500A00940 /* RegisterViewController.m */; };
 		BCD7F8791EF6671500A00940 /* RegisterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCD7F8771EF6671500A00940 /* RegisterViewController.xib */; };
+		BCE9BB371FF66D95007C4850 /* PasswordSettingViewController2.m in Sources */ = {isa = PBXBuildFile; fileRef = BCE9BB351FF66D95007C4850 /* PasswordSettingViewController2.m */; };
+		BCE9BB381FF66D95007C4850 /* PasswordSettingViewController2.xib in Resources */ = {isa = PBXBuildFile; fileRef = BCE9BB361FF66D95007C4850 /* PasswordSettingViewController2.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -745,7 +746,6 @@
 		BC8C8E491ED1AD56005533C1 /* accessory_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "accessory_normal@2x.png"; sourceTree = "<group>"; };
 		BC8C8E4A1ED1AD56005533C1 /* LrdSuperMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LrdSuperMenu.h; sourceTree = "<group>"; };
 		BC8C8E4B1ED1AD56005533C1 /* LrdSuperMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LrdSuperMenu.m; sourceTree = "<group>"; };
-		BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = default_avatar.jpeg; sourceTree = "<group>"; };
 		BC8D01971EAE220200EC5CDE /* PaidRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaidRecordViewController.h; sourceTree = "<group>"; };
 		BC8D01981EAE220200EC5CDE /* PaidRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaidRecordViewController.m; sourceTree = "<group>"; };
 		BC8D01991EAE220200EC5CDE /* PaidRecordViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaidRecordViewController.xib; sourceTree = "<group>"; };
@@ -861,6 +861,9 @@
 		BCD7F8751EF6671500A00940 /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
 		BCD7F8761EF6671500A00940 /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		BCD7F8771EF6671500A00940 /* RegisterViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RegisterViewController.xib; sourceTree = "<group>"; };
+		BCE9BB341FF66D95007C4850 /* PasswordSettingViewController2.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PasswordSettingViewController2.h; sourceTree = "<group>"; };
+		BCE9BB351FF66D95007C4850 /* PasswordSettingViewController2.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PasswordSettingViewController2.m; sourceTree = "<group>"; };
+		BCE9BB361FF66D95007C4850 /* PasswordSettingViewController2.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PasswordSettingViewController2.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1075,6 +1078,9 @@
 				BC8D01C91EAE274A00EC5CDE /* PasswordSettingViewController.h */,
 				BC8D01CA1EAE274A00EC5CDE /* PasswordSettingViewController.m */,
 				BC8D01CB1EAE274A00EC5CDE /* PasswordSettingViewController.xib */,
+				BCE9BB341FF66D95007C4850 /* PasswordSettingViewController2.h */,
+				BCE9BB351FF66D95007C4850 /* PasswordSettingViewController2.m */,
+				BCE9BB361FF66D95007C4850 /* PasswordSettingViewController2.xib */,
 			);
 			path = vc5;
 			sourceTree = "<group>";
@@ -1666,7 +1672,6 @@
 			isa = PBXGroup;
 			children = (
 				BC6E00D11F7786DC00C7FF55 /* Assets */,
-				BC8D01951EAE168200EC5CDE /* default_avatar.jpeg */,
 				BC9817941EA39FA800F45E31 /* 1475988005412.jpeg */,
 				BC9141571EA10EA700F7A654 /* 1481518277839.png */,
 				BC0693DF1E926D310055D8E3 /* qq.jpeg */,
@@ -2152,7 +2157,6 @@
 				BC8D01C81EAE270300EC5CDE /* MyHeaderImageViewController.xib in Resources */,
 				BC6E00EF1F7786DC00C7FF55 /* checkbox_checked@2x.png in Resources */,
 				44F3DF421E8CB1E00089208B /* btnCheck@2x.png in Resources */,
-				BC8D01961EAE168200EC5CDE /* default_avatar.jpeg in Resources */,
 				BC9817951EA39FA800F45E31 /* 1475988005412.jpeg in Resources */,
 				BC6E00FE1F7786DC00C7FF55 /* pl-video-player-pause@3x.png in Resources */,
 				BC6E00F01F7786DC00C7FF55 /* checkbox_unchecked.png in Resources */,
@@ -2172,6 +2176,7 @@
 				BC6E00F71F7786DC00C7FF55 /* pl-video-player-close@3x.png in Resources */,
 				BC8D01A01EAE238200EC5CDE /* ShoppingCartViewController.xib in Resources */,
 				BC8014CC1ECB1C66001607D2 /* MyCollectTableViewCell.xib in Resources */,
+				BCE9BB381FF66D95007C4850 /* PasswordSettingViewController2.xib in Resources */,
 				BC6E01041F7786DC00C7FF55 /* pl-video-player-shrinkscreen@3x.png in Resources */,
 				BC92CC331F5A6E4C0030FA51 /* ShareSDK.bundle in Resources */,
 				BC92CC321F5A6E4C0030FA51 /* README.txt in Resources */,
@@ -2416,6 +2421,7 @@
 				BCA79B9C1F164B8B00A65371 /* WebViewController.m in Sources */,
 				44F3DF3C1E8CB1E00089208B /* AFSecurityPolicy.m in Sources */,
 				44F3DDCD1E8CABF40089208B /* main.m in Sources */,
+				BCE9BB371FF66D95007C4850 /* PasswordSettingViewController2.m in Sources */,
 				BC86E6C31ECC60E500AC184D /* ViewController+MASAdditions.m in Sources */,
 				BC5AD3D71E8FE6EF004D2D3F /* CollectionViewCell2.m in Sources */,
 				44F3DEB61E8CB1840089208B /* UIViewController+RecursiveDescription.m in Sources */,
@@ -2547,7 +2553,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/jjw/jjw.h";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = jjw/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2584,7 +2590,7 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/jjw/jjw.h";
 				HEADER_SEARCH_PATHS = "";
 				INFOPLIST_FILE = jjw/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

@@ -12,4 +12,6 @@
 
 +(NSString *)generateRandomString;
 
++ (BOOL)valiMobile:(NSString *)mobile;
+
 @end

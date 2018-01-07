@@ -80,7 +80,7 @@
             [_myTableView reloadData];
             DLog(@"%@",result);
             
-            NSNumber *pageTotal = [result objectForKey:@"page_total"];
+            NSNumber *pageTotal = [result objectForKey:@"page_count"];
             if (page == [pageTotal intValue]) {
                 [_myTableView.mj_footer endRefreshingWithNoMoreData];
             }
@@ -126,7 +126,7 @@
             [_myTableView reloadData];
             DLog(@"%@",result);
             
-            NSNumber *pageTotal = [result objectForKey:@"page_total"];
+            NSNumber *pageTotal = [result objectForKey:@"page_count"];
             if (page >= [pageTotal intValue]) {
                 [_myTableView.mj_footer endRefreshingWithNoMoreData];
             }else{

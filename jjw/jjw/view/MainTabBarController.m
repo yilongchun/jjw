@@ -27,6 +27,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    self.tabBar.backgroundColor = [UIColor whiteColor];
+    
     ViewController1 *vc1 = [ViewController1 new];
     UITabBarItem *item1 = [[UITabBarItem alloc] initWithTitle:@"首页" image:[[UIImage imageNamed:@"b_ico_01"] imageWithRenderingMode:UIImageRenderingModeAutomatic] tag:1];
     vc1.tabBarItem = item1;
@@ -101,7 +103,7 @@
 // 哪些页面支持自动转屏
 - (BOOL)shouldAutorotate{
     UIViewController *vc = self.viewControllers[self.selectedIndex];
-    if ([vc isMemberOfClass:[UINavigationController class]]) {
+    if ([vc isMemberOfClass:[MyNavigationController class]]) {
         UIViewController *topVC = ((UINavigationController *)vc).topViewController;
         if ([topVC isMemberOfClass:[DetailViewController class]] || [topVC isMemberOfClass:[ClassDetailViewController class]]) {
             
@@ -118,7 +120,7 @@
 // 支持哪些转屏方向
 - (UIInterfaceOrientationMask)supportedInterfaceOrientations{
     UIViewController *vc = self.viewControllers[self.selectedIndex];
-    if ([vc isMemberOfClass:[UINavigationController class]]){
+    if ([vc isMemberOfClass:[MyNavigationController class]]){
         UINavigationController *nav = (UINavigationController *)vc;
         if ([nav.topViewController isMemberOfClass:[DetailViewController class]] || [nav.topViewController isMemberOfClass:[ClassDetailViewController class]]) {
             DLog(@"全屏");
