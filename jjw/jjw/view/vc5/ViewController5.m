@@ -204,7 +204,7 @@
     [loginContentView addSubview:passwordField];
     
     
-    UIButton *loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel.frame), CGRectGetMaxY(passwordLabel.frame) + 20, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(passwordLabel.frame) * 2, 35)];
+    UIButton *loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel.frame), CGRectGetMaxY(passwordLabel.frame) + 30, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(passwordLabel.frame) * 2, 35)];
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
     loginBtn.titleLabel.font = SYSTEMFONT(15);
@@ -214,14 +214,27 @@
     [loginContentView addSubview:loginBtn];
     
     if (flag) {//游客登录
-        loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel.frame), CGRectGetMaxY(loginBtn.frame) + 10, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(passwordLabel.frame) * 2, 35)];
-        [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [loginBtn setTitle:@"游客登录" forState:UIControlStateNormal];
-        loginBtn.titleLabel.font = SYSTEMFONT(15);
-        [loginBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
-        ViewBorderRadius(loginBtn, 5, 0, [UIColor whiteColor]);
-        [loginBtn addTarget:self action:@selector(youkelogin) forControlEvents:UIControlEventTouchUpInside];
-        [loginContentView addSubview:loginBtn];
+//        loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel.frame), CGRectGetMaxY(loginBtn.frame) + 10, CGRectGetWidth(loginContentView.frame) - CGRectGetMinX(passwordLabel.frame) * 2, 35)];
+//        [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//        [loginBtn setTitle:@"游客登录" forState:UIControlStateNormal];
+//        loginBtn.titleLabel.font = SYSTEMFONT(15);
+//        [loginBtn setBackgroundImage:[UIImage imageWithColor:RGB(0, 149, 229) size:CGSizeMake(10, 10)] forState:UIControlStateNormal];
+//        ViewBorderRadius(loginBtn, 5, 0, [UIColor whiteColor]);
+//        [loginBtn addTarget:self action:@selector(youkelogin) forControlEvents:UIControlEventTouchUpInside];
+//        [loginContentView addSubview:loginBtn];
+        
+        UIButton *youkeBtn = [[UIButton alloc] init];
+        [youkeBtn setTitleColor:RGB(0, 149, 229) forState:UIControlStateNormal];
+        [youkeBtn setTitle:@"游客登录" forState:UIControlStateNormal];
+        youkeBtn.titleLabel.font = SYSTEMFONT(13);
+        [youkeBtn addTarget:self action:@selector(youkelogin) forControlEvents:UIControlEventTouchUpInside];
+        [youkeBtn sizeToFit];
+        youkeBtn.frame = CGRectMake(CGRectGetWidth(loginContentView.frame) - CGRectGetWidth(youkeBtn.frame) - 30, CGRectGetHeight(loginContentView.frame) - CGRectGetHeight(youkeBtn.frame) - 20, CGRectGetWidth(youkeBtn.frame), CGRectGetHeight(youkeBtn.frame));
+        //    [forgetPwdBtn setFrame:CGRectMake(CGRectGetWidth(loginContentView.frame) - CGRectGetWidth(forgetPwdBtn.frame), CGRectGetMaxY(loginBtn.frame) + 20, CGRectGetWidth(forgetPwdBtn.frame), CGRectGetHeight(forgetPwdBtn.frame)];
+        [loginContentView addSubview:youkeBtn];
+        
+        
+        
     }
     
     UIButton *regBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMinX(passwordLabel.frame), CGRectGetMaxY(loginBtn.frame) + 20, 0, 0)];
@@ -587,6 +600,7 @@
             if (mobile == nil || [mobile isEqualToString:@""]) {
                 BasicInfoViewController *vc = [[BasicInfoViewController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
+                vc.showAlert = YES;
                 [self.navigationController pushViewController:vc animated:YES];
             }
             

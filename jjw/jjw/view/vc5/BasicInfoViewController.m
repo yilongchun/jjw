@@ -57,10 +57,10 @@
     
     self.view.backgroundColor = RGB(245, 245, 245);
     
-    self.navigationItem.hidesBackButton = YES;
+//    self.navigationItem.hidesBackButton = YES;
     
-    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
-    self.navigationItem.leftBarButtonItem = backItem;
+//    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+//    self.navigationItem.leftBarButtonItem = backItem;
     
     if (ageArray == nil) {
         ageArray = [NSMutableArray array];
@@ -75,26 +75,47 @@
     
 }
 
--(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
-}
-
--(void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
-}
-
--(void)back{
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
     NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
     NSDictionary *user = [ud objectForKey:LOGINED_USER];
     NSString *MOBILE = [user objectForKey:@"MOBILE"];
     if (MOBILE != nil && ![MOBILE isEqualToString:@""]) {
-        [self.navigationController popViewControllerAnimated:YES];
+        
     }else{
-        [self showHintInView:self.view hint:@"请完善手机号码"];
+        if (_showAlert) {
+            _showAlert = NO;
+            
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"为了您的账号安全和方便找回密码，请先绑定您的手机号！绑定后可用手机号登录使用平台学习！" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *action1 = [UIAlertAction actionWithTitle:@"好" style:UIAlertActionStyleDefault handler:nil];
+            [alert addAction:action1];
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        }
     }
 }
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+//    self.navigationController.interactivePopGestureRecognizer.enabled = NO;
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+//    self.navigationController.interactivePopGestureRecognizer.enabled = YES;
+}
+
+//-(void)back{
+//    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+//    NSDictionary *user = [ud objectForKey:LOGINED_USER];
+//    NSString *MOBILE = [user objectForKey:@"MOBILE"];
+//    if (MOBILE != nil && ![MOBILE isEqualToString:@""]) {
+//        [self.navigationController popViewControllerAnimated:YES];
+//    }else{
+//        [self showHintInView:self.view hint:@"请完善手机号码"];
+//    }
+//}
 
 -(void)loadGradeData{
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
