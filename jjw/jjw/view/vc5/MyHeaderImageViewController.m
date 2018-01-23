@@ -184,7 +184,7 @@
             });
             [hud hideAnimated:YES afterDelay:1.5];
             
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"loadUserInfo" object:nil userInfo:nil]];
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"loadUserInfo2" object:nil userInfo:nil]];
             [self performBlock:^{
                 [self.navigationController popViewControllerAnimated:YES];
             } afterDelay:1.5];

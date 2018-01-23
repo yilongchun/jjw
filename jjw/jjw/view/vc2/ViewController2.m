@@ -793,6 +793,8 @@
     ViewRadius(_searchBar, 5);
     _searchBar.delegate = self;
     _searchBar.placeholder = @"请输入搜索关键词";
+    UITextField * searchField = [_searchBar valueForKey:@"_searchField"];
+    [searchField setValue:[UIFont systemFontOfSize:15] forKeyPath:@"_placeholderLabel.font"];
     [navView addSubview:_searchBar];
     self.navigationItem.titleView = navView;
     

@@ -67,6 +67,7 @@
     
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadUserInfo) name:@"loadUserInfo" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadUserInfo2) name:@"loadUserInfo2" object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rlogin:) name:@"rlogin" object:nil];
     
@@ -610,6 +611,63 @@
             [self.view addSubview:_userCenterView];
 //            self.navigationItem.titleView = nil;
 //            self.jz_navigationBarBackgroundAlpha = 1;
+            
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStyleDone target:self action:@selector(logout)];
+            [rightItem setTintColor:[UIColor whiteColor]];
+            self.navigationItem.rightBarButtonItem = rightItem;
+            
+        }else{
+            [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
+        }
+        
+        
+        
+    } failure:^(NSURLSessionDataTask *task, NSError *error) {
+        
+        DLog(@"%@",error.description);
+    }];
+    
+}
+
+//加载用户信息
+-(void)loadUserInfo2{
+    [self showHudInView:self.view];
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    NSSet *set = [NSSet setWithObject:@"text/html"];
+    [manager.responseSerializer setAcceptableContentTypes:set];
+    
+    NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+    userInfo = [ud objectForKey:LOGINED_USER];
+    
+    
+    
+    
+    NSMutableDictionary *param = [NSMutableDictionary dictionary];
+    [param setObject:[userInfo objectForKey:@"USER_ID"] forKey:@"uid"];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",HOST,@"/user/index"];
+    [manager POST:url parameters:param success:^(NSURLSessionDataTask *task, id responseObject) {
+        [self hideHud];
+        DLog(@"%@",responseObject);
+        
+        NSDictionary *dic= [NSDictionary dictionaryWithDictionary:responseObject];
+        
+        NSString *code = [dic objectForKey:@"code"];
+        if ([code isEqualToString:@"200"]) {
+            NSDictionary *result = [dic objectForKey:@"result"];
+            userInfo = [[result objectForKey:@"data_list"] cleanNull];
+            
+            NSUserDefaults *ud = [NSUserDefaults standardUserDefaults];
+            [ud setObject:userInfo forKey:LOGINED_USER];
+            
+            
+            
+            [self setTableHeaderView];
+            [_userCenterView setFrame:CGRectMake(0, 64, Main_Screen_Width, self.view.frame.size.height-64-49)];
+            [_userCenterView removeFromSuperview];
+            [self.view addSubview:_userCenterView];
+            //            self.navigationItem.titleView = nil;
+            //            self.jz_navigationBarBackgroundAlpha = 1;
             
             UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithTitle:@"退出" style:UIBarButtonItemStyleDone target:self action:@selector(logout)];
             [rightItem setTintColor:[UIColor whiteColor]];
