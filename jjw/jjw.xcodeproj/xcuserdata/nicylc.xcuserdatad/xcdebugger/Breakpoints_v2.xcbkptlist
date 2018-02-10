@@ -42,12 +42,12 @@
                   moduleName = "jjw"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/nicylc/github/jjw/jjw/jjw/view/vc2/Class2ViewController.m"
-                  timestampString = "538410268.052305"
+                  timestampString = "539962708.758321"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "85"
                   endingLineNumber = "85"
-                  offsetFromSymbolStart = "1152">
+                  offsetFromSymbolStart = "1044">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -57,12 +57,12 @@
                   moduleName = "jjw"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/nicylc/github/jjw/jjw/jjw/view/vc2/Class2ViewController.m"
-                  timestampString = "538410268.0547349"
+                  timestampString = "539962708.7609431"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "85"
                   endingLineNumber = "85"
-                  offsetFromSymbolStart = "24">
+                  offsetFromSymbolStart = "19">
                </Location>
             </Locations>
          </BreakpointContent>

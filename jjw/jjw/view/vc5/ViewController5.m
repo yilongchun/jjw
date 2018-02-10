@@ -36,6 +36,8 @@
 #import <TencentOpenAPI/TencentOAuth.h>
 #import <TencentOpenAPI/QQApiInterface.h>
 
+#import "WXApi.h"
+
 @interface ViewController5 (){
     UIImageView *headImageView;
     UILabel *nameLabel;
@@ -230,7 +232,7 @@
         youkeBtn.titleLabel.font = SYSTEMFONT(13);
         [youkeBtn addTarget:self action:@selector(youkelogin) forControlEvents:UIControlEventTouchUpInside];
         [youkeBtn sizeToFit];
-        youkeBtn.frame = CGRectMake(CGRectGetWidth(loginContentView.frame) - CGRectGetWidth(youkeBtn.frame) - 30, CGRectGetHeight(loginContentView.frame) - CGRectGetHeight(youkeBtn.frame) - 20, CGRectGetWidth(youkeBtn.frame), CGRectGetHeight(youkeBtn.frame));
+        youkeBtn.frame = CGRectMake(CGRectGetWidth(loginContentView.frame) - CGRectGetWidth(youkeBtn.frame) - 30, CGRectGetHeight(loginContentView.frame) - CGRectGetHeight(youkeBtn.frame) - 60, CGRectGetWidth(youkeBtn.frame), CGRectGetHeight(youkeBtn.frame));
         //    [forgetPwdBtn setFrame:CGRectMake(CGRectGetWidth(loginContentView.frame) - CGRectGetWidth(forgetPwdBtn.frame), CGRectGetMaxY(loginBtn.frame) + 20, CGRectGetWidth(forgetPwdBtn.frame), CGRectGetHeight(forgetPwdBtn.frame)];
         [loginContentView addSubview:youkeBtn];
         
@@ -267,19 +269,55 @@
     line.backgroundColor = RGB(223, 223, 223);
     [loginContentView addSubview:line];
     
-    UIImage *qqImage = [UIImage imageNamed:@"qq.jpeg"];
-    UIButton *qqBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMidX(loginContentView.frame) - qqImage.size.width - 20, CGRectGetMaxY(line.frame) + 15, qqImage.size.width, qqImage.size.height)];
-    [qqBtn setImage:qqImage forState:UIControlStateNormal];
-    ViewBorderRadius(qqBtn, qqImage.size.height/2, 0, [UIColor whiteColor]);
-    [qqBtn addTarget:self action:@selector(qqLogin) forControlEvents:UIControlEventTouchUpInside];
-    [loginContentView addSubview:qqBtn];
+    int num = 0;
+    if ([QQApiInterface isQQInstalled]) {
+        num++;
+    }
+    if ([WXApi isWXAppInstalled]) {
+        num++;
+    }
     
-    UIImage *wxImage = [UIImage imageNamed:@"wx.jpeg"];
-    UIButton *wxBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMidX(loginContentView.frame) + 20, CGRectGetMaxY(line.frame) + 15, wxImage.size.width, wxImage.size.height)];
-    [wxBtn setImage:wxImage forState:UIControlStateNormal];
-    ViewBorderRadius(wxBtn, wxImage.size.height/2, 0, [UIColor whiteColor]);
-    [wxBtn addTarget:self action:@selector(wxLogin) forControlEvents:UIControlEventTouchUpInside];
-    [loginContentView addSubview:wxBtn];
+    if (num == 1) {
+        if ([QQApiInterface isQQInstalled]) {
+            UIImage *qqImage = [UIImage imageNamed:@"qq.jpeg"];
+            UIButton *qqBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMidX(loginContentView.frame) - qqImage.size.width/2, CGRectGetMaxY(line.frame) + 15, qqImage.size.width, qqImage.size.height)];
+            [qqBtn setImage:qqImage forState:UIControlStateNormal];
+            ViewBorderRadius(qqBtn, qqImage.size.height/2, 0, [UIColor whiteColor]);
+            [qqBtn addTarget:self action:@selector(qqLogin) forControlEvents:UIControlEventTouchUpInside];
+            [loginContentView addSubview:qqBtn];
+        }
+        
+        if ([WXApi isWXAppInstalled]) {
+            UIImage *wxImage = [UIImage imageNamed:@"wx.jpeg"];
+            UIButton *wxBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMidX(loginContentView.frame) - wxImage.size.width/2, CGRectGetMaxY(line.frame) + 15, wxImage.size.width, wxImage.size.height)];
+            [wxBtn setImage:wxImage forState:UIControlStateNormal];
+            ViewBorderRadius(wxBtn, wxImage.size.height/2, 0, [UIColor whiteColor]);
+            [wxBtn addTarget:self action:@selector(wxLogin) forControlEvents:UIControlEventTouchUpInside];
+            [loginContentView addSubview:wxBtn];
+        }
+    }
+    if (num == 2) {
+        if ([QQApiInterface isQQInstalled]) {
+            UIImage *qqImage = [UIImage imageNamed:@"qq.jpeg"];
+            UIButton *qqBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMidX(loginContentView.frame) - qqImage.size.width - 20, CGRectGetMaxY(line.frame) + 15, qqImage.size.width, qqImage.size.height)];
+            [qqBtn setImage:qqImage forState:UIControlStateNormal];
+            ViewBorderRadius(qqBtn, qqImage.size.height/2, 0, [UIColor whiteColor]);
+            [qqBtn addTarget:self action:@selector(qqLogin) forControlEvents:UIControlEventTouchUpInside];
+            [loginContentView addSubview:qqBtn];
+        }
+        
+        if ([WXApi isWXAppInstalled]) {
+            UIImage *wxImage = [UIImage imageNamed:@"wx.jpeg"];
+            UIButton *wxBtn = [[UIButton alloc] initWithFrame:CGRectMake(CGRectGetMidX(loginContentView.frame) + 20, CGRectGetMaxY(line.frame) + 15, wxImage.size.width, wxImage.size.height)];
+            [wxBtn setImage:wxImage forState:UIControlStateNormal];
+            ViewBorderRadius(wxBtn, wxImage.size.height/2, 0, [UIColor whiteColor]);
+            [wxBtn addTarget:self action:@selector(wxLogin) forControlEvents:UIControlEventTouchUpInside];
+            [loginContentView addSubview:wxBtn];
+        }
+    }
+    
+    
+    
     
     self.view = _loginView;
     
