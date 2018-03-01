@@ -38,7 +38,7 @@
     ViewController2 *vc2 = [ViewController2 new];
     UITabBarItem *item2 = [[UITabBarItem alloc] initWithTitle:@"课程" image:[[UIImage imageNamed:@"b_ico_02"] imageWithRenderingMode:UIImageRenderingModeAutomatic]tag:2];
     vc2.tabBarItem = item2;
-    UINavigationController *nc2 = [[UINavigationController alloc] initWithRootViewController:vc2];
+    MyNavigationController *nc2 = [[MyNavigationController alloc] initWithRootViewController:vc2];
     
     ViewController3 *vc3 = [ViewController3 new];
     UITabBarItem *item3 = [[UITabBarItem alloc] initWithTitle:@"点播" image:[[UIImage imageNamed:@"b_ico_03"] imageWithRenderingMode:UIImageRenderingModeAutomatic]tag:3];

@@ -42,12 +42,12 @@
                   moduleName = "jjw"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/nicylc/github/jjw/jjw/jjw/view/vc2/Class2ViewController.m"
-                  timestampString = "539962708.758321"
+                  timestampString = "541596790.596815"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "85"
                   endingLineNumber = "85"
-                  offsetFromSymbolStart = "1044">
+                  offsetFromSymbolStart = "1152">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -57,12 +57,12 @@
                   moduleName = "jjw"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/nicylc/github/jjw/jjw/jjw/view/vc2/Class2ViewController.m"
-                  timestampString = "539962708.7609431"
+                  timestampString = "541596790.5987509"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "85"
                   endingLineNumber = "85"
-                  offsetFromSymbolStart = "19">
+                  offsetFromSymbolStart = "24">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -128,6 +128,22 @@
             startingLineNumber = "29"
             endingLineNumber = "29"
             landmarkName = "-shouldAutorotate"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "jjw/view/vc2/DetailViewController.m"
+            timestampString = "541596501.677883"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "-viewDidLoad"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
