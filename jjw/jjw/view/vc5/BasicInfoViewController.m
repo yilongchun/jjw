@@ -439,6 +439,10 @@
     [self loadData];
 }
 
+-(void)back{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
 -(void)submit{
     
     if ([phoneTF.text isEqualToString:@""]) {

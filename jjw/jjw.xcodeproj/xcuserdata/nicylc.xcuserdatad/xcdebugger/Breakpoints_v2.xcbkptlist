@@ -42,7 +42,7 @@
                   moduleName = "jjw"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/nicylc/github/jjw/jjw/jjw/view/vc2/Class2ViewController.m"
-                  timestampString = "541596790.596815"
+                  timestampString = "554533246.348608"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "85"
@@ -57,12 +57,27 @@
                   moduleName = "jjw"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/nicylc/github/jjw/jjw/jjw/view/vc2/Class2ViewController.m"
-                  timestampString = "541596790.5987509"
+                  timestampString = "554533246.350764"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "85"
                   endingLineNumber = "85"
                   offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__destroy_helper_block_.155"
+                  moduleName = "jjw"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nicylc/github/jjw/jjw/jjw/view/vc2/Class2ViewController.m"
+                  timestampString = "554533246.352544"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "85"
+                  endingLineNumber = "85"
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>

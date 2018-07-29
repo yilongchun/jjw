@@ -353,7 +353,7 @@
         if ([code isEqualToString:@"200"]) {
 //            NSDictionary *result = [dic objectForKey:@"result"];
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
-            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"loadUserInfo" object:nil userInfo:nil]];
+            [[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:@"loadUserInfo2" object:nil userInfo:nil]];
             [self performBlock:^{
                 [self.navigationController popViewControllerAnimated:YES];
             } afterDelay:1.5];

@@ -300,8 +300,8 @@
 //                    [_videoPlayer play];
 //                    
 //                    
-//                    NSString *uid = [userInfo objectForKey:@"USER_ID"];
-//                    [self addStudyLog:uid course_id:_courseId];
+                    NSString *uid = [userInfo objectForKey:@"USER_ID"];
+                    [self addStudyLog:uid course_id:_courseId];
 //                    
 //                    
 //                }else{
@@ -401,7 +401,7 @@
         DLog(@"%@",dic);
         if ([code isEqualToString:@"200"]) {
 //            NSDictionary *result = [dic objectForKey:@"result"];
-            
+            commentTx.text = @"";
             [self showHintInView:self.view hint:[dic objectForKey:@"msg"]];
             
         }else{
@@ -1614,8 +1614,14 @@
         [obj removeFromSuperview];
     }];
     
+    UILabel *tips = [[UILabel alloc] initWithFrame:CGRectMake(10, 10, 0, 0)];
+    tips.textColor = RGB(200, 200, 200);
+    tips.text = @"评论将由平台审核后发布";
+    tips.font = SYSTEMFONT(14);
+    [tips sizeToFit];
+    [v3 addSubview:tips];
     
-    commentTx = [[UITextView alloc] initWithFrame:CGRectMake(10, 10, Main_Screen_Width - 20, 60)];
+    commentTx = [[UITextView alloc] initWithFrame:CGRectMake(10, CGRectGetMaxY(tips.frame) + 10, Main_Screen_Width - 20, 60)];
     ViewBorderRadius(commentTx, 5, 1, RGB(223, 223, 223));
     [v3 addSubview:commentTx];
     
